@@ -307,42 +307,39 @@
             }
         });
     }
-
-  // Fetch Stats - Disesuaikan khusus untuk struktur Baris 2 & 3 pada Spreadsheet Anda
-    async function loadStats() {
+async function loadStats() {
         try {
             const response = await fetch(API_STATS);
             const data = await response.json();
             
-            // Berdasarkan gambar b44a0f, data angka (5, 5, 4, 17) ada di baris setelah header.
-            // Kita mencari baris yang memiliki nilai angka.
-            const stats = data.statistikBerkasPengukuran.find(row => row.totalBerkas || row.berkasSelesai);
+            // Mencari baris yang benar-benar berisi data angka dari spreadsheet Anda
+            // Ini akan melewati baris judul (Baris 1) dan baris keterangan (Baris 5)
+            const stats = data.statistikBerkasPengukuran.find(row => 
+                (row.berkasDalamProses && !isNaN(row.berkasDalamProses)) || 
+                (row.berkasSelesai && !isNaN(row.berkasSelesai))
+            );
 
             if (stats) {
-                // Pemetaan nama kolom sesuai standar camelCase Sheety dari Baris 2 Anda:
+                // Konversi data dari spreadsheet ke angka
                 const proses = parseInt(stats.berkasDalamProses || 0);
                 const selesai = parseInt(stats.berkasSelesai || 0);
                 const kendala = parseInt(stats.berkasKendala || 0);
                 const total = parseInt(stats.totalBerkas || 0);
 
-                // Update Angka di Tampilan Web
+                // Update angka di Dashboard (Tampilan Gambar 3 & 4)
                 document.getElementById('statSelesai').innerText = selesai;
                 document.getElementById('statProses').innerText = proses;
                 document.getElementById('statKendala').innerText = kendala;
                 document.getElementById('statTotal').innerText = total;
 
-                // Update Grafik Lingkaran
+                // Update grafik lingkaran agar tidak 0 lagi
                 initChart([selesai, proses, kendala]);
-            } else {
-                console.warn("Data tidak ditemukan pada baris yang diharapkan.");
             }
-            
         } catch (err) {
-            console.error("Gagal sinkronisasi data:", err);
+            console.error("Gagal memuat data statistik:", err);
             initChart([0, 0, 0]);
         }
     }
-
     // Search Logic (Diperbaiki agar sesuai dengan mapping Sheety API)
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
