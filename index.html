@@ -262,32 +262,33 @@
             });
         }
 
-       async function loadStats() {
-            try {
-                const response = await fetch(API_STATS);
-                const json = await response.json();
-                
-                const stats = json.statistikBerkasPengukuran[0];
+     async function loadStats() {
+    try {
+        const response = await fetch(API_STATS);
+        const json = await response.json();
+        
+        // Mengambil data dari baris pertama spreadsheet (berdasarkan gambar image_a946c1.png)
+        const stats = json.statistikBerkasPengukuran[0];
 
-                const selesai = parseInt(stats.berkasSelesai || 0);
-                const proses = parseInt(stats.berkasDalamProses || 0);
-                const kendala = parseInt(stats.berkasKendala || 0);
-                const total = parseInt(stats.totalBerkas || 0);
+        // Perbaikan nama properti: Properti di JSON Sheety biasanya mengikuti nama header yang di-camelCase-kan
+        const selesai = parseInt(stats.berkasSelesai || 0);
+        const proses = parseInt(stats.berkasDalamProses || 0); // Sesuaikan dengan header "BERKAS DALAM PROSES"
+        const kendala = parseInt(stats.berkasKendala || 0);
+        const total = parseInt(stats.totalBerkas || 0);
 
-                // Update angka pada elemen dashboard
-                document.getElementById('statSelesai').innerText = selesai;
-                document.getElementById('statProses').innerText = proses;
-                document.getElementById('statKendala').innerText = kendala;
-                document.getElementById('statTotal').innerText = total;
+        // Update angka pada elemen dashboard
+        document.getElementById('statSelesai').innerText = selesai;
+        document.getElementById('statProses').innerText = proses;
+        document.getElementById('statKendala').innerText = kendala;
+        document.getElementById('statTotal').innerText = total;
 
-                // Update grafik donat dengan data terbaru
-                initChart([selesai, proses, kendala]);
-            } catch (err) {
-                console.error("Gagal load statistik:", err);
-                // Jika error, tampilkan grafik kosong agar tidak merusak layout
-                initChart([0, 0, 0]);
-            }
-        }
+        // Update grafik donat dengan data terbaru
+        initChart([selesai, proses, kendala]);
+    } catch (err) {
+        console.error("Gagal load statistik:", err);
+        initChart([0, 0, 0]);
+    }
+}
 
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
