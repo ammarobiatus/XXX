@@ -54,7 +54,6 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
@@ -77,9 +76,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="relative h-screen flex items-center pt-20 overflow-hidden hero-gradient">
-        <!-- Slider Background -->
         <div class="absolute inset-0 z-0 opacity-40">
             <div id="hero-carousel" class="h-full w-full relative">
                 <div class="carousel-item active absolute inset-0 transition-opacity duration-1000">
@@ -118,7 +115,6 @@
         </div>
     </section>
 
-    <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20">
         <div class="max-w-4xl mx-auto px-4">
             <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-100">
@@ -142,11 +138,9 @@
                     </div>
                 </form>
 
-                <!-- Search Results -->
                 <div id="resultArea" class="mt-12 hidden transition-all duration-500 opacity-0 transform translate-y-4">
                     <div id="resultContent" class="space-y-6">
-                        <!-- Result data will be injected here -->
-                    </div>
+                        </div>
                 </div>
                 
                 <div id="loadingState" class="mt-8 hidden flex flex-col items-center">
@@ -161,7 +155,6 @@
         </div>
     </section>
 
-    <!-- Dashboard Stats -->
     <section id="stats" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -212,16 +205,14 @@
         </div>
     </section>
 
-    <!-- Map & Contact Section -->
     <section class="bg-navy text-white pt-24 pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 mb-24">
                 <div>
                     <h2 class="text-3xl font-bold mb-8">Kunjungi Kantor Kami</h2>
                     <div class="rounded-3xl overflow-hidden grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all border border-white/10 h-96">
-                        <!-- Updated Map Coordinates based on provided location link -->
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.473528246061!2d125.186634!3d1.442650!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x328703e33f38031d%3A0x1d1e679b8823f6e5!2sKantor%20Pertanahan%20Kota%20Bitung!5e0!3m2!1sid!2sid!4v1705625000000" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.384236316279!2d125.18567287413661!3d1.4251410611481023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32873f7380d32f41%3A0xc3f34538e146e4c!2sKantor%20Pertanahan%20Kota%20Bitung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
                             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
@@ -254,7 +245,7 @@
             </div>
 
             <div class="pt-12 border-t border-white/5 text-center text-slate-500 text-sm">
-                <p>&copy; 2026 Seksi Survei dan Pemetaan - Kantor Pertanahan Kota Bitung. All Rights Reserved.</p>
+                <p>© 2026 Seksi Survei dan Pemetaan - Kantor Pertanahan Kota Bitung. All Rights Reserved.</p>
                 <div class="mt-2 flex justify-center space-x-4">
                     <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span> System Online</span>
                 </div>
@@ -262,17 +253,16 @@
         </div>
     </section>
 
-    <!-- Notification Toast -->
     <div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-full shadow-2xl text-sm font-bold opacity-0 transition-opacity pointer-events-none z-[100]">
         Notification message
     </div>
 
- <script>
+<script>
     // API Configuration
     const API_BERKAS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/informasiBerkasGercep2026";
-    const API_STATS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/statistikBerkasPengukuran";
+    const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
 
-    // Chart Initialization (Fungsi ini tetap seperti semula)
+    // Chart Initialization
     let perfChart;
     function initChart(data = [0, 0, 0]) {
         const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -307,48 +297,44 @@
             }
         });
     }
-async function loadStats() {
+
+    // Load Dashboard Stats from Spreadsheet
+    async function loadStats() {
         try {
             const response = await fetch(API_STATS);
             const data = await response.json();
             
-            // Mencari baris yang mengandung angka di kolom total (Baris 3 di sheet Anda)
-            // Meskipun ada baris judul di atas atau keterangan di bawah, 
-            // script ini akan memfilter hanya baris yang berisi data numerik.
+            // Logic khusus untuk melewati baris judul (Cari baris yang totalBerkas-nya berisi angka)
             const stats = data.statistikBerkasPengukuran.find(row => 
                 row.totalBerkas !== undefined && !isNaN(row.totalBerkas) && row.totalBerkas !== ""
             );
 
             if (stats) {
-                // Konversi string ke Angka
-                const proses = parseInt(stats.berkasDalamProses || 0);
                 const selesai = parseInt(stats.berkasSelesai || 0);
+                const proses = parseInt(stats.berkasDalamProses || 0);
                 const kendala = parseInt(stats.berkasKendala || 0);
                 const total = parseInt(stats.totalBerkas || 0);
 
-                // Update UI Web (Gambar 3 & 4)
+                // Update UI Web
                 document.getElementById('statSelesai').innerText = selesai;
                 document.getElementById('statProses').innerText = proses;
                 document.getElementById('statKendala').innerText = kendala;
                 document.getElementById('statTotal').innerText = total;
 
-                // Jalankan Grafik
+                // Update Grafik
                 initChart([selesai, proses, kendala]);
-            } else {
-                // Jika data masih terbaca sebagai header di Sheety
-                console.error("Data numerik tidak ditemukan. Periksa nama kolom di Sheety.");
             }
         } catch (err) {
-            console.error("Gagal ambil data:", err);
+            console.error("Gagal sinkronisasi dashboard:", err);
             initChart([0, 0, 0]);
         }
     }
-    // Search Logic (Diperbaiki agar sesuai dengan mapping Sheety API)
+
+    // Search Logic
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const input = document.getElementById('searchInput').value.trim();
         
-        // UI States
         const resultArea = document.getElementById('resultArea');
         const loading = document.getElementById('loadingState');
         const notFound = document.getElementById('notFoundState');
@@ -362,11 +348,7 @@ async function loadStats() {
         try {
             const res = await fetch(API_BERKAS);
             const data = await res.json();
-            
-            // Sheety mengubah "NO. BERKAS" menjadi "noBerkas"
-            const berkas = data.informasiBerkasGercep2026.find(b => 
-                b.noBerkas == input // Mencari yang cocok persis dengan input user (misal: 98/2026)
-            );
+            const berkas = data.informasiBerkasGercep2026.find(b => b.noBerkas == input);
 
             if(berkas) {
                 renderResult(berkas);
@@ -388,17 +370,10 @@ async function loadStats() {
         }
     });
 
-    // Render Result (Mapping field disesuaikan dengan format Sheety API)
     function renderResult(b) {
-        // Sheety API camelCase mapping:
-        // "NAMA PEMOHON" -> namaPemohon
-        // "JENIS LAYANAN" -> jenisLayanan
-        // "HASIL AKHIR" -> hasilAkhir
-        
         const statusAkhir = b.hasilAkhir || 'Proses';
         const isSelesai = statusAkhir.toLowerCase().includes('selesai');
         const statusColor = isSelesai ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
-        
         const whatsappLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20bertanya%20terkait%20berkas%20${b.noBerkas}%20atas%20nama%20${b.namaPemohon}`;
 
         const html = `
@@ -450,7 +425,6 @@ async function loadStats() {
         document.getElementById('resultContent').innerHTML = html;
     }
 
-    // Utils & Carousel tetap sama
     function showToast(msg) {
         const t = document.getElementById('toast');
         t.innerText = msg;
