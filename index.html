@@ -297,56 +297,28 @@
             }
         });
     }
-
+<script>
 async function loadStats() {
     try {
         const response = await fetch(API_STATS);
         const data = await response.json();
-        const rows = data.statistikBerkasPengukuran;
 
-        console.log("Data mentah dari Sheety:", rows); // Untuk cek di inspect element
+        // Ambil BARIS PERTAMA dari Sheety (dashboard)
+        const stats = data.statistikBerkasPengukuran[0];
+        if (!stats) return;
 
-        // KITA CARI BARIS YANG BENAR-BENAR BERISI ANGKA TOTAL 17
-        // Kita filter baris yang kolom ke-4 nya (Total Berkas) adalah angka 17 atau angka > 0
-        let stats;
-        
-        for (let i = 0; i < rows.length; i++) {
-            let rowValues = Object.values(rows[i]);
-            // Jika kolom terakhir (Total) adalah angka 17 (sesuai gambar kamu)
-            if (rowValues.includes(17) || rowValues.includes("17")) {
-                stats = rows[i];
-                break;
-            }
-        }
+        // Ambil nilai berdasarkan URUTAN KOLUMN
+        const values = Object.values(stats);
 
-        // Jika cara di atas gagal, ambil baris terakhir yang punya data
-        if (!stats) {
-            stats = rows[rows.length - 1];
-        }
+        // A=Proses, B=Selesai, C=Kendala, D=Total
+        const proses  = parseInt(values[0]) || 0;
+        const selesai = parseInt(values[1]) || 0;
+        const kendala = parseInt(values[2]) || 0;
+        const total   = parseInt(values[3]) || (proses + selesai + kendala);
 
-        if (stats) {
-            const v = Object.values(stats);
-            
-            // Berdasarkan urutan kolom di gambar Spreadsheet kamu:
-            // A=Proses, B=Selesai, C=Kendala, D=Total
-            const proses  = parseInt(v[0]) || 0;
-            const selesai = parseInt(v[1]) || 0;
-            const kendala = parseInt(v[2]) || 0;
-            const total   = parseInt(v[3]) || 0;
+        // Update angka
+        document.getElementById('statSelesai').innerText =
 
-            // Update Angka di UI
-            document.getElementById('statSelesai').innerText = selesai;
-            document.getElementById('statProses').innerText = proses;
-            document.getElementById('statKendala').innerText = kendala;
-            document.getElementById('statTotal').innerText = total;
-
-            // Update Grafik
-            initChart([selesai, proses, kendala]);
-        }
-    } catch (err) {
-        console.error("Gagal sinkronisasi:", err);
-    }
-}
     // Search Logic
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
