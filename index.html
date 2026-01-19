@@ -300,24 +300,33 @@
 <script>
 async function loadStats() {
     try {
-        const response = await fetch(API_STATS);
-        const data = await response.json();
+        const res = await fetch(API_STATS);
+        const json = await res.json();
 
-        // Ambil BARIS PERTAMA dari Sheety (dashboard)
-        const stats = data.statistikBerkasPengukuran[0];
+        // Ambil 1 baris dashboard dari Sheety
+        const stats = json.statistikBerkasPengukuran[0];
         if (!stats) return;
 
-        // Ambil nilai berdasarkan URUTAN KOLUMN
-        const values = Object.values(stats);
+        // BACA LANGSUNG BERDASARKAN NAMA KOLOM
+        const proses  = parseInt(stats.berkasDalamProses) || 0;
+        const selesai = parseInt(stats.berkasSelesai) || 0;
+        const kendala = parseInt(stats.berkasKendala) || 0;
+        const total   = parseInt(stats.totalBerkas) || (proses + selesai + kendala);
 
-        // A=Proses, B=Selesai, C=Kendala, D=Total
-        const proses  = parseInt(values[0]) || 0;
-        const selesai = parseInt(values[1]) || 0;
-        const kendala = parseInt(values[2]) || 0;
-        const total   = parseInt(values[3]) || (proses + selesai + kendala);
+        // Update UI
+        document.getElementById("statProses").innerText = proses;
+        document.getElementById("statSelesai").innerText = selesai;
+        document.getElementById("statKendala").innerText = kendala;
+        document.getElementById("statTotal").innerText = total;
 
-        // Update angka
-        document.getElementById('statSelesai').innerText =
+        // Update chart
+        initChart([selesai, proses, kendala]);
+
+    } catch (err) {
+        console.error("Gagal load statistik:", err);
+    }
+}
+</script>
 
     // Search Logic
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
