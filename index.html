@@ -300,35 +300,45 @@
 
     // Load Dashboard Stats from Spreadsheet
     async function loadStats() {
-        try {
-            const response = await fetch(API_STATS);
-            const data = await response.json();
-            
-            // Logic khusus untuk melewati baris judul (Cari baris yang totalBerkas-nya berisi angka)
-            const stats = data.statistikBerkasPengukuran.find(row => 
-                row.totalBerkas !== undefined && !isNaN(row.totalBerkas) && row.totalBerkas !== ""
-            );
+    try {
+        const response = await fetch(API_STATS);
+        const data = await response.json();
+        
+        // KARENA ADA JUDUL DI BARIS 1:
+        // Sheety akan memasukkan seluruh teks "BERKAS DALAM PROSES..." 
+        // ke dalam baris pertama data. Kita harus mengambil data dari INDEKS KE-1 (Baris 3 di Excel).
+        
+        const allRows = data.statistikBerkasPengukuran;
+        
+        // Kita cari baris yang punya angka '5' atau '17'
+        // Biasanya ini ada di baris setelah judul dan setelah nama kolom
+        const stats = allRows.find(row => {
+            // Kita cek satu per satu property-nya karena Sheety mungkin 
+            // menamai kolomnya dengan nama yang aneh akibat judul baris 1
+            const values = Object.values(row);
+            return values.some(val => !isNaN(val) && val !== "" && val > 0);
+        });
 
-            if (stats) {
-                const selesai = parseInt(stats.berkasSelesai || 0);
-                const proses = parseInt(stats.berkasDalamProses || 0);
-                const kendala = parseInt(stats.berkasKendala || 0);
-                const total = parseInt(stats.totalBerkas || 0);
+        if (stats) {
+            // Karena baris 1 adalah judul, Sheety mungkin menamai kolomnya 
+            // berdasarkan teks di baris 1 tersebut. Kita ambil berdasarkan urutan saja:
+            const keys = Object.keys(stats);
+            const proses = parseInt(stats[keys[0]] || 0); // Kolom A
+            const selesai = parseInt(stats[keys[1]] || 0); // Kolom B
+            const kendala = parseInt(stats[keys[2]] || 0); // Kolom C
+            const total = parseInt(stats[keys[3]] || 0);   // Kolom D
 
-                // Update UI Web
-                document.getElementById('statSelesai').innerText = selesai;
-                document.getElementById('statProses').innerText = proses;
-                document.getElementById('statKendala').innerText = kendala;
-                document.getElementById('statTotal').innerText = total;
+            document.getElementById('statSelesai').innerText = selesai;
+            document.getElementById('statProses').innerText = proses;
+            document.getElementById('statKendala').innerText = kendala;
+            document.getElementById('statTotal').innerText = total;
 
-                // Update Grafik
-                initChart([selesai, proses, kendala]);
-            }
-        } catch (err) {
-            console.error("Gagal sinkronisasi dashboard:", err);
-            initChart([0, 0, 0]);
+            initChart([selesai, proses, kendala]);
         }
+    } catch (err) {
+        console.error("Gagal sinkronisasi data:", err);
     }
+}
 
     // Search Logic
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
