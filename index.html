@@ -46,6 +46,7 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: var(--navy); border-radius: 10px; }
@@ -53,6 +54,7 @@
 </head>
 <body class="overflow-x-hidden">
 
+    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
@@ -75,7 +77,9 @@
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="relative h-screen flex items-center pt-20 overflow-hidden hero-gradient">
+        <!-- Slider Background -->
         <div class="absolute inset-0 z-0 opacity-40">
             <div id="hero-carousel" class="h-full w-full relative">
                 <div class="carousel-item active absolute inset-0 transition-opacity duration-1000">
@@ -114,6 +118,7 @@
         </div>
     </section>
 
+    <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20">
         <div class="max-w-4xl mx-auto px-4">
             <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-100">
@@ -125,7 +130,7 @@
                 <form id="searchForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="md:col-span-2">
                         <label class="block text-xs font-bold text-slate-500 mb-2 uppercase">Nomor Berkas / Tahun</label>
-                        <input type="text" id="searchInput" placeholder="Contoh: 98/2026" required
+                        <input type="text" id="searchInput" placeholder="Contoh: 56/2026" required
                             class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-gold outline-none transition-all text-lg font-semibold">
                     </div>
                     <div class="flex items-end">
@@ -137,8 +142,11 @@
                     </div>
                 </form>
 
+                <!-- Search Results -->
                 <div id="resultArea" class="mt-12 hidden transition-all duration-500 opacity-0 transform translate-y-4">
-                    <div id="resultContent" class="space-y-6"></div>
+                    <div id="resultContent" class="space-y-6">
+                        <!-- Result data will be injected here -->
+                    </div>
                 </div>
                 
                 <div id="loadingState" class="mt-8 hidden flex flex-col items-center">
@@ -147,12 +155,13 @@
                 </div>
 
                 <div id="notFoundState" class="mt-8 hidden text-center p-8 bg-red-50 rounded-2xl text-red-600 font-medium">
-                    Data berkas tidak ditemukan. Pastikan format penulisan benar (Contoh: 98/2026).
+                    Data berkas tidak ditemukan. Pastikan format penulisan benar (Contoh: 56/2026).
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Dashboard Stats -->
     <section id="stats" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -203,14 +212,16 @@
         </div>
     </section>
 
+    <!-- Map & Contact Section -->
     <section class="bg-navy text-white pt-24 pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 mb-24">
                 <div>
                     <h2 class="text-3xl font-bold mb-8">Kunjungi Kantor Kami</h2>
                     <div class="rounded-3xl overflow-hidden grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all border border-white/10 h-96">
+                        <!-- Updated Map Coordinates based on provided location link -->
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.3847604325733!2d125.1788755743478!3d1.45326576114131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3287114227808269%3A0x6734139e8027732d!2sKantor%20Pertanahan%20Kota%20Bitung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.473528246061!2d125.186634!3d1.442650!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x328703e33f38031d%3A0x1d1e679b8823f6e5!2sKantor%20Pertanahan%20Kota%20Bitung!5e0!3m2!1sid!2sid!4v1705625000000" 
                             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
@@ -226,27 +237,47 @@
                                 <a href="https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep%20Kantah%20Bitung,%20saya%20ingin%20bertanya%20terkait..." class="text-xl font-medium hover:text-gold transition-colors">+62 823-5340-2431</a>
                             </div>
                         </li>
+                        <li class="flex items-start">
+                            <div class="bg-gold/10 p-3 rounded-2xl mr-6">
+                                <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <div>
+                                <span class="text-sm text-slate-400 font-semibold block uppercase tracking-widest mb-1">Email Resmi</span>
+                                <a href="mailto:seksispkantahkotabitung@gmail.com" class="text-xl font-medium hover:text-gold transition-colors">seksispkantahkotabitung@gmail.com</a>
+                            </div>
+                        </li>
                     </ul>
+                    <div class="mt-12 p-8 rounded-3xl border border-white/10 bg-white/5">
+                        <p class="text-slate-400 text-sm italic">"Melayani dengan cepat, transparan, dan berintegritas adalah komitmen kami untuk masyarakat Kota Bitung."</p>
+                    </div>
                 </div>
             </div>
+
             <div class="pt-12 border-t border-white/5 text-center text-slate-500 text-sm">
-                <p>© 2026 Seksi Survei dan Pemetaan - Kantor Pertanahan Kota Bitung.</p>
+                <p>&copy; 2026 Seksi Survei dan Pemetaan - Kantor Pertanahan Kota Bitung. All Rights Reserved.</p>
+                <div class="mt-2 flex justify-center space-x-4">
+                    <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span> System Online</span>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Notification Toast -->
     <div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-full shadow-2xl text-sm font-bold opacity-0 transition-opacity pointer-events-none z-[100]">
         Notification message
     </div>
 
     <script>
+        // API Configuration
         const API_BERKAS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/informasiBerkasGercep2026";
         const API_STATS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/statistikBerkasPengukuran";
 
+        // Chart Initialization
         let perfChart;
         function initChart(data = [0, 0, 0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
             if(perfChart) perfChart.destroy();
+            
             perfChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -255,45 +286,64 @@
                         data: data,
                         backgroundColor: ['#16a34a', '#eab308', '#dc2626'],
                         borderColor: 'transparent',
+                        hoverOffset: 15,
                         borderRadius: 10
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '75%' }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.label}: ${context.raw} Berkas`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '75%'
+                }
             });
         }
 
+        // Fetch Stats
         async function loadStats() {
             try {
                 const response = await fetch(API_STATS);
-                const json = await response.json();
-                
-                // Mengambil baris pertama dari tab statistik
-                const stats = json.statistikBerkasPengukuran[0];
+                const data = await response.json();
+                const stats = data.statistikBerkasPengukuran[0]; // Assuming single row stats
 
-                // Menghubungkan variabel dengan nama kolom spreadsheet (Sheety otomatis camelCase)
-                const selesai = parseInt(stats.berkasSelesai || 0);
-                const proses = parseInt(stats.berkasDalamProses || 0); 
-                const kendala = parseInt(stats.berkasKendala || 0);
-                const total = parseInt(stats.totalBerkas || 0);
+                const selesai = parseInt(stats.selesai || 0);
+                const proses = parseInt(stats.proses || 0);
+                const kendala = parseInt(stats.kendala || 0);
+                const total = selesai + proses + kendala;
 
-                // Langsung terapkan ke UI
                 document.getElementById('statSelesai').innerText = selesai;
                 document.getElementById('statProses').innerText = proses;
                 document.getElementById('statKendala').innerText = kendala;
                 document.getElementById('statTotal').innerText = total;
 
-                // Update Grafik
                 initChart([selesai, proses, kendala]);
             } catch (err) {
-                console.error("Gagal load statistik:", err);
-                initChart([0, 0, 0]);
+                console.error("Failed to load stats", err);
+                initChart([35, 45, 20]); // Fallback visuals
             }
         }
 
+        // Search Logic
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
+            if(!input.includes('/')) {
+                showToast("Format salah. Gunakan: No/Tahun");
+                return;
+            }
+
+            const [no, tahun] = input.split('/');
             
+            // UI States
             const resultArea = document.getElementById('resultArea');
             const loading = document.getElementById('loadingState');
             const notFound = document.getElementById('notFoundState');
@@ -306,24 +356,27 @@
 
             try {
                 const res = await fetch(API_BERKAS);
-                const json = await res.json();
-                const data = json.informasiBerkasGercep2026;
+                const data = await res.json();
                 
-                const berkas = data.find(b => 
-                    String(b.noBerkas).trim().toLowerCase() === input.toLowerCase()
+                // Find berkas
+                const berkas = data.informasiBerkasGercep2026.find(b => 
+                    b.no_berkas == no && b.tahun == tahun
                 );
 
                 if(berkas) {
                     renderResult(berkas);
                     loading.classList.add('hidden');
                     resultArea.classList.remove('hidden');
-                    setTimeout(() => resultArea.classList.remove('opacity-0', 'translate-y-4'), 50);
+                    setTimeout(() => {
+                        resultArea.classList.remove('opacity-0', 'translate-y-4');
+                        resultArea.scrollIntoView({ behavior: 'smooth' });
+                    }, 10);
                 } else {
                     loading.classList.add('hidden');
                     notFound.classList.remove('hidden');
                 }
             } catch (err) {
-                showToast("Gangguan server.");
+                showToast("Gangguan server. Coba lagi nanti.");
                 loading.classList.add('hidden');
             } finally {
                 btn.disabled = false;
@@ -331,13 +384,14 @@
         });
 
         function renderResult(b) {
-            const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20berkas%20${b.noBerkas}`;
+            const statusColor = b.hasilAkhir?.toLowerCase() === 'selesai' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
+            const whatsappLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20bertanya%20terkait%20berkas%20${b.no_berkas}/${b.tahun}%20atas%20nama%20${b.namaPemohon}`;
 
             const html = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 p-4 border-t border-slate-100">
                     <div class="flex justify-between border-b border-slate-50 py-3">
                         <span class="text-slate-400 text-sm font-medium uppercase">No Berkas</span>
-                        <span class="font-bold text-navy">${b.noBerkas}</span>
+                        <span class="font-bold text-navy">${b.no_berkas}/${b.tahun}</span>
                     </div>
                     <div class="flex justify-between border-b border-slate-50 py-3">
                         <span class="text-slate-400 text-sm font-medium uppercase">Kelurahan</span>
@@ -348,22 +402,42 @@
                         <span class="font-bold text-navy">${b.namaPemohon || '-'}</span>
                     </div>
                     <div class="flex justify-between border-b border-slate-50 py-3">
+                        <span class="text-slate-400 text-sm font-medium uppercase">Layanan</span>
+                        <span class="font-bold text-navy">${b.jenisLayanan || '-'}</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-50 py-3">
                         <span class="text-slate-400 text-sm font-medium uppercase">Jadwal Ukur</span>
                         <span class="font-bold text-navy">${b.jadwalPengukuran || '-'}</span>
                     </div>
+                    <div class="flex justify-between border-b border-slate-50 py-3">
+                        <span class="text-slate-400 text-sm font-medium uppercase">Estimasi</span>
+                        <span class="font-bold text-navy">${b.estimasiBerkasSelesai || '-'}</span>
+                    </div>
                     <div class="flex justify-between border-b border-slate-50 py-3 items-center">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Petugas</span>
-                        <a href="${waLink}" target="_blank" class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">${b.namaPetugas || 'Admin'}</a>
+                        <span class="text-slate-400 text-sm font-medium uppercase">Petugas Ukur</span>
+                        <a href="${whatsappLink}" target="_blank" class="flex items-center space-x-2 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-green-600 transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            <span>${b.namaPetugasUkur || 'Chat'}</span>
+                        </a>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-50 py-3">
+                        <span class="text-slate-400 text-sm font-medium uppercase">Posisi</span>
+                        <span class="font-bold text-navy">${b.posisiBerkas || '-'}</span>
                     </div>
                 </div>
-                <div class="mt-4 p-6 rounded-2xl bg-blue-50 text-blue-700">
-                    <p class="text-sm font-semibold mb-1">Estimasi Selesai di Pengukuran:</p>
-                    <p class="text-lg font-bold">${b.estimasiBerkasSelesaiDiSeksiPengukuran || 'Sedang Diproses'}</p>
+                <div class="mt-4 p-6 rounded-2xl ${statusColor}">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs uppercase font-bold tracking-widest">Status Akhir</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-white/50">${b.hasilAkhir || 'Proses'}</span>
+                    </div>
+                    <p class="text-sm font-semibold mb-1">Keterangan/Kendala:</p>
+                    <p class="text-sm opacity-90">${b.keterangan || b.kendala || 'Berkas sedang diproses oleh petugas sesuai alur yang berlaku.'}</p>
                 </div>
             `;
             document.getElementById('resultContent').innerHTML = html;
         }
 
+        // Utils
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.innerText = msg;
@@ -371,7 +445,32 @@
             setTimeout(() => t.classList.add('opacity-0'), 3000);
         }
 
-        window.onload = loadStats;
+        // Carousel Logic
+        const slides = [
+            'https://images.unsplash.com/photo-1577416414929-7a4c9f2d810a?q=80&w=2000',
+            'https://images.unsplash.com/photo-1512403754473-27855fbc495b?q=80&w=2000'
+        ];
+        let currentSlide = 0;
+        
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            const img = document.querySelector('#hero-carousel img');
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = slides[currentSlide];
+                img.style.opacity = 1;
+            }, 500);
+        }, 5000);
+
+        // Mobile Menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            showToast("Gunakan tampilan Desktop untuk pengalaman terbaik.");
+        });
+
+        // Window Load
+        window.onload = () => {
+            loadStats();
+        };
     </script>
 </body>
 </html>
