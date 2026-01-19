@@ -297,27 +297,34 @@
             }
         });
     }
-<script>
 async function loadStats() {
     try {
-        const res = await fetch(API_STATS);
+        // Tambahkan timestamp agar data selalu fresh (menghindari cache)
+        const res = await fetch(API_STATS + "?nocache=" + new Date().getTime());
         const json = await res.json();
 
-        // Ambil 1 baris dashboard dari Sheety
-        const stats = json.statistikBerkasPengukuran[0];
-        if (!stats) return;
+        // Pastikan nama array 'statistikBerkasPengukuran' sesuai dengan nama tab di Spreadsheet
+        const stats = json.statistikBerkasPengukuran[0]; 
+        
+        if (!stats) {
+            console.error("Data tidak ditemukan di tab tersebut");
+            return;
+        }
 
-        // BACA LANGSUNG BERDASARKAN NAMA KOLOM
+        // PERBAIKAN: Gunakan nama kolom yang sesuai dengan format camelCase Sheety
         const proses  = parseInt(stats.berkasDalamProses) || 0;
         const selesai = parseInt(stats.berkasSelesai) || 0;
         const kendala = parseInt(stats.berkasKendala) || 0;
-        const total   = parseInt(stats.totalBerkas) || (proses + selesai + kendala);
+        
+        // Logika otomatis: Jika Total Berkas di sheet 0, maka jumlahkan sendiri
+        const totalSheet = parseInt(stats.totalBerkas) || 0;
+        const totalFinal = totalSheet > 0 ? totalSheet : (proses + selesai + kendala);
 
         // Update UI
         document.getElementById("statProses").innerText = proses;
         document.getElementById("statSelesai").innerText = selesai;
         document.getElementById("statKendala").innerText = kendala;
-        document.getElementById("statTotal").innerText = total;
+        document.getElementById("statTotal").innerText = totalFinal;
 
         // Update chart
         initChart([selesai, proses, kendala]);
@@ -326,8 +333,6 @@ async function loadStats() {
         console.error("Gagal load statistik:", err);
     }
 }
-</script>
-
     // Search Logic
     document.getElementById('searchForm').addEventListener('submit', async (e) => {
         e.preventDefault();
