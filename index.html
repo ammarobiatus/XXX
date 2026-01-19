@@ -267,210 +267,210 @@
         Notification message
     </div>
 
-    <script>
-        // API Configuration
-        const API_BERKAS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/informasiBerkasGercep2026";
-        const API_STATS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/statistikBerkasPengukuran";
+ <script>
+    // API Configuration
+    const API_BERKAS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/informasiBerkasGercep2026";
+    const API_STATS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/statistikBerkasPengukuran";
 
-        // Chart Initialization
-        let perfChart;
-        function initChart(data = [0, 0, 0]) {
-            const ctx = document.getElementById('performanceChart').getContext('2d');
-            if(perfChart) perfChart.destroy();
-            
-            perfChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Selesai', 'Proses', 'Kendala'],
-                    datasets: [{
-                        data: data,
-                        backgroundColor: ['#16a34a', '#eab308', '#dc2626'],
-                        borderColor: 'transparent',
-                        hoverOffset: 15,
-                        borderRadius: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ` ${context.label}: ${context.raw} Berkas`;
-                                }
+    // Chart Initialization (Fungsi ini tetap seperti semula)
+    let perfChart;
+    function initChart(data = [0, 0, 0]) {
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        if(perfChart) perfChart.destroy();
+        
+        perfChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Selesai', 'Proses', 'Kendala'],
+                datasets: [{
+                    data: data,
+                    backgroundColor: ['#16a34a', '#eab308', '#dc2626'],
+                    borderColor: 'transparent',
+                    hoverOffset: 15,
+                    borderRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` ${context.label}: ${context.raw} Berkas`;
                             }
                         }
-                    },
-                    cutout: '75%'
-                }
-            });
-        }
-
-        // Fetch Stats
-        async function loadStats() {
-            try {
-                const response = await fetch(API_STATS);
-                const data = await response.json();
-                const stats = data.statistikBerkasPengukuran[0]; // Assuming single row stats
-
-                const selesai = parseInt(stats.selesai || 0);
-                const proses = parseInt(stats.proses || 0);
-                const kendala = parseInt(stats.kendala || 0);
-                const total = selesai + proses + kendala;
-
-                document.getElementById('statSelesai').innerText = selesai;
-                document.getElementById('statProses').innerText = proses;
-                document.getElementById('statKendala').innerText = kendala;
-                document.getElementById('statTotal').innerText = total;
-
-                initChart([selesai, proses, kendala]);
-            } catch (err) {
-                console.error("Failed to load stats", err);
-                initChart([35, 45, 20]); // Fallback visuals
-            }
-        }
-
-        // Search Logic
-        document.getElementById('searchForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('searchInput').value.trim();
-            if(!input.includes('/')) {
-                showToast("Format salah. Gunakan: No/Tahun");
-                return;
-            }
-
-            const [no, tahun] = input.split('/');
-            
-            // UI States
-            const resultArea = document.getElementById('resultArea');
-            const loading = document.getElementById('loadingState');
-            const notFound = document.getElementById('notFoundState');
-            const btn = document.getElementById('searchBtn');
-
-            resultArea.classList.add('hidden');
-            notFound.classList.add('hidden');
-            loading.classList.remove('hidden');
-            btn.disabled = true;
-
-            try {
-                const res = await fetch(API_BERKAS);
-                const data = await res.json();
-                
-                // Find berkas
-                const berkas = data.informasiBerkasGercep2026.find(b => 
-                    b.no_berkas == no && b.tahun == tahun
-                );
-
-                if(berkas) {
-                    renderResult(berkas);
-                    loading.classList.add('hidden');
-                    resultArea.classList.remove('hidden');
-                    setTimeout(() => {
-                        resultArea.classList.remove('opacity-0', 'translate-y-4');
-                        resultArea.scrollIntoView({ behavior: 'smooth' });
-                    }, 10);
-                } else {
-                    loading.classList.add('hidden');
-                    notFound.classList.remove('hidden');
-                }
-            } catch (err) {
-                showToast("Gangguan server. Coba lagi nanti.");
-                loading.classList.add('hidden');
-            } finally {
-                btn.disabled = false;
+                    }
+                },
+                cutout: '75%'
             }
         });
+    }
 
-        function renderResult(b) {
-            const statusColor = b.hasilAkhir?.toLowerCase() === 'selesai' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
-            const whatsappLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20bertanya%20terkait%20berkas%20${b.no_berkas}/${b.tahun}%20atas%20nama%20${b.namaPemohon}`;
+    // Fetch Stats (Tetap berfungsi seperti semula)
+    async function loadStats() {
+        try {
+            const response = await fetch(API_STATS);
+            const data = await response.json();
+            const stats = data.statistikBerkasPengukuran[0];
 
-            const html = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 p-4 border-t border-slate-100">
-                    <div class="flex justify-between border-b border-slate-50 py-3">
-                        <span class="text-slate-400 text-sm font-medium uppercase">No Berkas</span>
-                        <span class="font-bold text-navy">${b.no_berkas}/${b.tahun}</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-50 py-3">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Kelurahan</span>
-                        <span class="font-bold text-navy">${b.kelurahan || '-'}</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-50 py-3">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Pemohon</span>
-                        <span class="font-bold text-navy">${b.namaPemohon || '-'}</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-50 py-3">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Layanan</span>
-                        <span class="font-bold text-navy">${b.jenisLayanan || '-'}</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-50 py-3">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Jadwal Ukur</span>
-                        <span class="font-bold text-navy">${b.jadwalPengukuran || '-'}</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-50 py-3">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Estimasi</span>
-                        <span class="font-bold text-navy">${b.estimasiBerkasSelesai || '-'}</span>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-50 py-3 items-center">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Petugas Ukur</span>
-                        <a href="${whatsappLink}" target="_blank" class="flex items-center space-x-2 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-green-600 transition-colors">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                            <span>${b.namaPetugasUkur || 'Chat'}</span>
-                        </a>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-50 py-3">
-                        <span class="text-slate-400 text-sm font-medium uppercase">Posisi</span>
-                        <span class="font-bold text-navy">${b.posisiBerkas || '-'}</span>
-                    </div>
-                </div>
-                <div class="mt-4 p-6 rounded-2xl ${statusColor}">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-xs uppercase font-bold tracking-widest">Status Akhir</span>
-                        <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-white/50">${b.hasilAkhir || 'Proses'}</span>
-                    </div>
-                    <p class="text-sm font-semibold mb-1">Keterangan/Kendala:</p>
-                    <p class="text-sm opacity-90">${b.keterangan || b.kendala || 'Berkas sedang diproses oleh petugas sesuai alur yang berlaku.'}</p>
-                </div>
-            `;
-            document.getElementById('resultContent').innerHTML = html;
+            const selesai = parseInt(stats.selesai || 0);
+            const proses = parseInt(stats.proses || 0);
+            const kendala = parseInt(stats.kendala || 0);
+            const total = selesai + proses + kendala;
+
+            document.getElementById('statSelesai').innerText = selesai;
+            document.getElementById('statProses').innerText = proses;
+            document.getElementById('statKendala').innerText = kendala;
+            document.getElementById('statTotal').innerText = total;
+
+            initChart([selesai, proses, kendala]);
+        } catch (err) {
+            console.error("Failed to load stats", err);
+            initChart([35, 45, 20]); 
         }
+    }
 
-        // Utils
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.classList.remove('opacity-0');
-            setTimeout(() => t.classList.add('opacity-0'), 3000);
-        }
-
-        // Carousel Logic
-        const slides = [
-            'https://images.unsplash.com/photo-1577416414929-7a4c9f2d810a?q=80&w=2000',
-            'https://images.unsplash.com/photo-1512403754473-27855fbc495b?q=80&w=2000'
-        ];
-        let currentSlide = 0;
+    // Search Logic (Diperbaiki agar sesuai dengan mapping Sheety API)
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('searchInput').value.trim();
         
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            const img = document.querySelector('#hero-carousel img');
+        // UI States
+        const resultArea = document.getElementById('resultArea');
+        const loading = document.getElementById('loadingState');
+        const notFound = document.getElementById('notFoundState');
+        const btn = document.getElementById('searchBtn');
+
+        resultArea.classList.add('hidden');
+        notFound.classList.add('hidden');
+        loading.classList.remove('hidden');
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(API_BERKAS);
+            const data = await res.json();
+            
+            // Sheety mengubah "NO. BERKAS" menjadi "noBerkas"
+            const berkas = data.informasiBerkasGercep2026.find(b => 
+                b.noBerkas == input // Mencari yang cocok persis dengan input user (misal: 98/2026)
+            );
+
+            if(berkas) {
+                renderResult(berkas);
+                loading.classList.add('hidden');
+                resultArea.classList.remove('hidden');
+                setTimeout(() => {
+                    resultArea.classList.remove('opacity-0', 'translate-y-4');
+                    resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 10);
+            } else {
+                loading.classList.add('hidden');
+                notFound.classList.remove('hidden');
+            }
+        } catch (err) {
+            showToast("Gangguan server. Coba lagi nanti.");
+            loading.classList.add('hidden');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    // Render Result (Mapping field disesuaikan dengan format Sheety API)
+    function renderResult(b) {
+        // Sheety API camelCase mapping:
+        // "NAMA PEMOHON" -> namaPemohon
+        // "JENIS LAYANAN" -> jenisLayanan
+        // "HASIL AKHIR" -> hasilAkhir
+        
+        const statusAkhir = b.hasilAkhir || 'Proses';
+        const isSelesai = statusAkhir.toLowerCase().includes('selesai');
+        const statusColor = isSelesai ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
+        
+        const whatsappLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20bertanya%20terkait%20berkas%20${b.noBerkas}%20atas%20nama%20${b.namaPemohon}`;
+
+        const html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 p-4 border-t border-slate-100">
+                <div class="flex justify-between border-b border-slate-50 py-3">
+                    <span class="text-slate-400 text-sm font-medium uppercase">No Berkas</span>
+                    <span class="font-bold text-navy">${b.noBerkas || '-'}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-50 py-3">
+                    <span class="text-slate-400 text-sm font-medium uppercase">Kelurahan</span>
+                    <span class="font-bold text-navy">${b.kelurahan || '-'}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-50 py-3">
+                    <span class="text-slate-400 text-sm font-medium uppercase">Pemohon</span>
+                    <span class="font-bold text-navy">${b.namaPemohon || '-'}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-50 py-3">
+                    <span class="text-slate-400 text-sm font-medium uppercase">Layanan</span>
+                    <span class="font-bold text-navy">${b.jenisLayanan || '-'}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-50 py-3">
+                    <span class="text-slate-400 text-sm font-medium uppercase">Jadwal Ukur</span>
+                    <span class="font-bold text-navy">${b.jadwalPengukuran || '-'}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-50 py-3">
+                    <span class="text-slate-400 text-sm font-medium uppercase">Estimasi</span>
+                    <span class="font-bold text-navy">${b.estimasiBerkasSelesaiDiSeksiPengukuran || '-'}</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-50 py-3 items-center">
+                    <span class="text-slate-400 text-sm font-medium uppercase">Petugas Ukur</span>
+                    <a href="${whatsappLink}" target="_blank" class="flex items-center space-x-2 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-green-600 transition-colors">
+                        <span>Chat Petugas</span>
+                    </a>
+                </div>
+                <div class="flex justify-between border-b border-slate-50 py-3">
+                    <span class="text-slate-400 text-sm font-medium uppercase">Posisi</span>
+                    <span class="font-bold text-navy">${b.posisiBerkas || '-'}</span>
+                </div>
+            </div>
+            <div class="mt-4 p-6 rounded-2xl ${statusColor}">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs uppercase font-bold tracking-widest">Status Akhir</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-white/50">${statusAkhir}</span>
+                </div>
+                <p class="text-sm font-semibold mb-1">Keterangan/Kendala:</p>
+                <p class="text-sm opacity-90">${b.keterangan || b.kendala || 'Berkas sedang diproses oleh petugas sesuai alur yang berlaku.'}</p>
+            </div>
+        `;
+        document.getElementById('resultContent').innerHTML = html;
+    }
+
+    // Utils & Carousel tetap sama
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.classList.remove('opacity-0');
+        setTimeout(() => t.classList.add('opacity-0'), 3000);
+    }
+
+    const slides = [
+        'https://images.unsplash.com/photo-1577416414929-7a4c9f2d810a?q=80&w=2000',
+        'https://images.unsplash.com/photo-1512403754473-27855fbc495b?q=80&w=2000'
+    ];
+    let currentSlide = 0;
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        const img = document.querySelector('#hero-carousel img');
+        if(img) {
             img.style.opacity = 0;
             setTimeout(() => {
                 img.src = slides[currentSlide];
                 img.style.opacity = 1;
             }, 500);
-        }, 5000);
+        }
+    }, 5000);
 
-        // Mobile Menu
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            showToast("Gunakan tampilan Desktop untuk pengalaman terbaik.");
-        });
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        showToast("Gunakan tampilan Desktop untuk pengalaman terbaik.");
+    });
 
-        // Window Load
-        window.onload = () => {
-            loadStats();
-        };
-    </script>
+    window.onload = () => {
+        loadStats();
+    };
+</script>
 </body>
 </html>
