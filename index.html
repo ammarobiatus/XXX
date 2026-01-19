@@ -298,42 +298,43 @@
         });
     }
 
-    // Load Dashboard Stats from Spreadsheet
-    async function loadStats() {
+  async function loadStats() {
     try {
         const response = await fetch(API_STATS);
         const data = await response.json();
         
-        // KARENA ADA JUDUL DI BARIS 1:
-        // Sheety akan memasukkan seluruh teks "BERKAS DALAM PROSES..." 
-        // ke dalam baris pertama data. Kita harus mengambil data dari INDEKS KE-1 (Baris 3 di Excel).
-        
-        const allRows = data.statistikBerkasPengukuran;
-        
-        // Kita cari baris yang punya angka '5' atau '17'
-        // Biasanya ini ada di baris setelah judul dan setelah nama kolom
-        const stats = allRows.find(row => {
-            // Kita cek satu per satu property-nya karena Sheety mungkin 
-            // menamai kolomnya dengan nama yang aneh akibat judul baris 1
+        // Ambil semua baris yang dikirim Sheety
+        const rows = data.statistikBerkasPengukuran;
+
+        // KITA PAKSA PROGRAM MENCARI BARIS YANG ADA ANGKA NYATA
+        // Kita cari baris di mana kolom pertamanya adalah angka (bukan teks judul)
+        const statsRow = rows.find(row => {
             const values = Object.values(row);
-            return values.some(val => !isNaN(val) && val !== "" && val > 0);
+            // Cek apakah kolom pertama bisa diubah jadi angka dan bukan kosong
+            return !isNaN(parseFloat(values[0])) && isFinite(values[0]);
         });
 
-        if (stats) {
-            // Karena baris 1 adalah judul, Sheety mungkin menamai kolomnya 
-            // berdasarkan teks di baris 1 tersebut. Kita ambil berdasarkan urutan saja:
-            const keys = Object.keys(stats);
-            const proses = parseInt(stats[keys[0]] || 0); // Kolom A
-            const selesai = parseInt(stats[keys[1]] || 0); // Kolom B
-            const kendala = parseInt(stats[keys[2]] || 0); // Kolom C
-            const total = parseInt(stats[keys[3]] || 0);   // Kolom D
+        if (statsRow) {
+            // Kita ambil data berdasarkan urutan kolom di Spreadsheet (A, B, C, D)
+            const values = Object.values(statsRow);
+            
+            // Sesuai urutan gambar kamu: 
+            // Kolom A = Proses, B = Selesai, C = Kendala, D = Total
+            const proses  = parseInt(values[0] || 0);
+            const selesai = parseInt(values[1] || 0);
+            const kendala = parseInt(values[2] || 0);
+            const total   = parseInt(values[3] || 0);
 
+            // Suntikkan angka ke elemen HTML
             document.getElementById('statSelesai').innerText = selesai;
             document.getElementById('statProses').innerText = proses;
             document.getElementById('statKendala').innerText = kendala;
             document.getElementById('statTotal').innerText = total;
 
+            // Perbarui Grafik Lingkaran
             initChart([selesai, proses, kendala]);
+        } else {
+            console.error("Data angka tidak ditemukan di baris manapun.");
         }
     } catch (err) {
         console.error("Gagal sinkronisasi data:", err);
