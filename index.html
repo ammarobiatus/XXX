@@ -210,7 +210,7 @@
                     <h2 class="text-3xl font-bold mb-8">Kunjungi Kantor Kami</h2>
                     <div class="rounded-3xl overflow-hidden grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all border border-white/10 h-96">
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.490726715201!2d125.1764673!3d1.448557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32870f9011a681df%3A0x6b8017c5b62e499a!2sKantor%20Pertanahan%20Kota%20Bitung!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.3847604325733!2d125.1788755743478!3d1.45326576114131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3287114227808269%3A0x6734139e8027732d!2sKantor%20Pertanahan%20Kota%20Bitung!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
                             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
@@ -262,33 +262,33 @@
             });
         }
 
-     async function loadStats() {
-    try {
-        const response = await fetch(API_STATS);
-        const json = await response.json();
-        
-        // Mengambil data dari baris pertama spreadsheet (berdasarkan gambar image_a946c1.png)
-        const stats = json.statistikBerkasPengukuran[0];
+        async function loadStats() {
+            try {
+                const response = await fetch(API_STATS);
+                const json = await response.json();
+                
+                // Mengambil baris pertama dari tab statistik
+                const stats = json.statistikBerkasPengukuran[0];
 
-        // Perbaikan nama properti: Properti di JSON Sheety biasanya mengikuti nama header yang di-camelCase-kan
-        const selesai = parseInt(stats.berkasSelesai || 0);
-        const proses = parseInt(stats.berkasDalamProses || 0); // Sesuaikan dengan header "BERKAS DALAM PROSES"
-        const kendala = parseInt(stats.berkasKendala || 0);
-        const total = parseInt(stats.totalBerkas || 0);
+                // Menghubungkan variabel dengan nama kolom spreadsheet (Sheety otomatis camelCase)
+                const selesai = parseInt(stats.berkasSelesai || 0);
+                const proses = parseInt(stats.berkasDalamProses || 0); 
+                const kendala = parseInt(stats.berkasKendala || 0);
+                const total = parseInt(stats.totalBerkas || 0);
 
-        // Update angka pada elemen dashboard
-        document.getElementById('statSelesai').innerText = selesai;
-        document.getElementById('statProses').innerText = proses;
-        document.getElementById('statKendala').innerText = kendala;
-        document.getElementById('statTotal').innerText = total;
+                // Langsung terapkan ke UI
+                document.getElementById('statSelesai').innerText = selesai;
+                document.getElementById('statProses').innerText = proses;
+                document.getElementById('statKendala').innerText = kendala;
+                document.getElementById('statTotal').innerText = total;
 
-        // Update grafik donat dengan data terbaru
-        initChart([selesai, proses, kendala]);
-    } catch (err) {
-        console.error("Gagal load statistik:", err);
-        initChart([0, 0, 0]);
-    }
-}
+                // Update Grafik
+                initChart([selesai, proses, kendala]);
+            } catch (err) {
+                console.error("Gagal load statistik:", err);
+                initChart([0, 0, 0]);
+            }
+        }
 
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -309,7 +309,6 @@
                 const json = await res.json();
                 const data = json.informasiBerkasGercep2026;
                 
-                // Pencocokan berdasarkan No Berkas utuh (misal: 98/2026)
                 const berkas = data.find(b => 
                     String(b.noBerkas).trim().toLowerCase() === input.toLowerCase()
                 );
