@@ -262,26 +262,30 @@
             });
         }
 
-        async function loadStats() {
+       async function loadStats() {
             try {
                 const response = await fetch(API_STATS);
                 const json = await response.json();
+                
                 const stats = json.statistikBerkasPengukuran[0];
 
-                // Mapping Berdasarkan Nama Kolom di Gambar 1
                 const selesai = parseInt(stats.berkasSelesai || 0);
                 const proses = parseInt(stats.berkasDalamProses || 0);
                 const kendala = parseInt(stats.berkasKendala || 0);
                 const total = parseInt(stats.totalBerkas || 0);
 
+                // Update angka pada elemen dashboard
                 document.getElementById('statSelesai').innerText = selesai;
                 document.getElementById('statProses').innerText = proses;
                 document.getElementById('statKendala').innerText = kendala;
                 document.getElementById('statTotal').innerText = total;
 
+                // Update grafik donat dengan data terbaru
                 initChart([selesai, proses, kendala]);
             } catch (err) {
-                console.error("Gagal load statistik", err);
+                console.error("Gagal load statistik:", err);
+                // Jika error, tampilkan grafik kosong agar tidak merusak layout
+                initChart([0, 0, 0]);
             }
         }
 
