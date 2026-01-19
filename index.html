@@ -308,27 +308,37 @@
         });
     }
 
-    // Fetch Stats (Tetap berfungsi seperti semula)
+   // Fetch Stats - Diperbarui sesuai kolom Spreadsheet Gambar 2
     async function loadStats() {
         try {
             const response = await fetch(API_STATS);
             const data = await response.json();
+            
+            // Sheety API mapping untuk kolom dengan spasi:
+            // "BERKAS DALAM PROSES" -> berkasDalamProses
+            // "BERKAS SELESAI" -> berkasSelesai
+            // "BERKAS KENDALA" -> berkasKendala
+            // "TOTAL BERKAS" -> totalBerkas
             const stats = data.statistikBerkasPengukuran[0];
 
-            const selesai = parseInt(stats.selesai || 0);
-            const proses = parseInt(stats.proses || 0);
-            const kendala = parseInt(stats.kendala || 0);
-            const total = selesai + proses + kendala;
+            const proses = parseInt(stats.berkasDalamProses || 0);
+            const selesai = parseInt(stats.berkasSelesai || 0);
+            const kendala = parseInt(stats.berkasKendala || 0);
+            const total = parseInt(stats.totalBerkas || 0);
 
+            // Update Angka di UI
             document.getElementById('statSelesai').innerText = selesai;
             document.getElementById('statProses').innerText = proses;
             document.getElementById('statKendala').innerText = kendala;
             document.getElementById('statTotal').innerText = total;
 
+            // Update Grafik Lingkaran (Selesai, Proses, Kendala)
             initChart([selesai, proses, kendala]);
+            
         } catch (err) {
-            console.error("Failed to load stats", err);
-            initChart([35, 45, 20]); 
+            console.error("Gagal sinkronisasi data spreadsheet:", err);
+            // Default fallback jika API gagal dimuat
+            initChart([0, 0, 0]); 
         }
     }
 
