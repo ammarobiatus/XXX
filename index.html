@@ -312,31 +312,34 @@ async function loadStats() {
             const response = await fetch(API_STATS);
             const data = await response.json();
             
-            // Mencari baris yang benar-benar berisi data angka dari spreadsheet Anda
-            // Ini akan melewati baris judul (Baris 1) dan baris keterangan (Baris 5)
+            // Mencari baris yang mengandung angka di kolom total (Baris 3 di sheet Anda)
+            // Meskipun ada baris judul di atas atau keterangan di bawah, 
+            // script ini akan memfilter hanya baris yang berisi data numerik.
             const stats = data.statistikBerkasPengukuran.find(row => 
-                (row.berkasDalamProses && !isNaN(row.berkasDalamProses)) || 
-                (row.berkasSelesai && !isNaN(row.berkasSelesai))
+                row.totalBerkas !== undefined && !isNaN(row.totalBerkas) && row.totalBerkas !== ""
             );
 
             if (stats) {
-                // Konversi data dari spreadsheet ke angka
+                // Konversi string ke Angka
                 const proses = parseInt(stats.berkasDalamProses || 0);
                 const selesai = parseInt(stats.berkasSelesai || 0);
                 const kendala = parseInt(stats.berkasKendala || 0);
                 const total = parseInt(stats.totalBerkas || 0);
 
-                // Update angka di Dashboard (Tampilan Gambar 3 & 4)
+                // Update UI Web (Gambar 3 & 4)
                 document.getElementById('statSelesai').innerText = selesai;
                 document.getElementById('statProses').innerText = proses;
                 document.getElementById('statKendala').innerText = kendala;
                 document.getElementById('statTotal').innerText = total;
 
-                // Update grafik lingkaran agar tidak 0 lagi
+                // Jalankan Grafik
                 initChart([selesai, proses, kendala]);
+            } else {
+                // Jika data masih terbaca sebagai header di Sheety
+                console.error("Data numerik tidak ditemukan. Periksa nama kolom di Sheety.");
             }
         } catch (err) {
-            console.error("Gagal memuat data statistik:", err);
+            console.error("Gagal ambil data:", err);
             initChart([0, 0, 0]);
         }
     }
