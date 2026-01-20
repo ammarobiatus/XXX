@@ -315,7 +315,8 @@
     <script>
         // Endpoint Konfigurasi
         const API_BERKAS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/informasiBerkasGercep2026";
-        const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/salinanDariGercep/statistikBerkasPengukuran";
+        const API_STATS = "https://api.sheety.co/06e4ffe7b725efd9be157304ece197f8/gercepKotaBitung/statistikBerkasPengukuran
+";
 
         // Background Slider Logic
         const slides = document.querySelectorAll('.slide');
@@ -343,7 +344,7 @@
             }
         });
 
-        // Dashboard Data Visualization (Chart.js)
+     
         let perfChart;
         function initChart(dataValues = [0,0,0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -428,7 +429,7 @@
             window.requestAnimationFrame(step);
         }
 
-        // Search Logic
+
         document.getElementById('searchForm').addEventListener('submit',async (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
