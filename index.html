@@ -377,7 +377,7 @@
             });
         }
 
-        async function loadStats() {
+      async function loadStats() {
             try {
                 const response = await fetch(API_STATS);
                 if (!response.ok) throw new Error("Gagal mengambil data");
@@ -428,7 +428,7 @@
             window.requestAnimationFrame(step);
         }
 
-
+        // Search Logic
         document.getElementById('searchForm').addEventListener('submit',async (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
@@ -485,5 +485,7 @@
 
         window.onload = () => { loadStats(); initChart(); };
     </script>
+</body>
+</html>
 </body>
 </html>
