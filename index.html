@@ -428,46 +428,65 @@
             }, 600);
         });
 
-        function renderResult(b) {
-            const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas || b.nomorBerkas)}`;
-            const item = (label,value,isBold = false) => `<div class="space-y-1"><p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p><p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p></div>`;
+       function renderResult(b) {
+    // Menentukan nomor untuk link WA
+    const nomor = b.noBerkas || b.nomorBerkas || '';
+    
+    // Fallback untuk Posisi Berkas agar tidak kosong jika salah satu properti tidak ada
+    const posisiBerkas = b.posisiBerkas || b.posisi || 'Sedang diverifikasi';
+    
+    const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(nomor)}`;
+    
+    const item = (label, value, isBold = false) => `
+        <div class="space-y-1">
+            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
+            <p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p>
+        </div>`;
+    
+    return `
+        <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
+            <div class="px-8 py-4 bg-navy text-white flex justify-between items-center">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span>
+                <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span>
+            </div>
             
-            const html = `
-                <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="px-8 py-4 bg-navy text-white flex justify-between items-center"><span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span><span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span></div>
-                    <div class="p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
-                            ${item('No Berkas', b.noBerkas || b.nomorBerkas, true)}
-                            ${item('Nama Pemohon', b.namaPemohon, true)}
-                            ${item('Kelurahan', b.kelurahan, true)}
-                            ${item('Jenis Pelayanan', b.jenisPelayanan)}
-                            ${item('Posisi Berkas', b.posisiBerkas || b.posisi)}
-                            ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses')}
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
-                            <div class="space-y-6">
-                                ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
-                                ${item('Petugas Ukur', b.namaPetugasUkur || b.petugasUkur)}
-                                ${item('Estimasi Selesai', b.estimasiBerkasSelesaiDiSeksiPengukuran || b.estimasiSelesai, true)}
-                            </div>
-                            <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                ${item('Kendala', b.kendala || 'Nihil')}
-                                ${item('Tindak Lanjut', b.tindakLanjut || '-')}
-                                ${item('Keterangan', b.keterangan || '-')}
-                            </div>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
-                                </div>
-                                <p class="text-xs font-bold text-navy/70 uppercase tracking-tight">Butuh bantuan lebih lanjut?</p>
-                            </div>
-                            <a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">Hubungi Admin</a>
-                        </div>
+            <div class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
+                    ${item('No Berkas', nomor, true)}
+                    ${item('Nama Pemohon', b.namaPemohon, true)}
+                    ${item('Kelurahan', b.kelurahan, true)}
+                    ${item('Jenis Pelayanan', b.jenisPelayanan)}
+                    
+                    ${item('Posisi Berkas', posisiBerkas, true)} 
+                    
+                    ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses')}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
+                    <div class="space-y-6">
+                        ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
+                        ${item('Petugas Ukur', b.namaPetugasUkur || b.petugasUkur)}
+                        ${item('Estimasi Selesai', b.estimasiBerkasSelesaiDiSeksiPengukuran || b.estimasiSelesai, true)}
+                    </div>
+                    <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        ${item('Kendala', b.kendala || 'Nihil')}
+                        ${item('Tindak Lanjut', b.tindakLanjut || '-')}
+                        ${item('Keterangan', b.keterangan || '-')}
                     </div>
                 </div>
-            `;
+
+                <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
+                    <div class="flex items-center gap-3 text-navy">
+                        <i class="fab fa-whatsapp text-2xl text-green-600"></i>
+                        <span class="text-xs font-bold uppercase tracking-wider">Konfirmasi Progres?</span>
+                    </div>
+                    <a href="${waLink}" target="_blank" class="w-full sm:w-auto px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all text-center">
+                        Chat Admin Pengukuran
+                    </a>
+                </div>
+            </div>
+        </div>`;
+}
             document.getElementById('resultContent').innerHTML = html;
         }
 
