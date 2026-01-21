@@ -126,7 +126,7 @@
                     <a href="#stats" class="hover:text-gold transition-colors text-white">Dashboard GERCEP!</a>
                     <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" 
                        class="bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full transition-all flex items-center gap-2">
-                        Konsultasi Online
+                         Konsultasi Online
                     </a>
                 </div>
 
@@ -299,7 +299,6 @@
     </div>
 
     <script>
-        // KONFIGURASI URL GAS (Gunakan yang paling baru)
         const GAS_URL = "https://script.google.com/macros/s/AKfycbyCHsS2vzsL8f4SHST5YuP8t8m6mPgeQHS7rxlmQzkXapaLzl1z7NKOTSIuvdNBLz7t_w/exec";
 
         // Slider Logic
@@ -353,17 +352,16 @@
             });
         }
 
-        // LOAD DATA UTAMA (Stats & Info)
         async function loadData() {
             try {
                 const response = await fetch(GAS_URL);
                 const data = await response.json();
                 
-                // 1. Update Statistik Angka
                 const stats = data.statistik[0];
-                const selesai = parseInt(stats.berkasSelesai || 0);
-                const proses = parseInt(stats.berkasDalamProses || 0);
-                const kendala = parseInt(stats.berkasKendala || 0);
+                // Perbaikan deteksi variabel statistik
+                const selesai = parseInt(stats.berkasSelesai || stats.selesai || 0);
+                const proses = parseInt(stats.berkasDalamProses || stats.proses || 0);
+                const kendala = parseInt(stats.berkasKendala || stats.kendala || 0);
                 const total = parseInt(stats.totalBerkas || (selesai + proses + kendala));
 
                 animateValue("statSelesai",0,selesai,1500);
@@ -375,8 +373,6 @@
                 initChart([selesai,proses,kendala]);
                 
                 document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
-                
-                // 2. Simpan Data Informasi ke Global untuk pencarian
                 window.globalInformasi = data.informasi;
 
             } catch (err) {
@@ -399,7 +395,6 @@
             window.requestAnimationFrame(step);
         }
 
-        // SEARCH LOGIC
         document.getElementById('searchForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
@@ -411,7 +406,6 @@
             notFound.classList.add('hidden');
             loading.classList.remove('hidden');
 
-            // Simulasi delay sebentar agar user merasa sistem sedang mencari
             setTimeout(() => {
                 loading.classList.add('hidden');
                 
@@ -421,7 +415,7 @@
                 }
 
                 const berkas = window.globalInformasi.find(item => 
-                    String(item.noBerkas).trim().toLowerCase() === input.toLowerCase()
+                    String(item.noBerkas || item.nomorBerkas).trim().toLowerCase() === input.toLowerCase()
                 );
 
                 if(berkas) {
@@ -435,7 +429,7 @@
         });
 
         function renderResult(b) {
-            const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
+            const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas || b.nomorBerkas)}`;
             const item = (label,value,isBold = false) => `<div class="space-y-1"><p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p><p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p></div>`;
             
             const html = `
@@ -443,23 +437,23 @@
                     <div class="px-8 py-4 bg-navy text-white flex justify-between items-center"><span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span><span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span></div>
                     <div class="p-8">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
-                            ${item('No Berkas',b.noBerkas,true)}
-                            ${item('Nama Pemohon',b.namaPemohon,true)}
-                            ${item('Kelurahan',b.kelurahan,true)}
-                            ${item('Jenis Pelayanan',b.jenisPelayanan)}
-                           ${item('Posisi Berkas', b.posisi)}
-                            ${item('Hasil Akhir',b.hasilAkhir || 'Sedang Diproses')}
+                            ${item('No Berkas', b.noBerkas || b.nomorBerkas, true)}
+                            ${item('Nama Pemohon', b.namaPemohon, true)}
+                            ${item('Kelurahan', b.kelurahan, true)}
+                            ${item('Jenis Pelayanan', b.jenisPelayanan)}
+                            ${item('Posisi Berkas', b.posisiBerkas || b.posisi)}
+                            ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses')}
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
                             <div class="space-y-6">
-                                ${item('Jadwal Pengukuran',b.jadwalPengukuran)}
-                                ${item('Petugas Ukur',b.namaPetugasUkur)}
-                                ${item('Estimasi Selesai',b.estimasiBerkasSelesaiDiSeksiPengukuran,true)}
+                                ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
+                                ${item('Petugas Ukur', b.namaPetugasUkur || b.petugasUkur)}
+                                ${item('Estimasi Selesai', b.estimasiBerkasSelesaiDiSeksiPengukuran || b.estimasiSelesai, true)}
                             </div>
                             <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                ${item('Kendala',b.kendala || 'Nihil')}
-                                ${item('Tindak Lanjut',b.tindakLanjut || '-')}
-                                ${item('Keterangan',b.keterangan || '-')}
+                                ${item('Kendala', b.kendala || 'Nihil')}
+                                ${item('Tindak Lanjut', b.tindakLanjut || '-')}
+                                ${item('Keterangan', b.keterangan || '-')}
                             </div>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
