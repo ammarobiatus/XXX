@@ -109,11 +109,10 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center space-x-3 group cursor-pointer">
+                <div class="flex items-center space-x-3 group cursor-pointer" onclick="window.location.reload()">
                     <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center font-extrabold text-navy transition-transform group-hover:rotate-12">G</div>
                     <div class="leading-tight">
                         <span class="text-xl font-bold tracking-tighter italic block">GERCEP</span>
@@ -148,9 +147,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
-        <!-- Cinematic Background Slides -->
         <div class="slider-container">
             <div class="slide active" style="background-image: url('gercep wana biru.jpg');"></div>
             <div class="slide" style="background-image: url('alur gercep 3 hari kerja banner.jpg');"></div>
@@ -160,13 +157,12 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
             <div class="text-white animate-fade-in max-w-3xl">
-                <!-- Frame Bingkai Kotak Modern -->
                 <div class="content-frame">
                     <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
                     <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
-                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran,kepastian jadwal penyelesaian,serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
+                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                         <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
@@ -177,13 +173,12 @@
         </div>
     </section>
 
-    <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
         <div class="max-w-5xl mx-auto px-4">
             <div class="bg-white rounded-[2.5rem] custom-shadow p-8 md:p-14 border border-slate-100">
                 <div class="text-center mb-10">
-                    <h2 class="text-3xl font-extrabold text-navy mb-3 text-center">Cek Status Berkas</h2>
-                    <p class="text-slate-500 font-medium text-center">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
+                    <h2 class="text-3xl font-extrabold text-navy mb-3">Cek Status Berkas</h2>
+                    <p class="text-slate-500 font-medium">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
                 </div>
                 
                 <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -206,8 +201,8 @@
                 </div>
 
                 <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl border border-red-100 text-center">
-                    <h3 class="text-lg font-bold text-red-800 text-center">Berkas Tidak Ditemukan</h3>
-                    <p class="text-red-600/70 text-sm mt-1 text-center">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
+                    <h3 class="text-lg font-bold text-red-800">Berkas Tidak Ditemukan</h3>
+                    <p class="text-red-600/70 text-sm mt-1">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
                 </div>
 
                 <div id="resultArea" class="mt-12 hidden opacity-0 translate-y-4 transition-all duration-500">
@@ -217,35 +212,31 @@
         </div>
     </section>
 
-    <!-- Stats Section (Dashboard GERCEP!) -->
     <section id="stats" class="py-24 bg-white overflow-hidden scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 text-center md:text-left">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                 <div>
-                    <span class="text-gold font-extrabold tracking-[0.2em] text-xs uppercase mb-3 block text-center lg:text-left">Dashboard Terkini</span>
-                    <h2 class="text-4xl lg:text-5xl font-extrabold text-navy tracking-tight text-center lg:text-left">Kinerja Pengukuran</h2>
+                    <span class="text-gold font-extrabold tracking-[0.2em] text-xs uppercase mb-3 block">Dashboard Terkini</span>
+                    <h2 class="text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">Kinerja Pengukuran</h2>
                 </div>
-                <div class="flex items-center justify-center space-x-2 text-slate-400 text-sm font-medium">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse text-center"></span>
-                    <span class="text-center">Pembaruan Real-time: <span id="lastUpdated">...</span></span>
+                <div class="flex items-center space-x-2 text-slate-400 text-sm font-medium">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span>Pembaruan Real-time: <span id="lastUpdated">...</span></span>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-12 items-center">
-                <!-- Doughnut Chart -->
                 <div class="lg:col-span-5 flex justify-center">
                     <div class="relative w-full max-w-[320px]">
                         <canvas id="performanceChart"></canvas>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span id="statTotalMiddle" class="text-4xl font-extrabold text-navy text-center">0</span>
-                            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest text-center">Total Berkas</span>
+                            <span id="statTotalMiddle" class="text-4xl font-extrabold text-navy">0</span>
+                            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Total Berkas</span>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Stats Indicators -->
                 <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Berkas Selesai -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
                             <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Selesai</p>
@@ -256,10 +247,9 @@
                         </div>
                     </div>
                     
-                    <!-- Berkas Dalam Proses -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
-                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1 text-center sm:text-left">Berkas Dalam Proses</p>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Dalam Proses</p>
                             <span id="statProses" class="text-4xl font-black text-yellow-500 tracking-tighter">0</span>
                         </div>
                         <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center">
@@ -267,7 +257,6 @@
                         </div>
                     </div>
                     
-                    <!-- Berkas Kendala -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
                             <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Kendala</p>
@@ -278,7 +267,6 @@
                         </div>
                     </div>
                     
-                    <!-- Total Berkas -->
                     <div class="p-6 bg-navy rounded-3xl shadow-xl flex items-center justify-between text-white transition-all hover:scale-[1.02]">
                         <div>
                             <p class="text-white/40 text-[10px] font-bold uppercase mb-1">Total Berkas</p>
@@ -293,13 +281,12 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-navy text-white pt-20 pb-10">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-extrabold mb-8 text-center">Kantor Pertanahan Kota Bitung</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto mb-12 text-center">Jl. Stadion 2 Saudara,Manembo-nembo Tengah,Kec. Matuari,Kota Bitung,Sulawesi Utara.</p>
+            <h2 class="text-3xl font-extrabold mb-8">Kantor Pertanahan Kota Bitung</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-12">Jl. Stadion 2 Saudara, Manembo-nembo Tengah, Kec. Matuari, Kota Bitung, Sulawesi Utara.</p>
             <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-                <p class="text-center">© 2026 Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung.</p>
+                <p>© 2026 Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung.</p>
                 <div class="flex gap-6">
                     <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="text-gold font-bold">WhatsApp Admin</a>
                 </div>
@@ -307,17 +294,15 @@
         </div>
     </footer>
 
-    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-xl shadow-2xl text-xs font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
         <span id="toast-msg"></span>
     </div>
 
     <script>
-        // Endpoint Konfigurasi
-        const API_BERKAS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/informasiBerkasGercep2026";
-        const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
+        // KONFIGURASI GAS URL
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbw10oRRC2WBLmtJjuIQ_K1UAPJwsKV8mCERGtQ4N4M2KjB8eMoxvy3k-Mxfj3s6j0Ykuw/exec";
 
-        // Background Slider Logic
+        // Slider Logic
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
         function nextSlide() {
@@ -327,11 +312,10 @@
         }
         setInterval(nextSlide,5000);
 
-        // UI Interactions (Menu Mobile)
+        // Menu Mobile
         const menuBtn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
-
         menuBtn.addEventListener('click',() => {
             const isHidden = menu.classList.contains('hidden-menu');
             if (isHidden) {
@@ -343,7 +327,7 @@
             }
         });
 
-     
+        // Chart Logic
         let perfChart;
         function initChart(dataValues = [0,0,0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -355,7 +339,6 @@
                     datasets: [{
                         data: dataValues,
                         backgroundColor: ['#16a34a','#eab308','#dc2626'],
-                        hoverOffset: 4,
                         borderWidth: 0,
                         borderRadius: 10,
                         spacing: 5
@@ -364,56 +347,38 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#0A192F',
-                            cornerRadius: 10,
-                            padding: 12
-                        }
-                    },
+                    plugins: { legend: { display: false } },
                     cutout: '85%'
                 }
             });
         }
 
-      async function loadStats() {
+        // LOAD STATS FROM GAS
+        async function loadStats() {
             try {
-                const response = await fetch(API_STATS);
-                if (!response.ok) throw new Error("Gagal mengambil data");
-                const json = await response.json();
-                
-                // Mendapatkan baris pertama dari sheet statistikBerkasPengukuran
-                const stats = json.statistikBerkasPengukuran[0];
-                if (!stats) throw new Error("Data spreadsheet kosong");
+                const response = await fetch(GAS_URL);
+                const data = await response.json();
+                const stats = data.statistik[0];
 
-                // Mapping variabel sesuai dengan header camelCase dari Sheety
                 const selesai = parseInt(stats.berkasSelesai || 0);
                 const proses = parseInt(stats.berkasDalamProses || 0);
                 const kendala = parseInt(stats.berkasKendala || 0);
                 const total = parseInt(stats.totalBerkas || (selesai + proses + kendala));
 
-                // Perbarui Angka UI
                 animateValue("statSelesai",0,selesai,1500);
                 animateValue("statProses",0,proses,1500);
                 animateValue("statKendala",0,kendala,1500);
                 animateValue("statTotal",0,total,1500);
                 
-                const middleStat = document.getElementById('statTotalMiddle');
-                if(middleStat) middleStat.innerText = total;
-
+                if(document.getElementById('statTotalMiddle')) document.getElementById('statTotalMiddle').innerText = total;
                 initChart([selesai,proses,kendala]);
                 
-                const lastUpdated = document.getElementById('lastUpdated');
-                if(lastUpdated) lastUpdated.innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
+                document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
             } catch (err) {
-                console.error("Dashboard Sync Error:",err);
-                const lastUpdated = document.getElementById('lastUpdated');
-                if(lastUpdated) lastUpdated.innerText = 'Gagal sinkron';
+                console.error("Sync Error:",err);
+                document.getElementById('lastUpdated').innerText = 'Gagal sinkron';
             }
         }
-
-        setInterval(loadStats,60000);
 
         function animateValue(id,start,end,duration) {
             const obj = document.getElementById(id);
@@ -428,7 +393,7 @@
             window.requestAnimationFrame(step);
         }
 
-        // Search Logic
+        // SEARCH LOGIC FROM GAS
         document.getElementById('searchForm').addEventListener('submit',async (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
@@ -443,10 +408,9 @@
             btn.disabled = true;
 
             try {
-                const res = await fetch(API_BERKAS);
-                const json = await res.json();
-                const data = json.informasiBerkasGercep2026;
-                const b = data.find(item => String(item.noBerkas).trim().toLowerCase() === input.toLowerCase());
+                const res = await fetch(GAS_URL);
+                const data = await res.json();
+                const b = data.informasi.find(item => String(item.noBerkas).trim().toLowerCase() === input.toLowerCase());
 
                 loading.classList.add('hidden');
                 if(b) {
@@ -455,14 +419,14 @@
                     setTimeout(() => { resultArea.classList.remove('opacity-0','translate-y-4'); },50);
                 } else { notFound.classList.remove('hidden'); }
             } catch (err) {
-                showToast("Gagal memuat data. Periksa koneksi internet.");
+                showToast("Gagal memuat data.");
                 loading.classList.add('hidden');
             } finally { btn.disabled = false; }
         });
 
         function renderResult(b) {
             const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20berkas%20${encodeURIComponent(b.noBerkas)}`;
-            const item = (label,value,isBold = false) => `<div class="space-y-1"><p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">${label}</p><p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center sm:text-left">${value || '-'}</p></div>`;
+            const item = (label,value,isBold = false) => `<div class="space-y-1"><p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p><p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p></div>`;
             const html = `
                 <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
                     <div class="px-8 py-4 bg-navy text-white flex justify-between items-center"><span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span><span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span></div>
@@ -485,7 +449,5 @@
 
         window.onload = () => { loadStats(); initChart(); };
     </script>
-</body>
-</html>
 </body>
 </html>
