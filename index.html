@@ -434,7 +434,7 @@
             }, 600);
         });
 
-     function renderResult(b) {
+ function renderResult(b) {
     // Menggunakan kontak petugas dari kolom spreadsheet, jika kosong baru ke admin default
     const nomorTujuan = b.kontakPetugasUkur || "6282353402431";
     const waLink = `https://api.whatsapp.com/send?phone=${nomorTujuan.toString().replace(/[^0-9]/g, '')}&text=Halo,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
@@ -472,6 +472,7 @@
                         ${item('Kontak Petugas', b.kontakPetugasUkur || '-')}
                         ${item('Kendala', b.kendala || 'Nihil')}
                         ${item('Tindak Lanjut', b.tindakLanjut || '-')}
+                        ${item('Keterangan', b.keterangan || '-')}
                         ${item('Eviden Lapangan', b.eviden || '-')}
                     </div>
                 </div>
