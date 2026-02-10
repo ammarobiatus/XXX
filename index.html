@@ -22,7 +22,31 @@
             background: linear-gradient(135deg,#0A192F 0%,#112240 100%);
         }
 
-        /* Cinematic Background Slider */
+        /* --- Tambahan Animasi Baru --- */
+        @keyframes resultReveal {
+            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        
+        .animate-result {
+            animation: resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* ---------------------------- */
+
         .slider-container {
             position: absolute;
             inset: 0;
@@ -40,7 +64,6 @@
             opacity: 0.4;
         }
 
-        /* Modern Box Frame */
         .content-frame {
             border: 2px solid rgba(255,215,0,0.3);
             padding: 3rem;
@@ -126,7 +149,7 @@
                     <a href="#stats" class="hover:text-gold transition-colors text-white">Dashboard GERCEP!</a>
                     <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" 
                        class="bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full transition-all flex items-center gap-2">
-                        Konsultasi Online
+                         Konsultasi Online
                     </a>
                 </div>
 
@@ -190,22 +213,28 @@
                         </div>
                     </div>
                     <button type="submit" id="searchBtn"
-                        class="w-full py-5 bg-navy text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-navy/20 transition-all flex items-center justify-center group">
-                        <span>Cari</span>
-                        <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        class="w-full py-5 bg-navy text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-navy/20 transition-all flex items-center justify-center group relative overflow-hidden">
+                        <div id="btnContent" class="flex items-center">
+                            <span>Cari</span>
+                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </div>
+                        <div id="btnLoading" class="hidden">
+                            <div class="loading-spinner"></div>
+                        </div>
                     </button>
                 </form>
 
                 <div id="loadingState" class="mt-12 hidden text-center">
                     <div class="inline-block w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
+                    <p class="mt-4 text-slate-400 font-bold animate-pulse">MENCARI DATA...</p>
                 </div>
 
-                <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl border border-red-100 text-center">
+                <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl border border-red-100 text-center animate-result">
                     <h3 class="text-lg font-bold text-red-800">Berkas Tidak Ditemukan</h3>
                     <p class="text-red-600/70 text-sm mt-1">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
                 </div>
 
-                <div id="resultArea" class="mt-12 hidden opacity-0 translate-y-4 transition-all duration-500">
+                <div id="resultArea" class="mt-12 hidden opacity-0 translate-y-4">
                     <div id="resultContent" class="space-y-6"></div>
                 </div>
             </div>
@@ -299,7 +328,6 @@
     </div>
 
     <script>
-        // KONFIGURASI URL GAS (Gunakan yang paling baru)
         const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
 
         // Slider Logic
@@ -353,13 +381,11 @@
             });
         }
 
-        // LOAD DATA UTAMA (Stats & Info)
         async function loadData() {
             try {
                 const response = await fetch(GAS_URL);
                 const data = await response.json();
                 
-                // 1. Update Statistik Angka
                 const stats = data.statistik[0];
                 const selesai = parseInt(stats.berkasSelesai || 0);
                 const proses = parseInt(stats.berkasDalamProses || 0);
@@ -375,8 +401,6 @@
                 initChart([selesai,proses,kendala]);
                 
                 document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
-                
-                // 2. Simpan Data Informasi ke Global untuk pencarian
                 window.globalInformasi = data.informasi;
 
             } catch (err) {
@@ -399,21 +423,36 @@
             window.requestAnimationFrame(step);
         }
 
-        // SEARCH LOGIC
+        // SEARCH LOGIC + ANIMATION
         document.getElementById('searchForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
             const resultArea = document.getElementById('resultArea');
             const loading = document.getElementById('loadingState');
             const notFound = document.getElementById('notFoundState');
+            const btnContent = document.getElementById('btnContent');
+            const btnLoading = document.getElementById('btnLoading');
 
-            resultArea.classList.add('hidden','opacity-0','translate-y-4');
+            // Reset UI
+            resultArea.classList.add('hidden');
+            resultArea.classList.remove('animate-result');
             notFound.classList.add('hidden');
+            
+            // Animasi Loading di Button
+            btnContent.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
             loading.classList.remove('hidden');
 
-            // Simulasi delay sebentar agar user merasa sistem sedang mencari
+            // Scroll ke area loading
+            window.scrollTo({
+                top: document.getElementById('tracking').offsetTop - 100,
+                behavior: 'smooth'
+            });
+
             setTimeout(() => {
                 loading.classList.add('hidden');
+                btnContent.classList.remove('hidden');
+                btnLoading.classList.add('hidden');
                 
                 if(!window.globalInformasi) {
                     showToast("Data belum siap, silakan refresh.");
@@ -427,72 +466,75 @@
                 if(berkas) {
                     renderResult(berkas);
                     resultArea.classList.remove('hidden');
-                    setTimeout(() => { resultArea.classList.remove('opacity-0','translate-y-4'); },50);
+                    // Trigger animasi masuk
+                    void resultArea.offsetWidth; // Force reflow
+                    resultArea.classList.add('animate-result');
                 } else { 
                     notFound.classList.remove('hidden'); 
+                    notFound.classList.add('animate-result');
                 }
-            }, 600);
+            }, 800);
         });
 
- function renderResult(b) {
-    // Menggunakan kontak petugas dari kolom spreadsheet, jika kosong baru ke admin default
-    const nomorTujuan = b.kontakPetugasUkur || "6282353402431";
-    const waLink = `https://api.whatsapp.com/send?phone=${nomorTujuan.toString().replace(/[^0-9]/g, '')}&text=Halo,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
-    
-    const item = (label, value, isBold = false) => `
-        <div class="space-y-1">
-            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
-            <p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p>
-        </div>`;
-    
-    const html = `
-        <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-            <div class="px-8 py-4 bg-navy text-white flex justify-between items-center">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span>
-                <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span>
-            </div>
-            <div class="p-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
-                    ${item('No Berkas', b.noBerkas, true)}
-                    ${item('Nama Pemohon', b.namaPemohon, true)}
-                    ${item('Kelurahan', b.kelurahan, true)}
-                    ${item('Jenis Pelayanan', b.jenisPelayanan)}
-                    ${item('Posisi Berkas', b.posisiBerkas, true)}
-                    ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses', true)}
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
-                    <div class="space-y-6">
-                        ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
-                        ${item('Petugas Ukur', b.namaPetugasUkur)}
-                        ${item('Petugas Terakhir', b.petugasTerakhir)}
-                        ${item('Estimasi Selesai', b.estimasiSelesai || b.estimasiBerkasSelesaiDiSeksiPengukuran, true)}
+        function renderResult(b) {
+            const nomorTujuan = b.kontakPetugasUkur || "6282353402431";
+            const waLink = `https://api.whatsapp.com/send?phone=${nomorTujuan.toString().replace(/[^0-9]/g, '')}&text=Halo,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
+            
+            const item = (label, value, isBold = false) => `
+                <div class="space-y-1">
+                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
+                    <p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p>
+                </div>`;
+            
+            const html = `
+                <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="px-8 py-4 bg-navy text-white flex justify-between items-center">
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span>
+                        <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span>
                     </div>
-                    <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                        ${item('Kontak Petugas', b.kontakPetugasUkur || '-')}
-                        ${item('Kendala', b.kendala || 'Nihil')}
-                        ${item('Tindak Lanjut', b.tindakLanjut || '-')}
-                        ${item('Keterangan', b.keterangan || '-')}
-                        ${item('Eviden Lapangan', b.eviden || '-')}
-                    </div>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
+                    <div class="p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
+                            ${item('No Berkas', b.noBerkas, true)}
+                            ${item('Nama Pemohon', b.namaPemohon, true)}
+                            ${item('Kelurahan', b.kelurahan, true)}
+                            ${item('Jenis Pelayanan', b.jenisPelayanan)}
+                            ${item('Posisi Berkas', b.posisiBerkas, true)}
+                            ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses', true)}
                         </div>
-                        <p class="text-xs font-bold text-navy/70 uppercase tracking-tight">Butuh bantuan?</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
+                            <div class="space-y-6">
+                                ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
+                                ${item('Petugas Ukur', b.namaPetugasUkur)}
+                                ${item('Petugas Terakhir', b.petugasTerakhir)}
+                                ${item('Estimasi Selesai', b.estimasiSelesai || b.estimasiBerkasSelesaiDiSeksiPengukuran, true)}
+                            </div>
+                            <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                ${item('Kontak Petugas', b.kontakPetugasUkur || '-')}
+                                ${item('Kendala', b.kendala || 'Nihil')}
+                                ${item('Tindak Lanjut', b.tindakLanjut || '-')}
+                                ${item('Keterangan', b.keterangan || '-')}
+                                ${item('Eviden Lapangan', b.eviden || '-')}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
+                                </div>
+                                <p class="text-xs font-bold text-navy/70 uppercase tracking-tight">Butuh bantuan?</p>
+                            </div>
+                            <a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">
+                                Hubungi Petugas/Admin
+                            </a>
+                        </div>
                     </div>
-                    <a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">
-                        Hubungi Petugas/Admin
-                    </a>
                 </div>
-            </div>
-        </div>
-    `;
-    document.getElementById('resultContent').innerHTML = html;
-}
+            `;
+            document.getElementById('resultContent').innerHTML = html;
+        }
+
         function showToast(msg) {
             const t = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
