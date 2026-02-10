@@ -22,48 +22,31 @@
             background: linear-gradient(135deg,#0A192F 0%,#112240 100%);
         }
 
-        /* --- Tambahan Animasi Baru --- */
-        @keyframes resultReveal {
-            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
+        /* --- ANIMASI PREMIUM BARU --- */
         
-        .animate-result {
-            animation: resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        /* 1. Shimmer/Skeleton Effect */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
-        .loading-spinner {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 3px solid #fff;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
+        /* 2. Entrance Animation untuk Item */
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* ---------------------------- */
-
-        .slider-container {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-        .slide {
-            position: absolute;
-            inset: 0;
+        .reveal-item {
             opacity: 0;
-            transition: opacity 2s ease-in-out;
-            background-size: cover;
-            background-position: center;
-        }
-        .slide.active {
-            opacity: 0.4;
+            animation: slideInUp 0.5s ease-out forwards;
         }
 
+        /* 3. Floating Animation untuk Hero Content */
         .content-frame {
             border: 2px solid rgba(255,215,0,0.3);
             padding: 3rem;
@@ -71,63 +54,31 @@
             border-radius: 4px;
             background: rgba(10,25,47,0.5);
             backdrop-filter: blur(8px);
+            animation: float 6s ease-in-out infinite;
         }
-        .content-frame::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            width: 40px;
-            height: 40px;
-            border-top: 4px solid var(--gold);
-            border-left: 4px solid var(--gold);
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        .content-frame::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            right: -10px;
-            width: 40px;
-            height: 40px;
-            border-bottom: 4px solid var(--gold);
-            border-right: 4px solid var(--gold);
-        }
+
+        /* ---------------------------- */
+
+        .slider-container { position: absolute; inset: 0; z-index: 0; }
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 2s ease-in-out; background-size: cover; background-position: center; }
+        .slide.active { opacity: 0.4; }
+
+        .content-frame::before { content: ''; position: absolute; top: -10px; left: -10px; width: 40px; height: 40px; border-top: 4px solid var(--gold); border-left: 4px solid var(--gold); }
+        .content-frame::after { content: ''; position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-bottom: 4px solid var(--gold); border-right: 4px solid var(--gold); }
 
         .bg-navy { background-color: var(--navy); }
         .text-gold { color: var(--gold); }
-        .bg-gold { background-color: var(--gold); }
+        .btn-gold { background-color: var(--gold); color: var(--navy); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(255,215,0,0.5); }
+
+        .loading-spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #fff; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         
-        .btn-gold { 
-            background-color: var(--gold);
-            color: var(--navy);
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-        }
-        .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -10px rgba(255,215,0,0.5);
-            filter: brightness(1.1);
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        #mobile-menu {
-            transition: transform 0.3s ease-in-out,opacity 0.3s ease-in-out;
-        }
-        #mobile-menu.hidden-menu {
-            transform: translateY(-10px);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .custom-shadow {
-            box-shadow: 0 20px 50px -12px rgba(0,0,0,0.1);
-        }
+        .custom-shadow { box-shadow: 0 20px 50px -12px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -144,29 +95,13 @@
                 </div>
                 
                 <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide items-center">
-                    <a href="#" class="hover:text-gold transition-colors text-white">Beranda</a>
-                    <a href="#tracking" class="hover:text-gold transition-colors text-white">Lacak Berkas</a>
-                    <a href="#stats" class="hover:text-gold transition-colors text-white">Dashboard GERCEP!</a>
+                    <a href="#" class="hover:text-gold transition-colors">Beranda</a>
+                    <a href="#tracking" class="hover:text-gold transition-colors">Lacak Berkas</a>
+                    <a href="#stats" class="hover:text-gold transition-colors">Dashboard GERCEP!</a>
                     <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" 
-                       class="bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full transition-all flex items-center gap-2">
-                         Konsultasi Online
-                    </a>
-                </div>
-
-                <div class="md:hidden">
-                    <button class="text-white p-2 focus:outline-none" id="mobile-menu-btn">
-                        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
+                       class="bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full transition-all">Konsultasi Online</a>
                 </div>
             </div>
-        </div>
-
-        <div id="mobile-menu" class="md:hidden hidden-menu absolute w-full bg-navy border-b border-white/10 px-4 py-6 space-y-4">
-            <a href="#" class="block text-lg font-medium hover:text-gold">Beranda</a>
-            <a href="#tracking" class="block text-lg font-medium hover:text-gold">Lacak Berkas</a>
-            <a href="#stats" class="block text-lg font-medium hover:text-gold">Dashboard GERCEP!</a>
-            <hr class="border-white/10">
-            <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="block text-gold font-bold">Konsultasi WhatsApp</a>
         </div>
     </nav>
 
@@ -175,21 +110,19 @@
             <div class="slide active" style="background-image: url('gercep wana biru.jpg');"></div>
             <div class="slide" style="background-image: url('alur gercep 3 hari kerja banner.jpg');"></div>
         </div>
-
         <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
-            <div class="text-white animate-fade-in max-w-3xl">
+            <div class="text-white max-w-3xl">
                 <div class="content-frame">
                     <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
-                    <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
-                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
+                    <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium">
+                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung. Kepastian jadwal dan update informasi real-time.
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                         <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
-                        <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Dashboard GERCEP!</a>
                     </div>
                 </div>
             </div>
@@ -201,56 +134,51 @@
             <div class="bg-white rounded-[2.5rem] custom-shadow p-8 md:p-14 border border-slate-100">
                 <div class="text-center mb-10">
                     <h2 class="text-3xl font-extrabold text-navy mb-3">Cek Status Berkas</h2>
-                    <p class="text-slate-500 font-medium">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
+                    <p class="text-slate-500 font-medium">Lacak progres berkas Anda di bawah ini.</p>
                 </div>
                 
                 <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="md:col-span-3 relative">
                         <input type="text" id="searchInput" placeholder="Contoh: 98/2026" required
-                            class="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-gold focus:ring-0 outline-none transition-all text-xl font-bold text-navy placeholder:text-slate-300">
+                            class="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-gold outline-none transition-all text-xl font-bold text-navy">
                         <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                     </div>
                     <button type="submit" id="searchBtn"
-                        class="w-full py-5 bg-navy text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-navy/20 transition-all flex items-center justify-center group relative overflow-hidden">
-                        <div id="btnContent" class="flex items-center">
-                            <span>Cari</span>
-                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </div>
-                        <div id="btnLoading" class="hidden">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        class="w-full py-5 bg-navy text-white rounded-2xl font-bold hover:shadow-lg flex items-center justify-center group relative overflow-hidden transition-all active:scale-95">
+                        <div id="btnContent">Cari Berkas</div>
+                        <div id="btnLoading" class="hidden"><div class="loading-spinner"></div></div>
                     </button>
                 </form>
 
-                <div id="loadingState" class="mt-12 hidden text-center">
-                    <div class="inline-block w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
-                    <p class="mt-4 text-slate-400 font-bold animate-pulse">MENCARI DATA...</p>
+                <div id="skeletonLoader" class="mt-12 space-y-8 hidden">
+                    <div class="h-12 w-full skeleton"></div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="h-20 skeleton"></div>
+                        <div class="h-20 skeleton"></div>
+                        <div class="h-20 skeleton"></div>
+                    </div>
+                    <div class="h-40 w-full skeleton"></div>
                 </div>
 
-                <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl border border-red-100 text-center animate-result">
+                <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl text-center">
                     <h3 class="text-lg font-bold text-red-800">Berkas Tidak Ditemukan</h3>
-                    <p class="text-red-600/70 text-sm mt-1">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
                 </div>
 
-                <div id="resultArea" class="mt-12 hidden opacity-0 translate-y-4">
+                <div id="resultArea" class="mt-12 hidden">
                     <div id="resultContent" class="space-y-6"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="stats" class="py-24 bg-white overflow-hidden scroll-mt-24">
+    <section id="stats" class="py-24 bg-white scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                 <div>
                     <span class="text-gold font-extrabold tracking-[0.2em] text-xs uppercase mb-3 block">Dashboard Terkini</span>
-                    <h2 class="text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">Kinerja Pengukuran</h2>
-                </div>
-                <div class="flex items-center space-x-2 text-slate-400 text-sm font-medium">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    <span>Pembaruan Real-time: <span id="lastUpdated">...</span></span>
+                    <h2 class="text-4xl lg:text-5xl font-extrabold text-navy">Kinerja Pengukuran</h2>
                 </div>
             </div>
 
@@ -258,294 +186,158 @@
                 <div class="lg:col-span-5 flex justify-center">
                     <div class="relative w-full max-w-[320px]">
                         <canvas id="performanceChart"></canvas>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
                             <span id="statTotalMiddle" class="text-4xl font-extrabold text-navy">0</span>
-                            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Total Berkas</span>
                         </div>
                     </div>
                 </div>
-                
-                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
-                        <div>
-                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Selesai</p>
-                            <span id="statSelesai" class="text-4xl font-black text-green-600 tracking-tighter">0</span>
-                        </div>
-                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4" id="statCards">
                     </div>
-                    
-                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
-                        <div>
-                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Dalam Proses</p>
-                            <span id="statProses" class="text-4xl font-black text-yellow-500 tracking-tighter">0</span>
-                        </div>
-                        <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
-                        <div>
-                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Kendala</p>
-                            <span id="statKendala" class="text-4xl font-black text-red-500 tracking-tighter">0</span>
-                        </div>
-                        <div class="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        </div>
-                    </div>
-                    
-                    <div class="p-6 bg-navy rounded-3xl shadow-xl flex items-center justify-between text-white transition-all hover:scale-[1.02]">
-                        <div>
-                            <p class="text-white/40 text-[10px] font-bold uppercase mb-1">Total Berkas</p>
-                            <span id="statTotal" class="text-4xl font-black text-white tracking-tighter">0</span>
-                        </div>
-                        <div class="w-12 h-12 bg-gold/20 text-gold rounded-xl flex items-center justify-center border border-gold/20">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-navy text-white pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-extrabold mb-8">Kantah Kota Bitung</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto mb-12">Jl. Stadion 2 Saudara, Manembo-nembo Tengah, Kec. Matuari, Kota Bitung, Sulawesi Utara.</p>
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-                <p>© 2026 Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung.</p>
-                <div class="flex gap-6">
-                    <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="text-gold font-bold">WhatsApp Admin</a>
-                </div>
-            </div>
-        </div>
+    <footer class="bg-navy text-white py-10 text-center">
+        <p class="text-slate-500 text-xs">© 2026 Kantah Kota Bitung - Seksi Survei dan Pemetaan</p>
     </footer>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-xl shadow-2xl text-xs font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-xl shadow-2xl opacity-0 transition-all z-[100] border border-gold/20">
         <span id="toast-msg"></span>
     </div>
 
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
 
-        // Slider Logic
+        // Slider
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
-        function nextSlide() {
+        setInterval(() => {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
-        }
-        setInterval(nextSlide,5000);
+        }, 5000);
 
-        // Menu Mobile
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-        menuBtn.addEventListener('click',() => {
-            const isHidden = menu.classList.contains('hidden-menu');
-            if (isHidden) {
-                menu.classList.remove('hidden-menu');
-                menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
-            } else {
-                menu.classList.add('hidden-menu');
-                menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
-            }
-        });
-
-        // Chart Logic
+        // Chart & Data
         let perfChart;
-        function initChart(dataValues = [0,0,0]) {
-            const ctx = document.getElementById('performanceChart').getContext('2d');
-            if(perfChart) perfChart.destroy();
-            perfChart = new Chart(ctx,{
-                type: 'doughnut',
-                data: {
-                    labels: ['Selesai','Proses','Kendala'],
-                    datasets: [{
-                        data: dataValues,
-                        backgroundColor: ['#16a34a','#eab308','#dc2626'],
-                        borderWidth: 0,
-                        borderRadius: 10,
-                        spacing: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    cutout: '85%'
-                }
-            });
-        }
-
         async function loadData() {
             try {
                 const response = await fetch(GAS_URL);
                 const data = await response.json();
-                
                 const stats = data.statistik[0];
-                const selesai = parseInt(stats.berkasSelesai || 0);
-                const proses = parseInt(stats.berkasDalamProses || 0);
-                const kendala = parseInt(stats.berkasKendala || 0);
-                const total = parseInt(stats.totalBerkas || (selesai + proses + kendala));
-
-                animateValue("statSelesai",0,selesai,1500);
-                animateValue("statProses",0,proses,1500);
-                animateValue("statKendala",0,kendala,1500);
-                animateValue("statTotal",0,total,1500);
-                
-                if(document.getElementById('statTotalMiddle')) document.getElementById('statTotalMiddle').innerText = total;
-                initChart([selesai,proses,kendala]);
-                
-                document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
                 window.globalInformasi = data.informasi;
-
-            } catch (err) {
-                console.error("Sync Error:",err);
-                document.getElementById('lastUpdated').innerText = 'Gagal sinkron';
-                showToast("Koneksi ke server bermasalah.");
-            }
+                
+                updateStatsUI(stats);
+                initChart([parseInt(stats.berkasSelesai), parseInt(stats.berkasDalamProses), parseInt(stats.berkasKendala)]);
+            } catch (e) { console.error(e); }
         }
 
-        function animateValue(id,start,end,duration) {
-            const obj = document.getElementById(id);
-            if(!obj) return;
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration,1);
-                obj.innerText = Math.floor(progress * (end - start) + start);
-                if (progress < 1) window.requestAnimationFrame(step);
-            };
-            window.requestAnimationFrame(step);
+        function updateStatsUI(s) {
+            const container = document.getElementById('statCards');
+            const items = [
+                { label: 'Selesai', val: s.berkasSelesai, color: 'text-green-600', bg: 'bg-green-100' },
+                { label: 'Proses', val: s.berkasDalamProses, color: 'text-yellow-500', bg: 'bg-yellow-100' },
+                { label: 'Kendala', val: s.berkasKendala, color: 'text-red-500', bg: 'bg-red-100' },
+                { label: 'Total', val: s.totalBerkas, color: 'text-white', bg: 'bg-navy', isTotal: true }
+            ];
+            
+            container.innerHTML = items.map((item, idx) => `
+                <div class="${item.isTotal ? 'bg-navy text-white shadow-xl scale-105' : 'bg-slate-50'} p-6 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-lg hover:-translate-y-1">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase opacity-60">${item.label}</p>
+                        <span class="text-4xl font-black ${item.color}">${item.val}</span>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('statTotalMiddle').innerText = s.totalBerkas;
         }
 
-        // SEARCH LOGIC + ANIMATION
-        document.getElementById('searchForm').addEventListener('submit', (e) => {
+        function initChart(vals) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            if(perfChart) perfChart.destroy();
+            perfChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { datasets: [{ data: vals, backgroundColor: ['#16a34a','#eab308','#dc2626'], borderWidth: 0, borderRadius: 10, spacing: 5 }] },
+                options: { cutout: '85%', plugins: { legend: { display: false } } }
+            });
+        }
+
+        // SEARCH LOGIC WITH SKELETON & STAGGERED REVEAL
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
             const resultArea = document.getElementById('resultArea');
-            const loading = document.getElementById('loadingState');
-            const notFound = document.getElementById('notFoundState');
+            const skeleton = document.getElementById('skeletonLoader');
             const btnContent = document.getElementById('btnContent');
             const btnLoading = document.getElementById('btnLoading');
+            const notFound = document.getElementById('notFoundState');
 
-            // Reset UI
-            resultArea.classList.add('hidden');
-            resultArea.classList.remove('animate-result');
-            notFound.classList.add('hidden');
-            
-            // Animasi Loading di Button
+            // 1. Start Loading
             btnContent.classList.add('hidden');
             btnLoading.classList.remove('hidden');
-            loading.classList.remove('hidden');
+            resultArea.classList.add('hidden');
+            notFound.classList.add('hidden');
+            skeleton.classList.remove('hidden');
 
-            // Scroll ke area loading
-            window.scrollTo({
-                top: document.getElementById('tracking').offsetTop - 100,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: document.getElementById('tracking').offsetTop - 100, behavior: 'smooth' });
 
+            // Simulasi delay biar skeleton terlihat (0.8 detik)
             setTimeout(() => {
-                loading.classList.add('hidden');
+                skeleton.classList.add('hidden');
                 btnContent.classList.remove('hidden');
                 btnLoading.classList.add('hidden');
-                
-                if(!window.globalInformasi) {
-                    showToast("Data belum siap, silakan refresh.");
-                    return;
-                }
 
-                const berkas = window.globalInformasi.find(item => 
+                const berkas = window.globalInformasi?.find(item => 
                     String(item.noBerkas).trim().toLowerCase() === input.toLowerCase()
                 );
 
                 if(berkas) {
                     renderResult(berkas);
                     resultArea.classList.remove('hidden');
-                    // Trigger animasi masuk
-                    void resultArea.offsetWidth; // Force reflow
-                    resultArea.classList.add('animate-result');
-                } else { 
-                    notFound.classList.remove('hidden'); 
-                    notFound.classList.add('animate-result');
+                    // Terapkan animasi staggered ke setiap item
+                    document.querySelectorAll('.reveal-item').forEach((el, i) => {
+                        el.style.animationDelay = `${i * 0.1}s`;
+                    });
+                } else {
+                    notFound.classList.remove('hidden');
                 }
             }, 800);
         });
 
         function renderResult(b) {
-            const nomorTujuan = b.kontakPetugasUkur || "6282353402431";
-            const waLink = `https://api.whatsapp.com/send?phone=${nomorTujuan.toString().replace(/[^0-9]/g, '')}&text=Halo,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
-            
             const item = (label, value, isBold = false) => `
-                <div class="space-y-1">
+                <div class="reveal-item space-y-1">
                     <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
-                    <p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p>
+                    <p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm text-center md:text-left">${value || '-'}</p>
                 </div>`;
             
             const html = `
                 <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
                     <div class="px-8 py-4 bg-navy text-white flex justify-between items-center">
                         <span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span>
-                        <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span>
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span><span class="text-[8px] font-black uppercase">Live Data</span></div>
                     </div>
                     <div class="p-8">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
                             ${item('No Berkas', b.noBerkas, true)}
                             ${item('Nama Pemohon', b.namaPemohon, true)}
                             ${item('Kelurahan', b.kelurahan, true)}
-                            ${item('Jenis Pelayanan', b.jenisPelayanan)}
-                            ${item('Posisi Berkas', b.posisiBerkas, true)}
-                            ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses', true)}
                         </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
-                            <div class="space-y-6">
-                                ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
-                                ${item('Petugas Ukur', b.namaPetugasUkur)}
-                                ${item('Petugas Terakhir', b.petugasTerakhir)}
-                                ${item('Estimasi Selesai', b.estimasiSelesai || b.estimasiBerkasSelesaiDiSeksiPengukuran, true)}
-                            </div>
-                            <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                ${item('Kontak Petugas', b.kontakPetugasUkur || '-')}
-                                ${item('Kendala', b.kendala || 'Nihil')}
-                                ${item('Tindak Lanjut', b.tindakLanjut || '-')}
-                                ${item('Keterangan', b.keterangan || '-')}
-                                ${item('Eviden Lapangan', b.eviden || '-')}
-                            </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-6">${item('Jadwal Ukur', b.jadwalPengukuran)}${item('Petugas', b.namaPetugasUkur)}${item('Posisi Berkas', b.posisiBerkas, true)}</div>
+                            <div class="bg-slate-50 p-6 rounded-2xl space-y-4">${item('Kendala', b.kendala || 'Nihil')}${item('Keterangan', b.keterangan)}</div>
                         </div>
-
-                        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
-                                </div>
-                                <p class="text-xs font-bold text-navy/70 uppercase tracking-tight">Butuh bantuan?</p>
-                            </div>
-                            <a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">
-                                Hubungi Petugas/Admin
+                        <div class="mt-8 flex justify-center">
+                            <a href="https://api.whatsapp.com/send?phone=${b.kontakPetugasUkur || '6282353402431'}" target="_blank" 
+                               class="reveal-item px-8 py-3 bg-green-500 text-white rounded-xl font-bold text-xs hover:bg-green-600 transition-all flex items-center gap-2">
+                               Hubungi Petugas
                             </a>
                         </div>
                     </div>
-                </div>
-            `;
+                </div>`;
             document.getElementById('resultContent').innerHTML = html;
         }
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            t.classList.remove('opacity-0','translate-y-4'); t.classList.add('opacity-100','translate-y-0');
-            setTimeout(() => { t.classList.add('opacity-0','translate-y-4'); t.classList.remove('opacity-100','translate-y-0'); },3500);
-        }
-
-        window.onload = () => { 
-            loadData(); 
-            initChart(); 
-        };
+        window.onload = loadData;
     </script>
 </body>
 </html>
