@@ -84,7 +84,7 @@
             transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
             width: 300%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
         }
-/* Pengaturan dasar untuk semua slide */
+/* 1. Aturan Dasar Slide (berlaku untuk semua) */
 .slide {
     width: 33.333%;
     height: 100%;
@@ -93,16 +93,27 @@
     background-repeat: no-repeat;
 }
 
-/* KHUSUS SLIDE 1 (Tampilan Awal): Tetap Cover agar penuh semayar */
+/* 2. KHUSUS Slide 1 (Tampilan Awal/Teks) */
+/* Kita tetap pakai 'cover' supaya background navy-nya memenuhi seluruh layar */
 .slide:nth-child(1) {
     background-size: cover;
 }
 
-/* KHUSUS SLIDE 2 & 3 (Gambar): Pakai Contain agar gambar utuh & nyatu */
-.slide:nth-child(2), 
-.slide:nth-child(3) {
-    background-size: contain; 
-    background-color: #0a5377; /* Kode warna yang kamu berikan */
+/* 3. KHUSUS Slide 2 (Gambar yang ada logo & gedung) */
+.slide:nth-child(2) {
+    background-size: contain; /* Supaya logo atas & tulisan bawah tidak terpotong */
+    background-color: #0a5377; /* Warna biru yang sama dengan gambar agar menyatu */
+    
+    /* OPSIONAL: Jika gambar masih terasa terlalu kecil, 
+       ubah 'contain' menjadi persentase, misal '110% auto' atau 'auto 90%' 
+       tapi 'contain' adalah yang paling aman agar tidak terpotong sama sekali. */
+}
+
+/* 4. Tambahan: Beri ruang di atas supaya logo tidak tertabrak Navbar */
+/* Jika section slider kamu punya class, tambahkan padding atas di kontainer utamanya */
+.slider-container {
+    padding-top: 50px; /* Sesuaikan dengan tinggi navbarmu */
+    box-sizing: border-box;
 }
 
 
