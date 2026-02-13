@@ -94,31 +94,32 @@
 
         .content-frame {
             border: 2px solid rgba(255,215,0,0.3);
-            padding: 3rem;
+            padding: 4rem;
             position: relative;
-            border-radius: 4px;
-            background: rgba(10,25,47,0.5);
-            backdrop-filter: blur(8px);
+            border-radius: 8px;
+            background: rgba(10,25,47,0.6);
+            backdrop-filter: blur(12px);
+            max-width: 900px;
         }
         .content-frame::before {
             content: '';
             position: absolute;
-            top: -10px;
-            left: -10px;
-            width: 40px;
-            height: 40px;
-            border-top: 4px solid var(--gold);
-            border-left: 4px solid var(--gold);
+            top: -15px;
+            left: -15px;
+            width: 60px;
+            height: 60px;
+            border-top: 5px solid var(--gold);
+            border-left: 5px solid var(--gold);
         }
         .content-frame::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            right: -10px;
-            width: 40px;
-            height: 40px;
-            border-bottom: 4px solid var(--gold);
-            border-right: 4px solid var(--gold);
+            bottom: -15px;
+            right: -15px;
+            width: 60px;
+            height: 60px;
+            border-bottom: 5px solid var(--gold);
+            border-right: 5px solid var(--gold);
         }
 
         .bg-navy { background-color: var(--navy); }
@@ -198,7 +199,7 @@
         </div>
     </nav>
 
-    <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
+    <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
         <div class="slider-container" id="mainSlider">
             <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
             <div class="slide" style="background-image: url('gercep_1.png');"></div>
@@ -208,44 +209,44 @@
         <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
-            <div id="heroTextContent" class="text-white animate-fade-in max-w-7xl w-full transition-all duration-700">
+            <div id="heroTextContent" class="text-white animate-fade-in transition-all duration-700">
                 <div class="content-frame hero-float">
-                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
+                    <h1 class="text-6xl lg:text-8xl font-extrabold leading-[1.1] mb-8 tracking-tighter">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
-                    <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
+                    <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium">
                         Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
                     </p>
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
-                        <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Dashboard GERCEP!</a>
+                    <div class="flex flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-6">
+                        <a href="#tracking" class="px-12 py-5 btn-gold rounded-2xl font-black uppercase text-sm tracking-widest text-center shadow-2xl">Mulai Lacak</a>
+                        <a href="#stats" class="px-12 py-5 border-2 border-white/40 hover:bg-white/10 rounded-2xl font-black uppercase text-sm tracking-widest transition-all text-center">Dashboard GERCEP!</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-<section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
+<section id="tracking" class="relative -mt-32 z-20 pb-24 scroll-mt-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-[2.5rem] custom-shadow p-8 md:p-14 border border-slate-100">
-                <div class="text-center mb-10">
-                    <h2 class="text-3xl font-extrabold text-navy mb-3">Cek Status Berkas</h2>
-                    <p class="text-slate-500 font-medium">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
+            <div class="bg-white rounded-[3rem] custom-shadow p-10 md:p-20 border border-slate-100">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-navy mb-4">Cek Status Berkas</h2>
+                    <p class="text-slate-500 text-lg font-medium">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
                 </div>
                 
-                <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="md:col-span-3 relative">
                         <input type="text" id="searchInput" placeholder="Contoh: 98/2026" required
-                            class="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-gold focus:ring-0 outline-none transition-all text-xl font-bold text-navy placeholder:text-slate-300">
-                        <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            class="w-full pl-16 pr-8 py-6 bg-slate-50 border-2 border-slate-100 rounded-[2rem] focus:border-gold focus:ring-0 outline-none transition-all text-2xl font-bold text-navy placeholder:text-slate-300">
+                        <div class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                     </div>
                     <button type="submit" id="searchBtn"
-                        class="w-full py-5 bg-navy text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-navy/20 transition-all flex items-center justify-center group relative overflow-hidden">
+                        class="w-full py-6 bg-navy text-white rounded-[2rem] font-bold text-xl hover:shadow-2xl hover:shadow-navy/30 transition-all flex items-center justify-center group relative overflow-hidden">
                         <div id="btnContent" class="flex items-center">
                             <span>Cari</span>
-                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            <svg class="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                         </div>
                         <div id="btnLoading" class="hidden">
                             <div class="loading-spinner"></div>
@@ -253,23 +254,23 @@
                     </button>
                 </form>
 
-                <div id="skeletonState" class="mt-12 hidden space-y-6">
-                    <div class="h-12 w-48 skeleton mx-auto md:mx-0"></div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="h-24 skeleton"></div>
-                        <div class="h-24 skeleton"></div>
-                        <div class="h-24 skeleton"></div>
+                <div id="skeletonState" class="mt-16 hidden space-y-8">
+                    <div class="h-16 w-64 skeleton mx-auto md:mx-0"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="h-32 skeleton"></div>
+                        <div class="h-32 skeleton"></div>
+                        <div class="h-32 skeleton"></div>
                     </div>
-                    <div class="h-64 skeleton w-full"></div>
+                    <div class="h-80 skeleton w-full"></div>
                 </div>
 
-                <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl border border-red-100 text-center animate-result">
-                    <h3 class="text-lg font-bold text-red-800">Berkas Tidak Ditemukan</h3>
-                    <p class="text-red-600/70 text-sm mt-1">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
+                <div id="notFoundState" class="mt-16 hidden p-12 bg-red-50 rounded-[2.5rem] border border-red-100 text-center animate-result">
+                    <h3 class="text-2xl font-bold text-red-800">Berkas Tidak Ditemukan</h3>
+                    <p class="text-red-600/70 text-lg mt-2">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
                 </div>
 
-                <div id="resultArea" class="mt-12 hidden">
-                    <div id="resultContent" class="space-y-6"></div>
+                <div id="resultArea" class="mt-16 hidden">
+                    <div id="resultContent" class="space-y-8"></div>
                 </div>
             </div>
         </div>
@@ -344,20 +345,20 @@
         </div>
     </section>
 
-    <footer class="bg-navy text-white pt-20 pb-10">
+   <footer class="bg-navy text-white pt-24 pb-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-extrabold mb-8">Kantah Kota Bitung</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto mb-12">Jl. Stadion 2 Saudara, Manembo-nembo Tengah, Kec. Matuari, Kota Bitung, Sulawesi Utara.</p>
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <h2 class="text-4xl font-extrabold mb-10">Kantah Kota Bitung</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-16 text-lg">Jl. Stadion 2 Saudara, Manembo-nembo Tengah, Kec. Matuari, Kota Bitung, Sulawesi Utara.</p>
+            <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-slate-500">
                 <p>© 2026 Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung.</p>
-                <div class="flex gap-6">
-                    <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="text-gold font-bold">WhatsApp Admin</a>
+                <div class="flex gap-8">
+                    <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="text-gold font-bold hover:underline">WhatsApp Admin</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-xl shadow-2xl text-xs font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-8 py-4 bg-navy text-gold rounded-2xl shadow-2xl text-sm font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
         <span id="toast-msg"></span>
     </div>
 
@@ -370,34 +371,26 @@
         let currentIdx = 0;
         const totalSlides = 3;
 
-    function nextSlide() {
-    currentIdx = (currentIdx + 1) % totalSlides;
+        function nextSlide() {
+            currentIdx = (currentIdx + 1) % totalSlides;
+            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-    // Geser slider background
-    sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
-
-    if (currentIdx !== 0) {
-        // Langsung hilangkan total
-        heroText.style.opacity = "0";
-        heroText.style.pointerEvents = "none";
-        
-        setTimeout(() => {
-            heroText.style.display = "none";
-        }, 400); // tunggu sedikit biar smooth
-    } else {
-        // Munculkan lagi saat kembali ke slide pertama
-        heroText.style.display = "block";
-
-        setTimeout(() => {
-            heroText.style.opacity = "1";
-            heroText.style.pointerEvents = "auto";
-        }, 50);
-    }
-}
+            if (currentIdx !== 0) {
+                heroText.style.opacity = "0";
+                heroText.style.pointerEvents = "none";
+                setTimeout(() => { heroText.style.display = "none"; }, 400);
+            } else {
+                heroText.style.display = "block";
+                setTimeout(() => {
+                    heroText.style.opacity = "1";
+                    heroText.style.pointerEvents = "auto";
+                }, 50);
+            }
+        }
 
         setInterval(nextSlide, 5000);
 
-        // Menu Mobile (Tidak Berubah)
+        // Menu Mobile
         const menuBtn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
@@ -412,7 +405,7 @@
             }
         });
 
-        // Chart Logic (Tidak Berubah)
+        // Chart Logic
         let perfChart;
         function initChart(dataValues = [0,0,0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -476,7 +469,7 @@
             window.requestAnimationFrame(step);
         }
 
-        // SEARCH LOGIC (Tidak Berubah)
+        // SEARCH LOGIC
         document.getElementById('searchForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
@@ -529,19 +522,19 @@
             const waLink = `https://api.whatsapp.com/send?phone=${nomorTujuan.toString().replace(/[^0-9]/g, '')}&text=Halo,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
             
             const item = (label, value, isBold = false) => `
-                <div class="reveal-item space-y-1">
-                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
-                    <p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center md:text-left">${value || '-'}</p>
+                <div class="reveal-item space-y-2">
+                    <p class="text-[11px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
+                    <p class="${isBold ? 'font-extrabold text-navy text-xl' : 'font-semibold text-slate-700 text-lg'} leading-snug text-center md:text-left">${value || '-'}</p>
                 </div>`;
             
             const html = `
-                <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm animate-result">
-                    <div class="px-8 py-4 bg-navy text-white flex justify-between items-center">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span>
-                        <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span>
+                <div class="bg-white rounded-[3rem] border-2 border-slate-100 overflow-hidden shadow-2xl animate-result">
+                    <div class="px-10 py-6 bg-navy text-white flex justify-between items-center">
+                        <span class="text-xs font-black uppercase tracking-[0.3em]">Detail Berkas Pelacakan</span>
+                        <span class="px-4 py-1.5 bg-gold text-navy rounded-full text-[10px] font-black uppercase shadow-lg">Data Terkini</span>
                     </div>
-                    <div class="p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
+                    <div class="p-12">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 pb-12 border-b-2 border-slate-50">
                             ${item('No Berkas', b.noBerkas, true)}
                             ${item('Nama Pemohon', b.namaPemohon, true)}
                             ${item('Kelurahan', b.kelurahan, true)}
@@ -550,14 +543,14 @@
                             ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses', true)}
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
-                            <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10 mb-12">
+                            <div class="space-y-8">
                                 ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
                                 ${item('Petugas Ukur', b.namaPetugasUkur)}
                                 ${item('Petugas Terakhir', b.petugasTerakhir)}
                                 ${item('Estimasi Selesai', b.estimasiSelesai || b.estimasiBerkasSelesaiDiSeksiPengukuran, true)}
                             </div>
-                            <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100 reveal-item">
+                            <div class="space-y-8 bg-slate-50 p-10 rounded-[2.5rem] border-2 border-slate-100 reveal-item">
                                 ${item('Kontak Petugas', b.kontakPetugasUkur || '-')}
                                 ${item('Kendala', b.kendala || 'Nihil')}
                                 ${item('Tindak Lanjut', b.tindakLanjut || '-')}
@@ -566,15 +559,15 @@
                             </div>
                         </div>
 
-                        <div class="reveal-item flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
+                        <div class="reveal-item flex flex-col sm:flex-row gap-6 items-center justify-between mt-8 bg-gold/10 p-8 rounded-[2rem]">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
                                 </div>
-                                <p class="text-xs font-bold text-navy/70 uppercase tracking-tight">Butuh bantuan?</p>
+                                <p class="text-sm font-black text-navy uppercase tracking-widest">Butuh Informasi Lebih Lanjut?</p>
                             </div>
-                            <a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">
-                                Hubungi Petugas/Admin
+                            <a href="${waLink}" target="_blank" class="px-10 py-5 bg-navy text-white rounded-[1.5rem] font-black text-sm tracking-widest hover:scale-105 transition-all shadow-xl flex items-center gap-3">
+                                HUBUNGI ADMIN SEKARANG
                             </a>
                         </div>
                     </div>
@@ -596,4 +589,4 @@
         };
     </script>
 </body>
-</html> (coba tolong hilangkan dari programku ini dan kirimkan ulang, ingat cukup hilangkan aja yang aku minta jangan menyentuh yang lain yaa) kalo dari kodeku ini, bagian mana ya ngatur nya)
+</html>
