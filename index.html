@@ -22,7 +22,7 @@
             background: linear-gradient(135deg,#0A192F 0%,#112240 100%);
         }
 
-        /* --- TAMBAHAN ANIMASI PREMIUM --- */
+        /* --- SKELETON & ANIMASI --- */
         .skeleton {
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
             background-size: 200% 100%;
@@ -50,7 +50,6 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
-        /* ---------------------------- */
 
         @keyframes resultReveal {
             from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
@@ -60,6 +59,16 @@
         .animate-result {
             animation: resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
+
+        /* --- DIGITAL WALL PROGRESS CSS --- */
+        .step-container { display: flex; justify-content: space-between; align-items: flex-start; position: relative; padding: 0 10px; }
+        .step-line { position: absolute; top: 18px; left: 40px; right: 40px; height: 3px; background: #e2e8f0; z-index: 0; }
+        .step-line-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--gold); transition: width 1s ease-in-out; width: 0%; }
+        .step-item { z-index: 10; text-align: center; width: 25%; position: relative; }
+        .step-circle { width: 36px; height: 36px; border-radius: 50%; background: white; border: 3px solid #e2e8f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: 800; transition: all 0.5s ease; color: #cbd5e1; font-size: 14px; }
+        .step-active .step-circle { background: var(--navy); color: var(--gold); border-color: var(--gold); box-shadow: 0 0 15px rgba(255,215,0,0.4); transform: scale(1.1); }
+        .step-active p { color: var(--navy); font-weight: 800; }
+        /* ---------------------------- */
 
         .loading-spinner {
             border: 3px solid rgba(255,255,255,0.3);
@@ -491,7 +500,6 @@
                     renderResult(berkas);
                     resultArea.classList.remove('hidden');
                     
-                    // Staggered Entrance Animation
                     document.querySelectorAll('.reveal-item').forEach((el, index) => {
                         el.style.animationDelay = (index * 0.08) + 's';
                     });
@@ -506,6 +514,39 @@
             const nomorTujuan = b.kontakPetugasUkur || "6282353402431";
             const waLink = `https://api.whatsapp.com/send?phone=${nomorTujuan.toString().replace(/[^0-9]/g, '')}&text=Halo,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
             
+            // LOGIKA WALL PROGRESS (NO 2)
+            const posisi = (b.posisiBerkas || "").toLowerCase();
+            let step = 1;
+            let progressWidth = "0%";
+
+            if (posisi.includes("ukur") || posisi.includes("lapangan")) { step = 2; progressWidth = "33%"; }
+            else if (posisi.includes("peta") || posisi.includes("sps") || posisi.includes("periksa")) { step = 3; progressWidth = "66%"; }
+            else if (posisi.includes("loket") || posisi.includes("serah") || posisi.includes("selesai")) { step = 4; progressWidth = "100%"; }
+
+            const wallProgress = `
+                <div class="reveal-item mb-12 relative pt-4 px-4">
+                    <div class="step-line"><div class="step-line-fill" style="width: ${progressWidth}"></div></div>
+                    <div class="step-container">
+                        <div class="step-item ${step >= 1 ? 'step-active' : ''}">
+                            <div class="step-circle">1</div>
+                            <p class="text-[9px] uppercase tracking-tighter">Pendaftaran</p>
+                        </div>
+                        <div class="step-item ${step >= 2 ? 'step-active' : ''}">
+                            <div class="step-circle">2</div>
+                            <p class="text-[9px] uppercase tracking-tighter">Pengukuran</p>
+                        </div>
+                        <div class="step-item ${step >= 3 ? 'step-active' : ''}">
+                            <div class="step-circle">3</div>
+                            <p class="text-[9px] uppercase tracking-tighter">Pemetaan</p>
+                        </div>
+                        <div class="step-item ${step >= 4 ? 'step-active' : ''}">
+                            <div class="step-circle">4</div>
+                            <p class="text-[9px] uppercase tracking-tighter">Selesai</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
             const item = (label, value, isBold = false) => `
                 <div class="reveal-item space-y-1">
                     <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
@@ -519,6 +560,8 @@
                         <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span>
                     </div>
                     <div class="p-8">
+                        ${wallProgress}
+
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
                             ${item('No Berkas', b.noBerkas, true)}
                             ${item('Nama Pemohon', b.namaPemohon, true)}
