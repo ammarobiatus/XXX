@@ -370,36 +370,24 @@
         let currentIdx = 0;
         const totalSlides = 3;
 
-      function nextSlide() {
-    currentIdx = (currentIdx + 1) % totalSlides;
-    
-    // 1. Geser background (slider tetap jalan)
-    sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
-    
-    // 2. Logika Anti-Menimpa: Pakai display none agar teks benar-benar hilang dari layar
-    if (currentIdx !== 0) {
-        // Efek transisi keluar dulu
-        heroText.style.opacity = "0";
-        heroText.style.transform = "translateY(20px)";
-        heroText.style.pointerEvents = "none";
-        
-        // Setelah transisi selesai sedikit, buat dia benar-benar 'hilang' secara fisik
-        setTimeout(() => {
-            if(currentIdx !== 0) heroText.style.display = "none";
-        }, 500); 
-    } else {
-        // Munculkan kembali secara fisik hanya di slide pertama
-        heroText.style.display = "block";
-        
-        // Trigger sedikit delay agar animasi fade-in tetap terlihat smooth
-        setTimeout(() => {
-            heroText.style.opacity = "1";
-            heroText.style.pointerEvents = "auto";
-            heroText.style.transform = "translateY(0)";
-        }, 50);
-    }
-}
-setInterval(nextSlide, 5000);
+         function nextSlide() {
+            currentIdx = (currentIdx + 1) % totalSlides;
+            
+            // Geser background
+            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
+            
+            // Sembunyikan teks jika sedang di slide gambar (index 1 & 2), tampilkan jika di slide teks (index 0)
+            if (currentIdx !== 0) {
+                heroText.style.opacity = "0";
+                heroText.style.pointerEvents = "none";
+                heroText.style.transform = "translateY(20px)";
+            } else {
+                heroText.style.opacity = "1";
+                heroText.style.pointerEvents = "auto";
+                heroText.style.transform = "translateY(0)";
+            }
+        }
+        setInterval(nextSlide, 5000); 
 
         // Menu Mobile (Tidak Berubah)
         const menuBtn = document.getElementById('mobile-menu-btn');
