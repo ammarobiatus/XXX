@@ -370,23 +370,26 @@
         let currentIdx = 0;
         const totalSlides = 3;
 
-        function nextSlide() {
-            currentIdx = (currentIdx + 1) % totalSlides;
-            
-            // Geser background
-            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
-            
-            // Sembunyikan teks jika sedang di slide gambar (index 1 & 2), tampilkan jika di slide teks (index 0)
-            if (currentIdx !== 0) {
-                heroText.style.opacity = "0";
-                heroText.style.pointerEvents = "none";
-                heroText.style.transform = "translateY(20px)";
-            } else {
-                heroText.style.opacity = "1";
-                heroText.style.pointerEvents = "auto";
-                heroText.style.transform = "translateY(0)";
-            }
-        }
+       function nextSlide() {
+    currentIdx = (currentIdx + 1) % totalSlides;
+
+    // Geser background
+    sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
+
+    if (currentIdx !== 0) {
+        // IKUT GESER KE KIRI + FADE OUT
+        heroText.style.transition = "all 0.8s ease";
+        heroText.style.opacity = "0";
+        heroText.style.transform = "translateX(-100px)";
+        heroText.style.pointerEvents = "none";
+    } else {
+        // KEMBALI NORMAL
+        heroText.style.transition = "all 0.8s ease";
+        heroText.style.opacity = "1";
+        heroText.style.transform = "translateX(0)";
+        heroText.style.pointerEvents = "auto";
+    }
+}
         setInterval(nextSlide, 5000);
 
         // Menu Mobile (Tidak Berubah)
