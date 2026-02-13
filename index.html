@@ -84,19 +84,25 @@
             transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
             width: 300%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
         }
+/* Pengaturan dasar untuk semua slide */
 .slide {
     width: 33.333%;
     height: 100%;
-    /* 1. Ganti 'cover' menjadi 'contain' agar gambar tidak terpotong */
-    background-size: contain; 
-    /* 2. Pastikan gambar tidak mengulang (repeat) */
-    background-repeat: no-repeat;
-    /* 3. Posisikan gambar di tengah */
-    background-position: center;
-    /* 4. Berikan warna latar belakang yang sama dengan warna biru di gambarmu */
-    /* Berdasarkan gambar, kode warnanya sekitar #0b4a74 atau menyesuaikan var(--navy) */
-    background-color: #0b4a74; 
     flex-shrink: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* KHUSUS SLIDE 1 (Tampilan Awal): Tetap Cover agar penuh semayar */
+.slide:nth-child(1) {
+    background-size: cover;
+}
+
+/* KHUSUS SLIDE 2 & 3 (Gambar): Pakai Contain agar gambar utuh & nyatu */
+.slide:nth-child(2), 
+.slide:nth-child(3) {
+    background-size: contain; 
+    background-color: #0a5377; /* Kode warna yang kamu berikan */
 }
 
 
