@@ -225,6 +225,233 @@
         </div>
     </section>
 
+   <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>GERCEP - Gerak Cepat Pengukuran | Kantah Kota Bitung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0A192F;
+            --gold: #FFD700;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans',sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg,#0A192F 0%,#112240 100%);
+        }
+
+        /* --- TAMBAHAN ANIMASI PREMIUM --- */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 12px;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal-item {
+            opacity: 0;
+            animation: slideUpFade 0.5s ease-out forwards;
+        }
+
+        .hero-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        /* ---------------------------- */
+
+        @keyframes resultReveal {
+            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        
+        .animate-result {
+            animation: resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* MODIFIKASI SLIDER UNTUK EFEK GESER */
+        .slider-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            display: flex;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            width: 300%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
+        }
+        .slide {
+            width: 33.333%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .content-frame {
+            border: 2px solid rgba(255,215,0,0.3);
+            padding: 3rem;
+            position: relative;
+            border-radius: 4px;
+            background: rgba(10,25,47,0.5);
+            backdrop-filter: blur(8px);
+        }
+        .content-frame::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 40px;
+            height: 40px;
+            border-top: 4px solid var(--gold);
+            border-left: 4px solid var(--gold);
+        }
+        .content-frame::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            border-bottom: 4px solid var(--gold);
+            border-right: 4px solid var(--gold);
+        }
+
+        .bg-navy { background-color: var(--navy); }
+        .text-gold { color: var(--gold); }
+        .bg-gold { background-color: var(--gold); }
+        
+        .btn-gold { 
+            background-color: var(--gold);
+            color: var(--navy);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(255,215,0,0.5);
+            filter: brightness(1.1);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out,opacity 0.3s ease-in-out;
+        }
+        #mobile-menu.hidden-menu {
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .custom-shadow {
+            box-shadow: 0 20px 50px -12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3 group cursor-pointer" onclick="window.location.reload()">
+                    <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center font-extrabold text-navy transition-transform group-hover:rotate-12">G</div>
+                    <div class="leading-tight">
+                        <span class="text-xl font-bold tracking-tighter italic block">GERCEP</span>
+                        <span class="text-gold font-semibold text-[10px] uppercase tracking-widest">Kota Bitung</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide items-center">
+                    <a href="#" class="hover:text-gold transition-colors text-white">Beranda</a>
+                    <a href="#tracking" class="hover:text-gold transition-colors text-white">Lacak Berkas</a>
+                    <a href="#stats" class="hover:text-gold transition-colors text-white">Dashboard GERCEP!</a>
+                    <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" 
+                       class="bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full transition-all flex items-center gap-2">
+                         Konsultasi Online
+                    </a>
+                </div>
+
+                <div class="md:hidden">
+                    <button class="text-white p-2 focus:outline-none" id="mobile-menu-btn">
+                        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden hidden-menu absolute w-full bg-navy border-b border-white/10 px-4 py-6 space-y-4">
+            <a href="#" class="block text-lg font-medium hover:text-gold">Beranda</a>
+            <a href="#tracking" class="block text-lg font-medium hover:text-gold">Lacak Berkas</a>
+            <a href="#stats" class="block text-lg font-medium hover:text-gold">Dashboard GERCEP!</a>
+            <hr class="border-white/10">
+            <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="block text-gold font-bold">Konsultasi WhatsApp</a>
+        </div>
+    </nav>
+
+    <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
+        <div class="slider-container" id="mainSlider">
+            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
+            <div class="slide" style="background-image: url('gercep_1.png');"></div>
+            <div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
+        </div>
+
+        <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
+           <div id="heroTextContent" class="text-white animate-fade-in max-w-3xl transition-all duration-700">
+                <div class="content-frame"> 
+                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
+                        Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
+                    </h1>
+                    <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
+                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
+                        <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Dashboard GERCEP!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
         <div class="max-w-5xl mx-auto px-4">
             <div class="bg-white rounded-[2.5rem] custom-shadow p-8 md:p-14 border border-slate-100">
@@ -376,7 +603,8 @@
             // Geser background
             sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
             
-            // Sembunyikan teks jika sedang di slide gambar (index 1 & 2), tampilkan jika di slide teks (index 0)
+            // LOGIKA PERBAIKAN: Teks hanya muncul di slide 0 (dengan background biru)
+            // Di slide 1 dan 2, teks akan menghilang (opacity 0) agar tidak menimpa gambar.
             if (currentIdx !== 0) {
                 heroText.style.opacity = "0";
                 heroText.style.pointerEvents = "none";
@@ -389,7 +617,7 @@
         }
         setInterval(nextSlide, 5000);
 
-        // Menu Mobile (Tidak Berubah)
+        // Menu Mobile
         const menuBtn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
@@ -404,7 +632,7 @@
             }
         });
 
-        // Chart Logic (Tidak Berubah)
+        // Chart Logic
         let perfChart;
         function initChart(dataValues = [0,0,0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -468,7 +696,7 @@
             window.requestAnimationFrame(step);
         }
 
-        // SEARCH LOGIC (Tidak Berubah)
+        // SEARCH LOGIC
         document.getElementById('searchForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
