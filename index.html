@@ -87,32 +87,19 @@
 .slide {
     width: 33.333%;
     height: 100%;
-    position: relative;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.slide::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: inherit;
     background-size: cover;
+    /* 1. Ganti 'cover' menjadi 'contain' agar gambar tidak terpotong */
+    background-size: contain; 
+    /* 2. Pastikan gambar tidak mengulang (repeat) */
+    background-repeat: no-repeat;
+    /* 3. Posisikan gambar di tengah */
     background-position: center;
-    filter: blur(40px);
-    transform: scale(1.2);
-    z-index: 0;
+    /* 4. Berikan warna latar belakang yang sama dengan warna biru di gambarmu */
+    /* Berdasarkan gambar, kode warnanya sekitar #0b4a74 atau menyesuaikan var(--navy) */
+    background-color: #0b4a74; 
     flex-shrink: 0;
 }
 
-.slide {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
 
 
         .content-frame {
