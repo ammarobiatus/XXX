@@ -370,26 +370,31 @@
         let currentIdx = 0;
         const totalSlides = 3;
 
-       function nextSlide() {
+    function nextSlide() {
     currentIdx = (currentIdx + 1) % totalSlides;
 
-    // Geser background
+    // Geser slider background
     sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
     if (currentIdx !== 0) {
-        // IKUT GESER KE KIRI + FADE OUT
-        heroText.style.transition = "all 0.8s ease";
+        // Langsung hilangkan total
         heroText.style.opacity = "0";
-        heroText.style.transform = "translateX(-100px)";
         heroText.style.pointerEvents = "none";
+        
+        setTimeout(() => {
+            heroText.style.display = "none";
+        }, 400); // tunggu sedikit biar smooth
     } else {
-        // KEMBALI NORMAL
-        heroText.style.transition = "all 0.8s ease";
-        heroText.style.opacity = "1";
-        heroText.style.transform = "translateX(0)";
-        heroText.style.pointerEvents = "auto";
+        // Munculkan lagi saat kembali ke slide pertama
+        heroText.style.display = "block";
+
+        setTimeout(() => {
+            heroText.style.opacity = "1";
+            heroText.style.pointerEvents = "auto";
+        }, 50);
     }
 }
+
         setInterval(nextSlide, 5000);
 
         // Menu Mobile (Tidak Berubah)
