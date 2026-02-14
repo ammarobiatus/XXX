@@ -30,15 +30,19 @@
     display: flex;
     transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     width: 500%;
+           height: 100%;
 }
 
-    .slide {
+ .slide {
     width: 20%;
     height: 100%;
     background-size: cover;
     background-position: center;
     flex-shrink: 0;
+    /* Tambahkan ini */
+    position: relative; 
 }
+
 
         .slide.active {
             opacity: 0.4;
