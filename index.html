@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+2222222222222<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -46,35 +46,39 @@
         }
 
         /* Modern Box Frame */
+      /* Kotak Frame Transparan dengan Aksen Sudut */
         .content-frame {
-            border: 2px solid rgba(255,215,0,0.3);
-            padding: 3rem;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 4rem;
             position: relative;
+            background: rgba(10, 25, 47, 0.4);
+            backdrop-filter: blur(10px);
             border-radius: 4px;
-            background: rgba(10,25,47,0.5);
-            backdrop-filter: blur(8px);
         }
+
+        /* Aksen Sudut Kuning (Atas Kiri) */
         .content-frame::before {
             content: '';
             position: absolute;
-            top: -10px;
-            left: -10px;
-            width: 40px;
-            height: 40px;
-            border-top: 4px solid var(--gold);
-            border-left: 4px solid var(--gold);
+            top: -5px;
+            left: -5px;
+            width: 30px;
+            height: 30px;
+            border-top: 4px solid #FFD700;
+            border-left: 4px solid #FFD700;
         }
+
+        /* Aksen Sudut Kuning (Bawah Kanan) */
         .content-frame::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            right: -10px;
-            width: 40px;
-            height: 40px;
-            border-bottom: 4px solid var(--gold);
-            border-right: 4px solid var(--gold);
+            bottom: -5px;
+            right: -5px;
+            width: 30px;
+            height: 30px;
+            border-bottom: 4px solid #FFD700;
+            border-right: 4px solid #FFD700;
         }
-
         .bg-navy { background-color: var(--navy); }
         .text-gold { color: var(--gold); }
         .bg-gold { background-color: var(--gold); }
@@ -155,37 +159,37 @@
 
 
     <!-- Hero Section -->
- <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
-    <div class="slider-container" id="mainSlider">
-        <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');">
-            <div class="h-full flex items-center justify-center lg:justify-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-white animate-fade-in max-w-3xl">
-                    <div class="content-frame">
-                        <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
-                            Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
-                        </h1>
-                        <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
-                            Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung...
-                        </p>
-                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                            <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
-                            <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Dashboard GERCEP!</a>
-                        </div>
-                    </div>
+<section class="relative h-screen min-h-[700px] flex items-center overflow-hidden hero-gradient">
+        <div class="slider-container" id="mainSlider">
+            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.6), rgba(10,25,47,0.6)), url('gercep wana biru.jpg');"></div>
+            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.6), rgba(10,25,47,0.6)), url('Gercep_2026.jpg');"></div>
+            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.6), rgba(10,25,47,0.6)), url('gercep_2.jpeg');"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+            <div class="inline-block content-frame animate-fade-in">
+                <h1 class="text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-4 tracking-tighter">
+                    Gerak Cepat <br>
+                    <span class="text-[#FFD700] italic">Pengukuran</span>
+                </h1>
+                
+                <p class="text-lg lg:text-xl text-slate-200 mb-10 max-w-xl leading-relaxed">
+                    Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#tracking" class="px-10 py-4 bg-[#FFD700] text-[#0A192F] rounded-xl font-bold uppercase text-xs tracking-widest text-center hover:scale-105 transition-transform shadow-lg shadow-yellow-500/20">
+                        Mulai Lacak
+                    </a>
+                    <a href="#stats" class="px-10 py-4 border border-white/40 text-white hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest text-center transition-all">
+                        Dashboard GERCEP!
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="slide" style="background-color: #3666bf; background-image: url('Gercep_2026.jpg'); background-size: 62%; background-position: 50% 41%; background-repeat: no-repeat;">
-             </div>
-
-        <div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
-        <div class="slide" style="background-image: url('gercep3.jpeg');"></div>
-        <div class="slide" style="background-image: url('Gercep_4.jpeg');"></div>
-    </div>
-
-    <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1 pointer-events-none"></div>
-</section>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f8fafc] z-1 pointer-events-none"></div>
+    </section>
 
     <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
@@ -339,6 +343,7 @@ function nextSlide() {
 }
 
         setInterval(nextSlide,5000);
+        
 
         // UI Interactions (Menu Mobile)
         const menuBtn = document.getElementById('mobile-menu-btn');
