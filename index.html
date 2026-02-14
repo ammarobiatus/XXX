@@ -33,56 +33,63 @@
            height: 100%;
 }
 
-   .slide {
-            width: 20%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            flex-shrink: 0;
-        }
+ .slide {
+    width: 20%;
+.slide {
+    width: 20%; /* Karena ada 5 slide, maka 100/5 = 20% */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    /* Tambahkan ini */
+    position: relative; 
+    position: relative;
+    
+    /* INI KUNCI BIAR RAPI: */
+    display: flex;           /* Aktifkan mode flex */
+    align-items: center;     /* Center secara vertikal */
+    justify-content: center; /* Center secara horizontal */
+}
+
 
         .slide.active {
             opacity: 0.4;
         }
 
         /* Modern Box Frame */
-      /* Kotak Frame Transparan dengan Aksen Sudut */
         .content-frame {
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 4rem;
+            border: 2px solid rgba(255,215,0,0.3);
+            padding: 3rem;
             position: relative;
-            background: rgba(10, 25, 47, 0.4);
-            backdrop-filter: blur(10px);
             border-radius: 4px;
+            background: rgba(10,25,47,0.5);
+            backdrop-filter: blur(8px);
         }
-
-        /* Aksen Sudut Kuning (Atas Kiri) */
         .content-frame::before {
             content: '';
             position: absolute;
-            top: -5px;
-            left: -5px;
-            width: 30px;
-            height: 30px;
-            border-top: 4px solid #FFD700;
-            border-left: 4px solid #FFD700;
+            top: -10px;
+            left: -10px;
+            width: 40px;
+            height: 40px;
+            border-top: 4px solid var(--gold);
+            border-left: 4px solid var(--gold);
         }
-
-        /* Aksen Sudut Kuning (Bawah Kanan) */
         .content-frame::after {
             content: '';
             position: absolute;
-            bottom: -5px;
-            right: -5px;
-            width: 30px;
-            height: 30px;
-            border-bottom: 4px solid #FFD700;
-            border-right: 4px solid #FFD700;
+            bottom: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            border-bottom: 4px solid var(--gold);
+            border-right: 4px solid var(--gold);
         }
+
         .bg-navy { background-color: var(--navy); }
         .text-gold { color: var(--gold); }
         .bg-gold { background-color: var(--gold); }
-        
+
         .btn-gold { 
             background-color: var(--gold);
             color: var(--navy);
@@ -129,7 +136,7 @@
                         <span class="text-gold font-semibold text-[10px] uppercase tracking-widest">Kota Bitung</span>
                     </div>
                 </div>
-                
+
                 <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide items-center">
                     <a href="#" class="hover:text-gold transition-colors text-white">Beranda</a>
                     <a href="#tracking" class="hover:text-gold transition-colors text-white">Lacak Berkas</a>
@@ -159,37 +166,37 @@
 
 
     <!-- Hero Section -->
-<section class="relative h-screen min-h-[700px] flex items-center overflow-hidden hero-gradient">
-        <div class="slider-container" id="mainSlider">
-            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.6), rgba(10,25,47,0.6)), url('gercep wana biru.jpg');"></div>
-            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.6), rgba(10,25,47,0.6)), url('Gercep_2026.jpg');"></div>
-            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.6), rgba(10,25,47,0.6)), url('gercep_2.jpeg');"></div>
-        </div>
-
-        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
-            <div class="inline-block content-frame animate-fade-in">
-                <h1 class="text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-4 tracking-tighter">
-                    Gerak Cepat <br>
-                    <span class="text-[#FFD700] italic">Pengukuran</span>
-                </h1>
-                
-                <p class="text-lg lg:text-xl text-slate-200 mb-10 max-w-xl leading-relaxed">
-                    Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time.
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#tracking" class="px-10 py-4 bg-[#FFD700] text-[#0A192F] rounded-xl font-bold uppercase text-xs tracking-widest text-center hover:scale-105 transition-transform shadow-lg shadow-yellow-500/20">
-                        Mulai Lacak
-                    </a>
-                    <a href="#stats" class="px-10 py-4 border border-white/40 text-white hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest text-center transition-all">
-                        Dashboard GERCEP!
-                    </a>
+ <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
+    <div class="slider-container" id="mainSlider">
+        <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');">
+            <div class="h-full flex items-center justify-center lg:justify-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-white animate-fade-in max-w-3xl">
+                    <div class="content-frame">
+                        <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
+                            Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
+                        </h1>
+                        <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
+                            Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung...
+                        </p>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
+                            <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Dashboard GERCEP!</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f8fafc] z-1 pointer-events-none"></div>
-    </section>
+        <div class="slide" style="background-color: #3666bf; background-image: url('Gercep_2026.jpg'); background-size: 62%; background-position: 50% 41%; background-repeat: no-repeat;">
+             </div>
+
+        <div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
+        <div class="slide" style="background-image: url('gercep3.jpeg');"></div>
+        <div class="slide" style="background-image: url('Gercep_4.jpeg');"></div>
+    </div>
+
+    <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1 pointer-events-none"></div>
+</section>
 
     <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
@@ -199,7 +206,7 @@
                     <h2 class="text-3xl font-extrabold text-navy mb-3 text-center">Cek Status Berkas</h2>
                     <p class="text-slate-500 font-medium text-center">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
                 </div>
-                
+
                 <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="md:col-span-3 relative">
                         <input type="text" id="searchInput" placeholder="Contoh: 98/2026" required
@@ -256,7 +263,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Stats Indicators -->
                 <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Berkas Selesai -->
@@ -269,7 +276,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </div>
                     </div>
-                    
+
                     <!-- Berkas Dalam Proses -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
@@ -280,7 +287,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                     </div>
-                    
+
                     <!-- Berkas Kendala -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
@@ -291,7 +298,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         </div>
                     </div>
-                    
+
                     <!-- Total Berkas -->
                     <div class="p-6 bg-navy rounded-3xl shadow-xl flex items-center justify-between text-white transition-all hover:scale-[1.02]">
                         <div>
@@ -343,7 +350,6 @@ function nextSlide() {
 }
 
         setInterval(nextSlide,5000);
-        
 
         // UI Interactions (Menu Mobile)
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -361,7 +367,7 @@ function nextSlide() {
             }
         });
 
-     
+
         let perfChart;
         function initChart(dataValues = [0,0,0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -400,7 +406,7 @@ function nextSlide() {
                 const response = await fetch(API_STATS);
                 if (!response.ok) throw new Error("Gagal mengambil data");
                 const json = await response.json();
-                
+
                 // Mendapatkan baris pertama dari sheet statistikBerkasPengukuran
                 const stats = json.statistikBerkasPengukuran[0];
                 if (!stats) throw new Error("Data spreadsheet kosong");
@@ -416,12 +422,12 @@ function nextSlide() {
                 animateValue("statProses",0,proses,1500);
                 animateValue("statKendala",0,kendala,1500);
                 animateValue("statTotal",0,total,1500);
-                
+
                 const middleStat = document.getElementById('statTotalMiddle');
                 if(middleStat) middleStat.innerText = total;
 
                 initChart([selesai,proses,kendala]);
-                
+
                 const lastUpdated = document.getElementById('lastUpdated');
                 if(lastUpdated) lastUpdated.innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
             } catch (err) {
