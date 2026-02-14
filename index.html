@@ -23,18 +23,20 @@
         }
 
         /* Cinematic Background Slider */
-        .slider-container {
+               .slider-container {
             position: absolute;
             inset: 0;
             z-index: 0;
+            display: flex;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            width: 500%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
         }
         .slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
+            width: 20%;
+            height: 100%;
             background-size: cover;
             background-position: center;
+            flex-shrink: 0;
         }
         .slide.active {
             opacity: 0.4;
@@ -147,6 +149,24 @@
             <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="block text-gold font-bold">Konsultasi WhatsApp</a>
         </div>
     </nav>
+   <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
+        
+    <div class="slider-container" id="mainSlider">
+    <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg'); background-size: cover; background-position: center;"></div>
+    
+    <div class="slide" style="
+        background-color: #3666bf;
+        background-image: url('Gercep_2026.jpg'); 
+        background-size: 62%; 
+        background-position: 50% 41%; 
+        background-repeat: no-repeat;">
+    </div>
+
+    <div class="slide" style="background-image: url('gercep_2.jpeg'); background-size: cover; background-position: center;"></div>
+    <div class="slide" style="background-image: url('gercep3.jpeg'); background-size: cover; background-position: center;"></div>
+     <div class="slide" style="background-image: url('Gercep_4.jpeg'); background-size: cover; background-position: center;"></div>
+
+    </div>
 
     <!-- Hero Section -->
     <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
