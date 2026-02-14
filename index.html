@@ -168,14 +168,6 @@
 
     </div>
 
-    <!-- Hero Section -->
-    <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
-        <!-- Cinematic Background Slides -->
-        <div class="slider-container">
-            <div class="slide active" style="background-image: url('gercep wana biru.jpg');"></div>
-            <div class="slide" style="background-image: url('alur gercep 3 hari kerja banner.jpg');"></div>
-        </div>
-
         <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
@@ -336,27 +328,14 @@
       const GAS_URL = "https://script.google.com/macros/s/AKfycbw_tum_y1SrXAg3Fo_gjtSY1GTWLLR0p68JwZmHkTCnrSWOrjsPF1oMrunHMgOUG4qjbA/exec";
         
      const sliderContainer = document.getElementById('mainSlider');
-        const heroText = document.getElementById('heroTextContent');
+      
         let currentIdx = 0;
         const totalSlides = 5;
 
         function nextSlide() {
-            currentIdx = (currentIdx + 1) % totalSlides;
-            sliderContainer.style.transform = translateX(-${(currentIdx * 100) / totalSlides}%);
-
-            if (currentIdx !== 0) {
-                heroText.style.opacity = "0";
-                heroText.style.pointerEvents = "none";
-                setTimeout(() => { heroText.style.display = "none"; }, 400);
-            } else {
-                heroText.style.display = "block";
-                setTimeout(() => {
-                    heroText.style.opacity = "1";
-                    heroText.style.pointerEvents = "auto";
-                }, 50);
-            }
-        }
-
+    currentIdx = (currentIdx + 1) % totalSlides;
+    sliderContainer.style.transform = `translateX(-${currentIdx * 20}%)`;
+}
         setInterval(nextSlide, 5000);
 
         // UI Interactions (Menu Mobile)
