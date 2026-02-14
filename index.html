@@ -23,19 +23,23 @@
         }
 
         /* Cinematic Background Slider */
-        .slider-container {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-        .slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-            background-size: cover;
-            background-position: center;
-        }
+      .slider-container {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    width: 500%;
+}
+
+    .slide {
+    width: 20%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
         .slide.active {
             opacity: 0.4;
         }
@@ -147,14 +151,70 @@
             <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="block text-gold font-bold">Konsultasi WhatsApp</a>
         </div>
     </nav>
+    <div class="slider-container" id="mainSlider">
+
+    <div class="slide"
+         style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');
+                background-size: cover;
+                background-position: center;">
+    </div>
+
+    <div class="slide"
+         style="background-color: #3666bf;
+                background-image: url('Gercep_2026.jpg');
+                background-size: 62%;
+                background-position: 50% 41%;
+                background-repeat: no-repeat;">
+    </div>
+
+    <div class="slide"
+         style="background-image: url('gercep_2.jpeg');
+                background-size: cover;
+                background-position: center;">
+    </div>
+
+</div>
+
 
     <!-- Hero Section -->
-    <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
-        <!-- Cinematic Background Slides -->
-        <div class="slider-container">
-            <div class="slide active" style="background-image: url('gercep wana biru.jpg');"></div>
-            <div class="slide" style="background-image: url('alur gercep 3 hari kerja banner.jpg');"></div>
+  <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
+
+    <div class="slider-container" id="mainSlider">
+
+        <div class="slide"
+             style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');
+                    background-size: cover;
+                    background-position: center;">
         </div>
+
+        <div class="slide"
+             style="background-color: #3666bf;
+                    background-image: url('Gercep_2026.jpg');
+                    background-size: 62%;
+                    background-position: 50% 41%;
+                    background-repeat: no-repeat;">
+        </div>
+
+        <div class="slide"
+             style="background-image: url('gercep_2.jpeg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <div class="slide"
+             style="background-image: url('gercep3.jpeg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <div class="slide"
+             style="background-image: url('Gercep_4.jpeg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+    </div>
+
 
         <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
 
@@ -316,15 +376,18 @@
         // Endpoint Konfigurasi
         const API_BERKAS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/informasiBerkasGercep2026";
         const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
+const sliderContainer = document.getElementById('mainSlider');
+let currentIdx = 0;
+const totalSlides = 5;
 
-        // Background Slider Logic
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
+function nextSlide() {
+
+    currentIdx = (currentIdx + 1) % totalSlides;
+
+    sliderContainer.style.transform =
+        "translateX(-" + (currentIdx * 100 / totalSlides) + "%)";
+}
+
         setInterval(nextSlide,5000);
 
         // UI Interactions (Menu Mobile)
