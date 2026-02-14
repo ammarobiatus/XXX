@@ -333,19 +333,31 @@
     </div>
 
     <script>
-        // Endpoint Konfigurasi
-        const API_BERKAS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/informasiBerkasGercep2026";
-        const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
+      const GAS_URL = "https://script.google.com/macros/s/AKfycbw_tum_y1SrXAg3Fo_gjtSY1GTWLLR0p68JwZmHkTCnrSWOrjsPF1oMrunHMgOUG4qjbA/exec";
+        
+     const sliderContainer = document.getElementById('mainSlider');
+        const heroText = document.getElementById('heroTextContent');
+        let currentIdx = 0;
+        const totalSlides = 5;
 
-        // Background Slider Logic
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
         function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+            currentIdx = (currentIdx + 1) % totalSlides;
+            sliderContainer.style.transform = translateX(-${(currentIdx * 100) / totalSlides}%);
+
+            if (currentIdx !== 0) {
+                heroText.style.opacity = "0";
+                heroText.style.pointerEvents = "none";
+                setTimeout(() => { heroText.style.display = "none"; }, 400);
+            } else {
+                heroText.style.display = "block";
+                setTimeout(() => {
+                    heroText.style.opacity = "1";
+                    heroText.style.pointerEvents = "auto";
+                }, 50);
+            }
         }
-        setInterval(nextSlide,5000);
+
+        setInterval(nextSlide, 5000);
 
         // UI Interactions (Menu Mobile)
         const menuBtn = document.getElementById('mobile-menu-btn');
