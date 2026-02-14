@@ -399,7 +399,8 @@
 
         function nextSlide() {
             currentIdx = (currentIdx + 1) % totalSlides;
-         sliderContainer.style.transform = `translateX(-${currentIdx * 100}%)`;
+        sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
+
 
 
             if (currentIdx !== 0) {
