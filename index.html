@@ -76,21 +76,20 @@
         }
 
         /* MODIFIKASI SLIDER UNTUK EFEK GESER */
-        .slider-container {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            display: flex;
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-            width: 400%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
-        }
-        .slide {
-            width: 25%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            flex-shrink: 0;
-        }
+      .slider-container {
+    display: flex;
+    width: 400%; /* WAJIB 400% karena ada 4 gambar */
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide {
+    width: 25%; /* WAJIB 25% agar 1 gambar pas memenuhi layar (100% / 4) */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
 
         .content-frame {
             border: 2px solid rgba(255,215,0,0.3);
@@ -379,33 +378,36 @@
         <span id="toast-msg"></span>
     </div>
 
-    <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
+  <script>
+    const sliderContainer = document.getElementById('mainSlider');
+    const heroText = document.getElementById('heroTextContent');
+    let currentIdx = 0;
+    const totalSlides = 4; // Pastikan ini 4
 
-        // MODIFIKASI LOGIKA SLIDER (EFEK GESER)
-        const sliderContainer = document.getElementById('mainSlider');
-        const heroText = document.getElementById('heroTextContent');
-        let currentIdx = 0;
-        const totalSlides = 4;
+    function nextSlide() {
+        currentIdx = (currentIdx + 1) % totalSlides;
+        
+        // Rumus ini akan menghasilkan: 0%, -25%, -50%, -75% secara bergantian
+        sliderContainer.style.transform = `translateX(-${currentIdx * (100 / totalSlides)}%)`;
 
-        function nextSlide() {
-            currentIdx = (currentIdx + 1) % totalSlides;
-            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
-
-            if (currentIdx !== 0) {
-                heroText.style.opacity = "0";
-                heroText.style.pointerEvents = "none";
-                setTimeout(() => { heroText.style.display = "none"; }, 400);
-            } else {
-                heroText.style.display = "block";
-                setTimeout(() => {
-                    heroText.style.opacity = "1";
-                    heroText.style.pointerEvents = "auto";
-                }, 50);
-            }
+        // Logika menyembunyikan teks Gercep (hanya muncul di slide pertama)
+        if (currentIdx !== 0) {
+            heroText.style.opacity = "0";
+            heroText.style.pointerEvents = "none";
+            setTimeout(() => { 
+                if(currentIdx !== 0) heroText.style.display = "none"; 
+            }, 400);
+        } else {
+            heroText.style.display = "block";
+            setTimeout(() => {
+                heroText.style.opacity = "1";
+                heroText.style.pointerEvents = "auto";
+            }, 50);
         }
+    }
 
-        setInterval(nextSlide, 5000);
+    setInterval(nextSlide, 5000);
+</script>
 
         // Menu Mobile
         const menuBtn = document.getElementById('mobile-menu-btn');
