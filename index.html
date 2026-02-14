@@ -22,52 +22,50 @@
             background: linear-gradient(135deg,#0A192F 0%,#112240 100%);
         }
 
-        /* Cinematic Background Slider */
-        .slider-container {
+      .slider-container {
             position: absolute;
             inset: 0;
             z-index: 0;
+            display: flex;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            width: 400%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
         }
         .slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
+            width: 25%;
+            height: 100%;
             background-size: cover;
             background-position: center;
-        }
-        .slide.active {
-            opacity: 0.4;
+            flex-shrink: 0;
         }
 
-        /* Modern Box Frame */
         .content-frame {
             border: 2px solid rgba(255,215,0,0.3);
-            padding: 3rem;
+            padding: 4rem;
             position: relative;
-            border-radius: 4px;
-            background: rgba(10,25,47,0.5);
-            backdrop-filter: blur(8px);
+            border-radius: 8px;
+            background: rgba(10,25,47,0.6);
+            backdrop-filter: blur(12px);
+            max-width: 900px;
         }
         .content-frame::before {
             content: '';
             position: absolute;
-            top: -10px;
-            left: -10px;
-            width: 40px;
-            height: 40px;
-            border-top: 4px solid var(--gold);
-            border-left: 4px solid var(--gold);
+            top: -15px;
+            left: -15px;
+            width: 60px;
+            height: 60px;
+            border-top: 5px solid var(--gold);
+            border-left: 5px solid var(--gold);
         }
         .content-frame::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            right: -10px;
-            width: 40px;
-            height: 40px;
-            border-bottom: 4px solid var(--gold);
-            border-right: 4px solid var(--gold);
+            bottom: -15px;
+            right: -15px;
+            width: 60px;
+            height: 60px;
+            border-bottom: 5px solid var(--gold);
+            border-right: 5px solid var(--gold);
         }
 
         .bg-navy { background-color: var(--navy); }
@@ -147,30 +145,29 @@
             <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="block text-gold font-bold">Konsultasi WhatsApp</a>
         </div>
     </nav>
+<section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
+        <div class="slider-container" id="mainSlider">
+            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
+           <div class="slide" style="background-image: url('Gercep_2026.jpg');"></div>
+<div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
+<div class="slide" style="background-image: url('gercep3.jpeg');"></div>
 
-    <!-- Hero Section -->
-    <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
-        <!-- Cinematic Background Slides -->
-        <div class="slider-container">
-            <div class="slide active" style="background-image: url('gercep wana biru.jpg');"></div>
-            <div class="slide" style="background-image: url('alur gercep 3 hari kerja banner.jpg');"></div>
         </div>
 
         <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
-            <div class="text-white animate-fade-in max-w-3xl">
-                <!-- Frame Bingkai Kotak Modern -->
-                <div class="content-frame">
-                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
+            <div id="heroTextContent" class="text-white animate-fade-in transition-all duration-700">
+                <div class="content-frame hero-float">
+                    <h1 class="text-6xl lg:text-8xl font-extrabold leading-[1.1] mb-8 tracking-tighter">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
-                    <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
-                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran,kepastian jadwal penyelesaian,serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
+                    <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium">
+                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
                     </p>
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
-                        <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Dashboard GERCEP!</a>
+                    <div class="flex flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-6">
+                        <a href="#tracking" class="px-12 py-5 btn-gold rounded-2xl font-black uppercase text-sm tracking-widest text-center shadow-2xl">Mulai Lacak</a>
+                        <a href="#stats" class="px-12 py-5 border-2 border-white/40 hover:bg-white/10 rounded-2xl font-black uppercase text-sm tracking-widest transition-all text-center">Dashboard GERCEP!</a>
                     </div>
                 </div>
             </div>
@@ -307,26 +304,38 @@
         </div>
     </footer>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-xl shadow-2xl text-xs font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
+  <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-8 py-4 bg-navy text-gold rounded-2xl shadow-2xl text-sm font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
         <span id="toast-msg"></span>
     </div>
 
     <script>
-        // Endpoint Konfigurasi
-        const API_BERKAS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/informasiBerkasGercep2026";
-        const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
 
-        // Background Slider Logic
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        // MODIFIKASI LOGIKA SLIDER (EFEK GESER)
+        const sliderContainer = document.getElementById('mainSlider');
+        const heroText = document.getElementById('heroTextContent');
+        let currentIdx = 0;
+        const totalSlides = 4;
+
+      function nextSlide() {
+            currentIdx = (currentIdx + 1) % totalSlides;
+            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
+
+            if (currentIdx !== 0) {
+                heroText.style.opacity = "0";
+                heroText.style.pointerEvents = "none";
+                setTimeout(() => { heroText.style.display = "none"; }, 400);
+            } else {
+                heroText.style.display = "block";
+                setTimeout(() => {
+                    heroText.style.opacity = "1";
+                    heroText.style.pointerEvents = "auto";
+                }, 50);
+            }
         }
-        setInterval(nextSlide,5000);
 
+        setInterval(nextSlide, 5000);
+        
         // UI Interactions (Menu Mobile)
         const menuBtn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
