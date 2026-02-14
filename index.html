@@ -18,32 +18,41 @@
             color: #1e293b;
             scroll-behavior: smooth;
         }
-        .hero-gradient {
-            background: #0A192F;
-            overflow: hidden;
-        }
 
-        /* --- ANALISIS: CSS SLIDER --- */
-        .slider-container {
-            display: flex;
-            width: 400%; /* Lebar untuk 4 slide (400%) */
-            height: 100%;
+        /* --- FIX SLIDER: UKURAN TETAP & TEKS STABIL --- */
+        .hero-viewport {
             position: absolute;
             inset: 0;
+            overflow: hidden;
             z-index: 0;
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
-        .slide {
-            width: 25%; /* Tiap slide 1/4 bagian */
+        .slider-rail {
+            display: flex;
+            width: 400%; /* Untuk 4 slide */
+            height: 100%;
+            transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .slide-item {
+            /* Kunci ukuran: 1 slide = 1/4 dari 400% = 100% viewport */
+            flex: 0 0 25%; 
             height: 100%;
             background-size: cover;
             background-position: center;
-            flex-shrink: 0;
+            position: relative;
         }
-        
-        /* Transition untuk Teks agar menghilang halus saat slide geser */
-        #heroContentWrapper {
-            transition: all 0.6s ease-in-out;
+        /* Gelapkan sedikit gambar agar teks tetap terbaca */
+        .slide-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 25, 47, 0.4);
+        }
+
+        .hero-gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, var(--navy) 0%, rgba(10,25,47,0.7) 40%, transparent 100%);
+            z-index: 1;
         }
 
         /* Modern Box Frame */
@@ -52,8 +61,8 @@
             padding: 3rem;
             position: relative;
             border-radius: 4px;
-            background: rgba(10,25,47,0.5);
-            backdrop-filter: blur(8px);
+            background: rgba(10,25,47,0.4);
+            backdrop-filter: blur(4px);
         }
         .content-frame::before {
             content: ''; position: absolute; top: -10px; left: -10px; width: 40px; height: 40px;
@@ -88,7 +97,7 @@
         }
 
         #mobile-menu {
-            transition: transform 0.3s ease-in-out,opacity 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
         }
         #mobile-menu.hidden-menu {
             transform: translateY(-10px);
@@ -141,28 +150,31 @@
         </div>
     </nav>
 
-    <section class="relative h-screen min-h-[750px] flex items-center pt-20 overflow-hidden hero-gradient">
-        <div class="slider-container" id="mainSlider">
-            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
-            <div class="slide" style="background-image: url('alur gercep 3 hari kerja banner.jpg');"></div>
-            <div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
-            <div class="slide" style="background-image: url('gercep3.jpeg');"></div>
+    <section class="relative h-screen min-h-[750px] flex items-center pt-20 bg-navy overflow-hidden">
+        
+        <div class="hero-viewport">
+            <div class="slider-rail" id="mainSlider">
+                <div class="slide-item" style="background-image: url('gercep wana biru.jpg');"></div>
+                <div class="slide-item" style="background-image: url('alur gercep 3 hari kerja banner.jpg');"></div>
+                <div class="slide-item" style="background-image: url('gercep_2.jpeg');"></div>
+                <div class="slide-item" style="background-image: url('gercep3.jpeg');"></div>
+            </div>
         </div>
 
-        <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-[1]"></div>
+        <div class="hero-gradient-overlay"></div>
 
-        <div id="heroContentWrapper" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
             <div class="text-white animate-fade-in max-w-3xl">
                 <div class="content-frame">
-                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter text-center lg:text-left">
+                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tighter">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
-                    <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center lg:text-left">
-                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
+                    <p class="text-lg lg:text-xl text-slate-200 mb-10 leading-relaxed font-medium">
+                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time.
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak</a>
-                        <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Dashboard GERCEP!</a>
+                        <a href="#tracking" class="px-10 py-4 btn-gold rounded-xl font-bold uppercase text-xs tracking-widest text-center shadow-2xl">Mulai Lacak Berkas</a>
+                        <a href="#stats" class="px-10 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold uppercase text-xs tracking-widest transition-all text-center">Lihat Dashboard</a>
                     </div>
                 </div>
             </div>
@@ -173,8 +185,8 @@
         <div class="max-w-5xl mx-auto px-4">
             <div class="bg-white rounded-[2.5rem] custom-shadow p-8 md:p-14 border border-slate-100">
                 <div class="text-center mb-10">
-                    <h2 class="text-3xl font-extrabold text-navy mb-3 text-center">Cek Status Berkas</h2>
-                    <p class="text-slate-500 font-medium text-center">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
+                    <h2 class="text-3xl font-extrabold text-navy mb-3">Cek Status Berkas</h2>
+                    <p class="text-slate-500 font-medium">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
                 </div>
                 
                 <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -197,8 +209,8 @@
                 </div>
 
                 <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl border border-red-100 text-center">
-                    <h3 class="text-lg font-bold text-red-800 text-center">Berkas Tidak Ditemukan</h3>
-                    <p class="text-red-600/70 text-sm mt-1 text-center">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
+                    <h3 class="text-lg font-bold text-red-800">Berkas Tidak Ditemukan</h3>
+                    <p class="text-red-600/70 text-sm mt-1">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
                 </div>
 
                 <div id="resultArea" class="mt-12 hidden opacity-0 translate-y-4 transition-all duration-500">
@@ -210,14 +222,14 @@
 
     <section id="stats" class="py-24 bg-white overflow-hidden scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 text-center md:text-left">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                 <div>
-                    <span class="text-gold font-extrabold tracking-[0.2em] text-xs uppercase mb-3 block text-center lg:text-left">Dashboard Terkini</span>
-                    <h2 class="text-4xl lg:text-5xl font-extrabold text-navy tracking-tight text-center lg:text-left">Kinerja Pengukuran</h2>
+                    <span class="text-gold font-extrabold tracking-[0.2em] text-xs uppercase mb-3 block">Dashboard Terkini</span>
+                    <h2 class="text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">Kinerja Pengukuran</h2>
                 </div>
-                <div class="flex items-center justify-center space-x-2 text-slate-400 text-sm font-medium">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse text-center"></span>
-                    <span class="text-center">Pembaruan Real-time: <span id="lastUpdated">...</span></span>
+                <div class="flex items-center space-x-2 text-slate-400 text-sm font-medium">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span>Pembaruan Terakhir: <span id="lastUpdated">...</span></span>
                 </div>
             </div>
 
@@ -226,8 +238,8 @@
                     <div class="relative w-full max-w-[320px]">
                         <canvas id="performanceChart"></canvas>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span id="statTotalMiddle" class="text-4xl font-extrabold text-navy text-center">0</span>
-                            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest text-center">Total Berkas</span>
+                            <span id="statTotalMiddle" class="text-4xl font-extrabold text-navy">0</span>
+                            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Total Berkas</span>
                         </div>
                     </div>
                 </div>
@@ -245,7 +257,7 @@
                     
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
-                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1 text-center sm:text-left">Berkas Dalam Proses</p>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Dalam Proses</p>
                             <span id="statProses" class="text-4xl font-black text-yellow-500 tracking-tighter">0</span>
                         </div>
                         <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center">
@@ -279,10 +291,10 @@
 
     <footer class="bg-navy text-white pt-20 pb-10">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-extrabold mb-8 text-center">Kantor Pertanahan Kota Bitung</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto mb-12 text-center">Jl. Stadion 2 Saudara, Manembo-nembo Tengah, Kec. Matuari, Kota Bitung, Sulawesi Utara.</p>
+            <h2 class="text-3xl font-extrabold mb-8">Kantor Pertanahan Kota Bitung</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-12">Jl. Stadion 2 Saudara, Manembo-nembo Tengah, Kec. Matuari, Kota Bitung, Sulawesi Utara.</p>
             <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-                <p class="text-center">© 2026 Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung.</p>
+                <p>© 2026 Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung.</p>
                 <div class="flex gap-6">
                     <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="text-gold font-bold">WhatsApp Admin</a>
                 </div>
@@ -299,34 +311,24 @@
         const API_BERKAS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/informasiBerkasGercep2026";
         const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
 
-        // --- ANALISIS: LOGIKA JALAN SLIDER ---
-        const sliderContainer = document.getElementById('mainSlider');
-        const heroWrapper = document.getElementById('heroContentWrapper');
+        // --- LOGIKA SLIDER (FIXED) ---
+        const sliderRail = document.getElementById('mainSlider');
         let currentIdx = 0;
         const totalSlides = 4;
 
         function updateSlider() {
-            // Geser kontainer berdasarkan index (0%, -25%, -50%, -75%)
-            const movePercentage = (currentIdx * 100) / totalSlides;
-            sliderContainer.style.transform = `translateX(-${movePercentage}%)`;
-
-            // Logika agar TEKS UTAMA TIDAK MENIMPA slide lainnya
-            if (currentIdx !== 0) {
-                heroWrapper.style.opacity = "0";
-                heroWrapper.style.pointerEvents = "none";
-                heroWrapper.style.transform = "translateY(20px)";
-            } else {
-                heroWrapper.style.opacity = "1";
-                heroWrapper.style.pointerEvents = "auto";
-                heroWrapper.style.transform = "translateY(0)";
-            }
+            // Geser rail berdasarkan persentase (0, 25, 50, 75)
+            const moveX = currentIdx * 25; 
+            sliderRail.style.transform = `translateX(-${moveX}%)`;
         }
 
         function nextSlide() {
             currentIdx = (currentIdx + 1) % totalSlides;
             updateSlider();
         }
-        setInterval(nextSlide, 5000); // Ganti gambar tiap 5 detik
+        
+        // Ganti gambar otomatis tiap 5 detik
+        let sliderTimer = setInterval(nextSlide, 5000);
 
         // --- MOBILE MENU ---
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -367,11 +369,7 @@
                     maintainAspectRatio: false,
                     plugins: { 
                         legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#0A192F',
-                            cornerRadius: 10,
-                            padding: 12
-                        }
+                        tooltip: { backgroundColor: '#0A192F', padding: 12 }
                     },
                     cutout: '85%'
                 }
@@ -381,10 +379,9 @@
         async function loadStats() {
             try {
                 const response = await fetch(API_STATS);
-                if (!response.ok) throw new Error("Gagal mengambil data");
                 const json = await response.json();
                 const stats = json.statistikBerkasPengukuran[0];
-                if (!stats) throw new Error("Data spreadsheet kosong");
+                if (!stats) return;
 
                 const selesai = parseInt(stats.berkasSelesai || 0);
                 const proses = parseInt(stats.berkasDalamProses || 0);
@@ -395,19 +392,12 @@
                 animateValue("statProses", 0, proses, 1500);
                 animateValue("statKendala", 0, kendala, 1500);
                 animateValue("statTotal", 0, total, 1500);
-                
-                if(document.getElementById('statTotalMiddle')) document.getElementById('statTotalMiddle').innerText = total;
+                document.getElementById('statTotalMiddle').innerText = total;
 
                 initChart([selesai,proses,kendala]);
-                
-                const lastUpdated = document.getElementById('lastUpdated');
-                if(lastUpdated) lastUpdated.innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
-            } catch (err) {
-                console.error("Dashboard Sync Error:",err);
-                if(document.getElementById('lastUpdated')) document.getElementById('lastUpdated').innerText = 'Gagal sinkron';
-            }
+                document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
+            } catch (err) { console.error("Stats Error:", err); }
         }
-        setInterval(loadStats, 60000);
 
         function animateValue(id,start,end,duration) {
             const obj = document.getElementById(id);
@@ -415,26 +405,24 @@
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration,1);
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 obj.innerText = Math.floor(progress * (end - start) + start);
                 if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
         }
 
-        // --- SEARCH LOGIC (LACAK BERKAS) ---
-        document.getElementById('searchForm').addEventListener('submit',async (e) => {
+        // --- SEARCH LOGIC ---
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
             const resultArea = document.getElementById('resultArea');
             const loading = document.getElementById('loadingState');
             const notFound = document.getElementById('notFoundState');
-            const btn = document.getElementById('searchBtn');
-
-            resultArea.classList.add('hidden','opacity-0','translate-y-4');
+            
+            resultArea.classList.add('hidden','opacity-0');
             notFound.classList.add('hidden');
             loading.classList.remove('hidden');
-            btn.disabled = true;
 
             try {
                 const res = await fetch(API_BERKAS);
@@ -446,68 +434,55 @@
                 if(b) {
                     renderResult(b);
                     resultArea.classList.remove('hidden');
-                    setTimeout(() => { resultArea.classList.remove('opacity-0','translate-y-4'); },50);
+                    setTimeout(() => resultArea.classList.remove('opacity-0'), 50);
                 } else { notFound.classList.remove('hidden'); }
             } catch (err) {
-                showToast("Gagal memuat data. Periksa koneksi internet.");
+                showToast("Koneksi gagal.");
                 loading.classList.add('hidden');
-            } finally { btn.disabled = false; }
+            }
         });
 
         function renderResult(b) {
-            const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20berkas%20${encodeURIComponent(b.noBerkas)}`;
-            const item = (label,value,isBold = false) => `
-                <div class="space-y-1">
-                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest text-center sm:text-left">${label}</p>
-                    <p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center sm:text-left">${value || '-'}</p>
+            const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin,%20cek%20berkas%20${b.noBerkas}`;
+            const item = (label,val,bold=false) => `
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">${label}</p>
+                    <p class="${bold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm">${val || '-'}</p>
                 </div>`;
             
-            const html = `
+            document.getElementById('resultContent').innerHTML = `
                 <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
                     <div class="px-8 py-4 bg-navy text-white flex justify-between items-center">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span>
-                        <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span>
+                        <span class="text-[10px] font-black uppercase tracking-widest">Detail Informasi</span>
+                        <span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Live</span>
                     </div>
                     <div class="p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">
-                            ${item('No Berkas',b.noBerkas,true)}
-                            ${item('Nama Pemohon',b.namaPemohon,true)}
-                            ${item('Kelurahan',b.kelurahan,true)}
-                            ${item('Jenis Pelayanan',b.jenisPelayanan)}
-                            ${item('Posisi Berkas',b.posisiBerkas)}
-                            ${item('Hasil Akhir',b.hasilAkhir || 'Sedang Diproses')}
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 pb-8 border-b border-slate-100">
+                            ${item('No Berkas', b.noBerkas, true)}
+                            ${item('Nama Pemohon', b.namaPemohon, true)}
+                            ${item('Kelurahan', b.kelurahan, true)}
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-6">
-                                ${item('Jadwal Pengukuran',b.jadwalPengukuran)}
-                                ${item('Petugas Ukur',b.namaPetugasUkur || b.namaPetugas)}
-                                ${item('Estimasi Selesai (Seksi Pengukuran)',b.estimasiBerkasSelesaiDiSeksiPengukuran,true)}
+                                ${item('Jadwal Ukur', b.jadwalPengukuran)}
+                                ${item('Petugas', b.namaPetugasUkur || b.namaPetugas)}
+                                ${item('Estimasi Selesai', b.estimasiBerkasSelesaiDiSeksiPengukuran, true)}
                             </div>
-                            <div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                                ${item('Kendala',b.kendala || 'Nihil')}
-                                ${item('Tindak Lanjut',b.tindakLanjut || '-')}
-                                ${item('Keterangan',b.keterangan || '-')}
+                            <div class="space-y-6 bg-slate-50 p-6 rounded-2xl">
+                                ${item('Status/Posisi', b.posisiBerkas)}
+                                ${item('Kendala', b.kendala || 'Tidak Ada')}
                             </div>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
-                                </div>
-                                <p class="text-xs font-bold text-navy/70 uppercase tracking-tight">kontak petugas ukur !</p>
-                            </div>
-                            <a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">Hubungi Admin</a>
-                        </div>
+                        <a href="${waLink}" target="_blank" class="mt-8 block w-full py-4 bg-green-500 text-white rounded-xl text-center font-bold text-xs uppercase tracking-widest hover:bg-green-600 transition-colors">Hubungi Petugas (WhatsApp)</a>
                     </div>
                 </div>`;
-            document.getElementById('resultContent').innerHTML = html;
         }
 
         function showToast(msg) {
             const t = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
-            t.classList.remove('opacity-0','translate-y-4'); t.classList.add('opacity-100','translate-y-0');
-            setTimeout(() => { t.classList.add('opacity-0','translate-y-4'); t.classList.remove('opacity-100','translate-y-0'); },3500);
+            t.classList.remove('opacity-0'); t.classList.add('opacity-100');
+            setTimeout(() => t.classList.add('opacity-0'), 3000);
         }
 
         window.onload = () => { loadStats(); initChart(); };
