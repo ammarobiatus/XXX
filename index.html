@@ -82,10 +82,10 @@
             z-index: 0;
             display: flex;
             transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-            width: 400%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
+            width: 500%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
         }
         .slide {
-            width: 25%;
+            width: 20%;
             height: 100%;
             background-size: cover;
             background-position: center;
@@ -206,15 +206,23 @@
     </nav>
 
     <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
-        <div class="slider-container" id="mainSlider">
-            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
-           <div class="slide" style="background-image: url('Gercep_2026.jpg');"></div>
-<div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
-<div class="slide" style="background-image: url('gercep3.jpeg');"></div>
+        
+    <div class="slider-container" id="mainSlider">
+    <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg'); background-size: cover; background-position: center;"></div>
+    
+    <div class="slide" style="
+        background-color: #3666bf;
+        background-image: url('Gercep_2026.jpg'); 
+        background-size: 62%; 
+        background-position: 50% 41%; 
+        background-repeat: no-repeat;">
+    </div>
 
-        </div>
+    <div class="slide" style="background-image: url('gercep_2.jpeg'); background-size: cover; background-position: center;"></div>
+    <div class="slide" style="background-image: url('gercep3.jpeg'); background-size: cover; background-position: center;"></div>
+     <div class="slide" style="background-image: url('Gercep_4.jpeg'); background-size: cover; background-position: center;"></div>
 
-        <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
+    </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
             <div id="heroTextContent" class="text-white animate-fade-in transition-all duration-700">
@@ -381,13 +389,13 @@
     </div>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbw_tum_y1SrXAg3Fo_gjtSY1GTWLLR0p68JwZmHkTCnrSWOrjsPF1oMrunHMgOUG4qjbA/exec";
 
         // MODIFIKASI LOGIKA SLIDER (EFEK GESER)
         const sliderContainer = document.getElementById('mainSlider');
         const heroText = document.getElementById('heroTextContent');
         let currentIdx = 0;
-        const totalSlides = 4;
+        const totalSlides = 5;
 
         function nextSlide() {
             currentIdx = (currentIdx + 1) % totalSlides;
