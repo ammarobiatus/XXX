@@ -161,34 +161,36 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center space-x-3 group cursor-pointer" onclick="window.location.reload()">
-                    <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center font-extrabold text-navy transition-transform group-hover:rotate-12">G</div>
-                    <div class="leading-tight">
-                        <span class="text-xl font-bold tracking-tighter italic block">GERCEP</span>
-                        <span class="text-gold font-semibold text-[10px] uppercase tracking-widest">Kota Bitung</span>
-                    </div>
-                </div>
-                
-                <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide items-center">
-                    <a href="#" class="hover:text-gold transition-colors text-white">Beranda</a>
-                    <a href="#tracking" class="hover:text-gold transition-colors text-white">Lacak Berkas</a>
-                    <a href="#stats" class="hover:text-gold transition-colors text-white">Dashboard GERCEP!</a>
-                    <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" 
-                       class="bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full transition-all flex items-center gap-2">
-                         Konsultasi Online
-                    </a>
-                </div>
-
-                <div class="md:hidden">
-                    <button class="text-white p-2 focus:outline-none" id="mobile-menu-btn">
-                        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
+   <nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20 items-center">
+            
+            <div class="flex items-center space-x-3 group cursor-pointer">
+                <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center font-extrabold text-navy transition-transform group-hover:rotate-12">G</div>
+                <div class="leading-tight">
+                    <span class="text-xl font-bold tracking-tighter italic block">GERCEP</span>
+                    <span class="text-gold font-semibold text-[10px] uppercase tracking-widest">Kota Bitung</span>
                 </div>
             </div>
+            
+            <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide items-center">
+                <a href="#" class="hover:text-gold transition-colors text-white">Beranda</a>
+                <a href="#tracking" class="hover:text-gold transition-colors text-white">Lacak Berkas</a>
+                <a href="#stats" class="hover:text-gold transition-colors text-white">Dashboard GERCEP!</a>
+                <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" 
+                   class="bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full transition-all flex items-center gap-2">
+                   Konsultasi Online
+                </a>
+            </div>
+
+            <div class="md:hidden">
+                <button class="text-white p-2 focus:outline-none" id="mobile-menu-btn">
+                    ...
+                </button>
+            </div>
         </div>
+    </div>
+</nav>
 
         <div id="mobile-menu" class="md:hidden hidden-menu absolute w-full bg-navy border-b border-white/10 px-4 py-6 space-y-4">
             <a href="#" class="block text-lg font-medium hover:text-gold">Beranda</a>
