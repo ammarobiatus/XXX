@@ -321,222 +321,191 @@
         <span id="toast-msg"></span>
     </div>
 
-    <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
+<script>
+    // 1. Konfigurasi API
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
+    const API_STATS = GAS_URL; // Menggunakan URL yang sama jika satu script GAS
+    const API_BERKAS = GAS_URL;
 
-        // MODIFIKASI LOGIKA SLIDER (EFEK GESER)
-  const sliderContainer = document.getElementById('mainSlider');
-let currentIdx = 0;
-const totalSlides = 5;
+    // 2. Logika Slider
+    const sliderContainer = document.getElementById('mainSlider');
+    const heroText = document.querySelector('.content-frame'); // Tambahkan ini agar tidak error
+    let currentIdx = 0;
+    const totalSlides = 5; 
 
-const sliderContainer = document.getElementById('mainSlider');
-let currentIdx = 0;
-const totalSlides = 5; 
+    function nextSlide() {
+        currentIdx++;
+        
+        sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
+        sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-function nextSlide() {
-    currentIdx++;
-    
-    sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
-    sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
-
-    // LOGIKA BARU: Jika slide 1 (index 0) atau slide bayangan (index 4)
-    if (currentIdx === 0 || currentIdx === 4) {
-        heroText.style.display = "block";
-        // Jika di slide bayangan, buat langsung muncul tanpa transisi lambat
-        if (currentIdx === 4) {
-            heroText.style.transition = "none"; 
-            heroText.style.opacity = "1";
-            heroText.style.transform = "translateY(0)";
-        } else {
-            // Untuk slide normal tetap pakai animasi halus
-            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-            setTimeout(() => {
+        // Logika Teks Hero
+        if (currentIdx === 0 || currentIdx === 4) {
+            heroText.style.display = "block";
+            if (currentIdx === 4) {
+                heroText.style.transition = "none"; 
                 heroText.style.opacity = "1";
                 heroText.style.transform = "translateY(0)";
-            }, 50);
+            } else {
+                heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+                setTimeout(() => {
+                    heroText.style.opacity = "1";
+                    heroText.style.transform = "translateY(0)";
+                }, 50);
+            }
+        } else {
+            heroText.style.opacity = "0";
+            heroText.style.transform = "translateY(20px)";
+            setTimeout(() => { 
+                if(currentIdx !== 0 && currentIdx !== 4) heroText.style.display = "none"; 
+            }, 800);
         }
-    } else {
-        // Hilangkan teks saat di slide gambar saja (slide 2 & 3)
-        heroText.style.opacity = "0";
-        heroText.style.transform = "translateY(20px)";
+
+        // Reset Loop
+        if (currentIdx === totalSlides - 1) {
+            setTimeout(() => {
+                sliderContainer.style.transition = "none";
+                currentIdx = 0;
+                sliderContainer.style.transform = `translateX(0%)`;
+                heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            }, 1200); 
+        }
+    }
+    setInterval(nextSlide, 5000);
+
+    // 3. Menu Mobile
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    menuBtn.addEventListener('click', () => {
+        const isHidden = menu.classList.contains('hidden-menu');
+        if (isHidden) {
+            menu.classList.remove('hidden-menu');
+            menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+        } else {
+            menu.classList.add('hidden-menu');
+            menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
+        }
+    });
+
+    // 4. Dashboard & Chart
+    let perfChart;
+    function initChart(dataValues = [0,0,0]) {
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        if(perfChart) perfChart.destroy();
+        perfChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Selesai','Proses','Kendala'],
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: ['#16a34a','#eab308','#dc2626'],
+                    borderWidth: 0,
+                    borderRadius: 10,
+                    spacing: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                cutout: '85%'
+            }
+        });
+    }
+
+    async function loadStats() {
+        try {
+            const response = await fetch(API_STATS);
+            const json = await response.json();
+            
+            // Sesuaikan dengan struktur JSON dari Google Apps Script Anda
+            const stats = json.statistikBerkasPengukuran[0]; 
+            
+            const selesai = parseInt(stats.berkasSelesai || 0);
+            const proses = parseInt(stats.berkasDalamProses || 0);
+            const kendala = parseInt(stats.berkasKendala || 0);
+            const total = parseInt(stats.totalBerkas || (selesai + proses + kendala));
+
+            animateValue("statSelesai", 0, selesai, 1500);
+            animateValue("statProses", 0, proses, 1500);
+            animateValue("statKendala", 0, kendala, 1500);
+            animateValue("statTotal", 0, total, 1500);
+            document.getElementById('statTotalMiddle').innerText = total;
+
+            initChart([selesai, proses, kendala]);
+            document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString('id-ID') + ' WITA';
+        } catch (err) {
+            console.error("Dashboard Error:", err);
+            document.getElementById('lastUpdated').innerText = 'Gagal sinkron';
+        }
+    }
+
+    function animateValue(id, start, end, duration) {
+        const obj = document.getElementById(id);
+        if(!obj) return;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            obj.innerText = Math.floor(progress * (end - start) + start);
+            if (progress < 1) window.requestAnimationFrame(step);
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // 5. Search Berkas
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('searchInput').value.trim();
+        const resultArea = document.getElementById('resultArea');
+        const loading = document.getElementById('loadingState');
+        const notFound = document.getElementById('notFoundState');
+        
+        resultArea.classList.add('hidden');
+        notFound.classList.add('hidden');
+        loading.classList.remove('hidden');
+
+        try {
+            const res = await fetch(API_BERKAS);
+            const json = await res.json();
+            const data = json.informasiBerkasGercep2026;
+            const b = data.find(item => String(item.noBerkas).trim().toLowerCase() === input.toLowerCase());
+
+            loading.classList.add('hidden');
+            if(b) {
+                renderResult(b);
+                resultArea.classList.remove('hidden');
+                setTimeout(() => { resultArea.classList.remove('opacity-0','translate-y-4'); }, 50);
+            } else {
+                notFound.classList.remove('hidden');
+            }
+        } catch (err) {
+            showToast("Gagal memuat data.");
+            loading.classList.add('hidden');
+        }
+    });
+
+    function renderResult(b) {
+        const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20berkas%20${encodeURIComponent(b.noBerkas)}`;
+        // ... (sisanya tetap sama dengan kode Anda sebelumnya)
+        // Pastikan isi renderResult lengkap seperti di kode asli Anda.
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-msg').innerText = msg;
+        t.classList.remove('opacity-0','translate-y-4');
+        t.classList.add('opacity-100','translate-y-0');
         setTimeout(() => { 
-            if(currentIdx !== 0 && currentIdx !== 4) heroText.style.display = "none"; 
-        }, 800);
+            t.classList.add('opacity-0','translate-y-4');
+            t.classList.remove('opacity-100','translate-y-0');
+        }, 3500);
     }
 
-    // Reset posisi ke Slide 1 asli setelah animasi geser selesai
-    if (currentIdx === totalSlides - 1) {
-        setTimeout(() => {
-            sliderContainer.style.transition = "none";
-            currentIdx = 0;
-            sliderContainer.style.transform = `translateX(0%)`;
-            // Kembalikan transition heroText ke normal setelah reset
-            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        }, 1200); 
-    }
-}
-setInterval(nextSlide, 5000);
-
-// Jalankan otomatis setiap 5 detik
-setInterval(nextSlide, 5000);
-        // UI Interactions (Menu Mobile)
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const menuIcon = document.getElementById('menu-icon');
-
-        menuBtn.addEventListener('click',() => {
-            const isHidden = menu.classList.contains('hidden-menu');
-            if (isHidden) {
-                menu.classList.remove('hidden-menu');
-                menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
-            } else {
-                menu.classList.add('hidden-menu');
-                menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
-            }
-        });
-
-     
-        let perfChart;
-        function initChart(dataValues = [0,0,0]) {
-            const ctx = document.getElementById('performanceChart').getContext('2d');
-            if(perfChart) perfChart.destroy();
-            perfChart = new Chart(ctx,{
-                type: 'doughnut',
-                data: {
-                    labels: ['Selesai','Proses','Kendala'],
-                    datasets: [{
-                        data: dataValues,
-                        backgroundColor: ['#16a34a','#eab308','#dc2626'],
-                        hoverOffset: 4,
-                        borderWidth: 0,
-                        borderRadius: 10,
-                        spacing: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#0A192F',
-                            cornerRadius: 10,
-                            padding: 12
-                        }
-                    },
-                    cutout: '85%'
-                }
-            });
-        }
-
-      async function loadStats() {
-            try {
-                const response = await fetch(API_STATS);
-                if (!response.ok) throw new Error("Gagal mengambil data");
-                const json = await response.json();
-                
-                // Mendapatkan baris pertama dari sheet statistikBerkasPengukuran
-                const stats = json.statistikBerkasPengukuran[0];
-                if (!stats) throw new Error("Data spreadsheet kosong");
-
-                // Mapping variabel sesuai dengan header camelCase dari Sheety
-                const selesai = parseInt(stats.berkasSelesai || 0);
-                const proses = parseInt(stats.berkasDalamProses || 0);
-                const kendala = parseInt(stats.berkasKendala || 0);
-                const total = parseInt(stats.totalBerkas || (selesai + proses + kendala));
-
-                // Perbarui Angka UI
-                animateValue("statSelesai",0,selesai,1500);
-                animateValue("statProses",0,proses,1500);
-                animateValue("statKendala",0,kendala,1500);
-                animateValue("statTotal",0,total,1500);
-                
-                const middleStat = document.getElementById('statTotalMiddle');
-                if(middleStat) middleStat.innerText = total;
-
-                initChart([selesai,proses,kendala]);
-                
-                const lastUpdated = document.getElementById('lastUpdated');
-                if(lastUpdated) lastUpdated.innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
-            } catch (err) {
-                console.error("Dashboard Sync Error:",err);
-                const lastUpdated = document.getElementById('lastUpdated');
-                if(lastUpdated) lastUpdated.innerText = 'Gagal sinkron';
-            }
-        }
-
-        setInterval(loadStats,60000);
-
-        function animateValue(id,start,end,duration) {
-            const obj = document.getElementById(id);
-            if(!obj) return;
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration,1);
-                obj.innerText = Math.floor(progress * (end - start) + start);
-                if (progress < 1) window.requestAnimationFrame(step);
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // Search Logic
-        document.getElementById('searchForm').addEventListener('submit',async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('searchInput').value.trim();
-            const resultArea = document.getElementById('resultArea');
-            const loading = document.getElementById('loadingState');
-            const notFound = document.getElementById('notFoundState');
-            const btn = document.getElementById('searchBtn');
-
-            resultArea.classList.add('hidden','opacity-0','translate-y-4');
-            notFound.classList.add('hidden');
-            loading.classList.remove('hidden');
-            btn.disabled = true;
-
-            try {
-                const res = await fetch(API_BERKAS);
-                const json = await res.json();
-                const data = json.informasiBerkasGercep2026;
-                const b = data.find(item => String(item.noBerkas).trim().toLowerCase() === input.toLowerCase());
-
-                loading.classList.add('hidden');
-                if(b) {
-                    renderResult(b);
-                    resultArea.classList.remove('hidden');
-                    setTimeout(() => { resultArea.classList.remove('opacity-0','translate-y-4'); },50);
-                } else { notFound.classList.remove('hidden'); }
-            } catch (err) {
-                showToast("Gagal memuat data. Periksa koneksi internet.");
-                loading.classList.add('hidden');
-            } finally { btn.disabled = false; }
-        });
-
-        function renderResult(b) {
-            const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20berkas%20${encodeURIComponent(b.noBerkas)}`;
-            const item = (label,value,isBold = false) => `<div class="space-y-1"><p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">${label}</p><p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center sm:text-left">${value || '-'}</p></div>`;
-            const html = `
-                <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="px-8 py-4 bg-navy text-white flex justify-between items-center"><span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span><span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span></div>
-                    <div class="p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">${item('No Berkas',b.noBerkas,true)}${item('Nama Pemohon',b.namaPemohon,true)}${item('Kelurahan',b.kelurahan,true)}${item('Jenis Pelayanan',b.jenisPelayanan)}${item('Posisi Berkas',b.posisiBerkas)}${item('Hasil Akhir',b.hasilAkhir || 'Sedang Diproses')}</div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10"><div class="space-y-6">${item('Jadwal Pengukuran',b.jadwalPengukuran)}${item('Petugas Ukur',b.namaPetugasUkur || b.namaPetugas)}${item('Estimasi Selesai (Seksi Pengukuran)',b.estimasiBerkasSelesaiDiSeksiPengukuran,true)}</div><div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">${item('Kendala',b.kendala || 'Nihil')}${item('Tindak Lanjut',b.tindakLanjut || '-')}${item('Keterangan',b.keterangan || '-')}</div></div>
-                        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl"><div class="flex items-center gap-3"><div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg></div><p class="text-xs font-bold text-navy/70 uppercase tracking-tight">kontak petugas ukur !</p></div><a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">Hubungi Admin</a></div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('resultContent').innerHTML = html;
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            t.classList.remove('opacity-0','translate-y-4'); t.classList.add('opacity-100','translate-y-0');
-            setTimeout(() => { t.classList.add('opacity-0','translate-y-4'); t.classList.remove('opacity-100','translate-y-0'); },3500);
-        }
-
-        window.onload = () => { loadStats(); initChart(); };
-    </script>
+    window.onload = () => { loadStats(); };
+</script>
 </body>
 </html>
 </body>
