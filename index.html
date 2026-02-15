@@ -331,19 +331,44 @@ const totalSlides = 5;
 
 function nextSlide() {
     currentIdx++;
-
-    // Geser ke kiri dengan animasi mulus
+    
     sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
     sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-    // Jika sampai di slide bayangan (slide terakhir)
+    // LOGIKA BARU: Jika slide 1 (index 0) atau slide bayangan (index 4)
+    if (currentIdx === 0 || currentIdx === 4) {
+        heroText.style.display = "block";
+        // Jika di slide bayangan, buat langsung muncul tanpa transisi lambat
+        if (currentIdx === 4) {
+            heroText.style.transition = "none"; 
+            heroText.style.opacity = "1";
+            heroText.style.transform = "translateY(0)";
+        } else {
+            // Untuk slide normal tetap pakai animasi halus
+            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            setTimeout(() => {
+                heroText.style.opacity = "1";
+                heroText.style.transform = "translateY(0)";
+            }, 50);
+        }
+    } else {
+        // Hilangkan teks saat di slide gambar saja (slide 2 & 3)
+        heroText.style.opacity = "0";
+        heroText.style.transform = "translateY(20px)";
+        setTimeout(() => { 
+            if(currentIdx !== 0 && currentIdx !== 4) heroText.style.display = "none"; 
+        }, 800);
+    }
+
+    // Reset posisi ke Slide 1 asli setelah animasi geser selesai
     if (currentIdx === totalSlides - 1) {
         setTimeout(() => {
-            // Matikan transisi untuk "teleportasi" balik ke index 0 tanpa ketahuan
             sliderContainer.style.transition = "none";
             currentIdx = 0;
             sliderContainer.style.transform = `translateX(0%)`;
-        }, 1200); // Harus sama dengan durasi transisi (1.2 detik)
+            // Kembalikan transition heroText ke normal setelah reset
+            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+        }, 1200); 
     }
 }
 
