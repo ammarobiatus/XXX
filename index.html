@@ -329,48 +329,28 @@
 let currentIdx = 0;
 const totalSlides = 5;
 
+const sliderContainer = document.getElementById('mainSlider');
+let currentIdx = 0;
+const totalSlides = 5; 
+
 function nextSlide() {
     currentIdx++;
-    
+
+    // Geser ke slide berikutnya
     sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
     sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-    // LOGIKA BARU: Jika slide 1 (index 0) atau slide bayangan (index 4)
-    if (currentIdx === 0 || currentIdx === 4) {
-        heroText.style.display = "block";
-        // Jika di slide bayangan, buat langsung muncul tanpa transisi lambat
-        if (currentIdx === 4) {
-            heroText.style.transition = "none"; 
-            heroText.style.opacity = "1";
-            heroText.style.transform = "translateY(0)";
-        } else {
-            // Untuk slide normal tetap pakai animasi halus
-            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-            setTimeout(() => {
-                heroText.style.opacity = "1";
-                heroText.style.transform = "translateY(0)";
-            }, 50);
-        }
-    } else {
-        // Hilangkan teks saat di slide gambar saja (slide 2 & 3)
-        heroText.style.opacity = "0";
-        heroText.style.transform = "translateY(20px)";
-        setTimeout(() => { 
-            if(currentIdx !== 0 && currentIdx !== 4) heroText.style.display = "none"; 
-        }, 800);
-    }
-
-    // Reset posisi ke Slide 1 asli setelah animasi geser selesai
+    // Ketika sampai di slide 5 (Bayangan), langsung pindah ke slide 1
     if (currentIdx === totalSlides - 1) {
         setTimeout(() => {
-            sliderContainer.style.transition = "none";
-            currentIdx = 0;
-            sliderContainer.style.transform = `translateX(0%)`;
-            // Kembalikan transition heroText ke normal setelah reset
-            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        }, 1200); 
+            sliderContainer.style.transition = "none"; // Matikan animasi
+            currentIdx = 0; // Reset index
+            sliderContainer.style.transform = `translateX(0%)`; // Kembali ke awal secara instan
+        }, 1200); // Harus pas dengan durasi transition (1.2s)
     }
 }
+
+setInterval(nextSlide, 5000);
 
 // Jalankan otomatis setiap 5 detik
 setInterval(nextSlide, 5000);
