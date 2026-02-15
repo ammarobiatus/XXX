@@ -315,35 +315,48 @@
         let currentIdx = 0;
         const slidesCount = 4; // Berkas asli (tidak termasuk clone)
 
-        function nextSlide() {
-            currentIdx++;
-            
-            // Efek geser ke kiri
-            sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
-            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / (slidesCount + 1)}%)`;
+      function nextSlide() {
+    currentIdx++;
+    
+    sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
+    sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-            // Atur Visibilitas Teks (Hanya muncul di Slide Utama/Pertama)
-            if (currentIdx === 0 || currentIdx === slidesCount) {
-                heroText.style.display = "block";
-                setTimeout(() => {
-                    heroText.style.opacity = "1";
-                    heroText.style.pointerEvents = "auto";
-                }, 50);
-            } else {
-                heroText.style.opacity = "0";
-                heroText.style.pointerEvents = "none";
-                setTimeout(() => { if(currentIdx !== 0 && currentIdx !== slidesCount) heroText.style.display = "none"; }, 400);
-            }
-
-            // Reset ke posisi awal tanpa animasi jika sudah di slide clone (untuk loop mulus)
-            if (currentIdx === slidesCount) {
-                setTimeout(() => {
-                    sliderContainer.style.transition = "none";
-                    currentIdx = 0;
-                    sliderContainer.style.transform = `translateX(0)`;
-                }, 1200);
-            }
+    // LOGIKA BARU: Jika slide 1 (index 0) atau slide bayangan (index 4)
+    if (currentIdx === 0 || currentIdx === 4) {
+        heroText.style.display = "block";
+        // Jika di slide bayangan, buat langsung muncul tanpa transisi lambat
+        if (currentIdx === 4) {
+            heroText.style.transition = "none"; 
+            heroText.style.opacity = "1";
+            heroText.style.transform = "translateY(0)";
+        } else {
+            // Untuk slide normal tetap pakai animasi halus
+            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            setTimeout(() => {
+                heroText.style.opacity = "1";
+                heroText.style.transform = "translateY(0)";
+            }, 50);
         }
+    } else {
+        // Hilangkan teks saat di slide gambar saja (slide 2 & 3)
+        heroText.style.opacity = "0";
+        heroText.style.transform = "translateY(20px)";
+        setTimeout(() => { 
+            if(currentIdx !== 0 && currentIdx !== 4) heroText.style.display = "none"; 
+        }, 800);
+    }
+
+    // Reset posisi ke Slide 1 asli setelah animasi geser selesai
+    if (currentIdx === totalSlides - 1) {
+        setTimeout(() => {
+            sliderContainer.style.transition = "none";
+            currentIdx = 0;
+            sliderContainer.style.transform = `translateX(0%)`;
+            // Kembalikan transition heroText ke normal setelah reset
+            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+        }, 1200); 
+    }
+}
 
         setInterval(nextSlide, 5000);
 
