@@ -151,13 +151,16 @@
     <div class="slider-container" id="mainSlider">
         <div class="slide flex items-center" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="content-frame animate-fade-in">
                 <div class="content-frame animate-fade-in mx-auto text-center"> 
                     <h1 class="text-6xl lg:text-8xl font-extrabold leading-[1.1] mb-8 tracking-tighter text-white">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
+                    <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium">
                     <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
                         Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
                     </p>
+                    <div class="flex flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-6">
                     <div class="flex flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-6 justify-center">
                         <a href="#tracking" class="px-12 py-5 btn-gold rounded-2xl font-black uppercase text-sm tracking-widest text-center shadow-2xl">Mulai Lacak</a>
                         <a href="#stats" class="px-12 py-5 border-2 border-white/40 hover:bg-white/10 rounded-2xl font-black uppercase text-sm tracking-widest transition-all text-center text-white">Dashboard GERCEP!</a>
@@ -172,10 +175,12 @@
 
         <div class="slide flex items-center" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="content-frame">
                 <div class="content-frame mx-auto text-center">
                     <h1 class="text-6xl lg:text-8xl font-extrabold leading-[1.1] mb-8 tracking-tighter text-white">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
+                    <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium">
                     <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
                         Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung...
                     </p>
@@ -187,6 +192,7 @@
         </div>
     </div>
 </section>
+
     <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
         <div class="max-w-5xl mx-auto px-4">
@@ -329,61 +335,23 @@
 let currentIdx = 0;
 const totalSlides = 5;
 
-const sliderContainer = document.getElementById('mainSlider');
-let currentIdx = 0;
-const totalSlides = 5; 
-
 function nextSlide() {
     currentIdx++;
-    
 
-    // Geser ke slide berikutnya
+    // Geser ke kiri dengan animasi mulus
     sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
     sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-    // LOGIKA BARU: Jika slide 1 (index 0) atau slide bayangan (index 4)
-    if (currentIdx === 0 || currentIdx === 4) {
-        heroText.style.display = "block";
-        // Jika di slide bayangan, buat langsung muncul tanpa transisi lambat
-        if (currentIdx === 4) {
-            heroText.style.transition = "none"; 
-            heroText.style.opacity = "1";
-            heroText.style.transform = "translateY(0)";
-        } else {
-            // Untuk slide normal tetap pakai animasi halus
-            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-            setTimeout(() => {
-                heroText.style.opacity = "1";
-                heroText.style.transform = "translateY(0)";
-            }, 50);
-        }
-    } else {
-        // Hilangkan teks saat di slide gambar saja (slide 2 & 3)
-        heroText.style.opacity = "0";
-        heroText.style.transform = "translateY(20px)";
-        setTimeout(() => { 
-            if(currentIdx !== 0 && currentIdx !== 4) heroText.style.display = "none"; 
-        }, 800);
-    }
-
-    // Reset posisi ke Slide 1 asli setelah animasi geser selesai
-    // Ketika sampai di slide 5 (Bayangan), langsung pindah ke slide 1
+    // Jika sampai di slide bayangan (slide terakhir)
     if (currentIdx === totalSlides - 1) {
         setTimeout(() => {
+            // Matikan transisi untuk "teleportasi" balik ke index 0 tanpa ketahuan
             sliderContainer.style.transition = "none";
             currentIdx = 0;
             sliderContainer.style.transform = `translateX(0%)`;
-            // Kembalikan transition heroText ke normal setelah reset
-            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        }, 1200); 
-            sliderContainer.style.transition = "none"; // Matikan animasi
-            currentIdx = 0; // Reset index
-            sliderContainer.style.transform = `translateX(0%)`; // Kembali ke awal secara instan
-        }, 1200); // Harus pas dengan durasi transition (1.2s)
+        }, 1200); // Harus sama dengan durasi transisi (1.2 detik)
     }
 }
-
-setInterval(nextSlide, 5000);
 
 // Jalankan otomatis setiap 5 detik
 setInterval(nextSlide, 5000);
