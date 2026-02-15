@@ -22,34 +22,30 @@
             background: linear-gradient(135deg,#0A192F 0%,#112240 100%);
         }
 
-    .slider-container {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        width: 500%; /* 5 slide */
-        z-index: 0;
-    }
-
-    .slide {
-        width: 20%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        flex-shrink: 0;
-        display: flex; /* Tambahkan ini */
-        align-items: center; /* Teks di tengah secara vertikal */
-    }
-
-    .content-frame {
-        /* Sekarang tidak perlu absolute lagi, cukup atur margin */
-        margin-left: 0; 
-        background: rgba(10,25,47,0.6);
-        backdrop-filter: blur(12px);
-        border: 2px solid rgba(255,215,0,0.3);
-        padding: 3rem;
-        border-radius: 20px;
-        max-width: 850px;
-    }
+        .slider-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            display: flex;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            width: 400%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
+        }
+        .slide {
+            width: 25%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+.content-frame {
+            border: 2px solid rgba(255,215,0,0.3);
+            padding: 4rem;
+            position: relative;
+            border-radius: 8px;
+            background: rgba(10,25,47,0.6);
+            backdrop-filter: blur(12px);
+            max-width: 900px;
+        }
         .content-frame::before {
             content: '';
             position: absolute;
@@ -147,51 +143,34 @@
             <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="block text-gold font-bold">Konsultasi WhatsApp</a>
         </div>
     </nav>
-<section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
-    <div class="slider-container" id="mainSlider">
-        <div class="slide flex items-center" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div class="content-frame animate-fade-in">
-                <div class="content-frame animate-fade-in mx-auto text-center"> 
-                    <h1 class="text-6xl lg:text-8xl font-extrabold leading-[1.1] mb-8 tracking-tighter text-white">
+ <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
+        <div class="slider-container" id="mainSlider">
+            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
+           <div class="slide" style="background-image: url('Gercep_2026.jpg');"></div>
+<div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
+<div class="slide" style="background-image: url('gercep3.jpeg');"></div>
+
+        </div>
+
+        <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
+            <div id="heroTextContent" class="text-white animate-fade-in transition-all duration-700">
+                <div class="content-frame hero-float">
+                    <h1 class="text-6xl lg:text-8xl font-extrabold leading-[1.1] mb-8 tracking-tighter">
                         Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
                     </h1>
                     <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium">
-                    <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
                         Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung dalam rangka memberikan kepastian jadwal pengukuran, kepastian jadwal penyelesaian, serta update informasi berkas secara real-time untuk masyarakat Kota Bitung.
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-6">
-                    <div class="flex flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-6 justify-center">
                         <a href="#tracking" class="px-12 py-5 btn-gold rounded-2xl font-black uppercase text-sm tracking-widest text-center shadow-2xl">Mulai Lacak</a>
-                        <a href="#stats" class="px-12 py-5 border-2 border-white/40 hover:bg-white/10 rounded-2xl font-black uppercase text-sm tracking-widest transition-all text-center text-white">Dashboard GERCEP!</a>
+                        <a href="#stats" class="px-12 py-5 border-2 border-white/40 hover:bg-white/10 rounded-2xl font-black uppercase text-sm tracking-widest transition-all text-center">Dashboard GERCEP!</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="slide" style="background-image: url('Gercep_2026.jpg');"></div>
-        <div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
-        <div class="slide" style="background-image: url('gercep3.jpeg');"></div>
-
-        <div class="slide flex items-center" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div class="content-frame">
-                <div class="content-frame mx-auto text-center">
-                    <h1 class="text-6xl lg:text-8xl font-extrabold leading-[1.1] mb-8 tracking-tighter text-white">
-                        Gerak Cepat <br><span class="text-gold italic">Pengukuran</span>
-                    </h1>
-                    <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium">
-                    <p class="text-xl lg:text-2xl text-slate-200 mb-12 leading-relaxed font-medium max-w-2xl mx-auto">
-                        Inovasi Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung...
-                    </p>
-                    <div class="flex flex-col sm:flex-row space-y-5 sm:space-y-0 sm:space-x-6 justify-center">
-                        <a href="#tracking" class="px-12 py-5 btn-gold rounded-2xl font-black uppercase text-sm tracking-widest text-center">Mulai Lacak</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
@@ -323,38 +302,50 @@
         </div>
     </footer>
 
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-xl shadow-2xl text-xs font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-8 py-4 bg-navy text-gold rounded-2xl shadow-2xl text-sm font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
         <span id="toast-msg"></span>
     </div>
 
     <script>
+        // Endpoint Konfigurasi
+        const API_BERKAS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/informasiBerkasGercep2026";
+        const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
         const GAS_URL = "https://script.google.com/macros/s/AKfycbwQq-QZPZ5JuW-v3YO6Mu90fl7ojMRn-sqLdBYOWoLTfpDrYNQaNiZPdKPZzRTfw_NX0w/exec";
 
         // MODIFIKASI LOGIKA SLIDER (EFEK GESER)
-  const sliderContainer = document.getElementById('mainSlider');
-let currentIdx = 0;
-const totalSlides = 5;
+        const sliderContainer = document.getElementById('mainSlider');
+        const heroText = document.getElementById('heroTextContent');
+        let currentIdx = 0;
+        const totalSlides = 4;
 
-function nextSlide() {
-    currentIdx++;
+        // Background Slider Logic
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+            currentIdx = (currentIdx + 1) % totalSlides;
+            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-    // Geser ke kiri dengan animasi mulus
-    sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
-    sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
+            if (currentIdx !== 0) {
+                heroText.style.opacity = "0";
+                heroText.style.pointerEvents = "none";
+                setTimeout(() => { heroText.style.display = "none"; }, 400);
+            } else {
+                heroText.style.display = "block";
+                setTimeout(() => {
+                    heroText.style.opacity = "1";
+                    heroText.style.pointerEvents = "auto";
+                }, 50);
+            }
+        }
+        setInterval(nextSlide,5000);
 
-    // Jika sampai di slide bayangan (slide terakhir)
-    if (currentIdx === totalSlides - 1) {
-        setTimeout(() => {
-            // Matikan transisi untuk "teleportasi" balik ke index 0 tanpa ketahuan
-            sliderContainer.style.transition = "none";
-            currentIdx = 0;
-            sliderContainer.style.transform = `translateX(0%)`;
-        }, 1200); // Harus sama dengan durasi transisi (1.2 detik)
-    }
-}
+        setInterval(nextSlide, 5000);
 
-// Jalankan otomatis setiap 5 detik
-setInterval(nextSlide, 5000);
         // UI Interactions (Menu Mobile)
         const menuBtn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
