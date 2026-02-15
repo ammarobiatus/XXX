@@ -73,7 +73,7 @@
         .bg-navy { background-color: var(--navy); }
         .text-gold { color: var(--gold); }
         .bg-gold { background-color: var(--gold); }
-        
+
         .btn-gold { 
             background-color: var(--gold);
             color: var(--navy);
@@ -120,7 +120,7 @@
                         <span class="text-gold font-semibold text-[10px] uppercase tracking-widest">Kota Bitung</span>
                     </div>
                 </div>
-                
+
                 <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide items-center">
                     <a href="#" class="hover:text-gold transition-colors text-white">Beranda</a>
                     <a href="#tracking" class="hover:text-gold transition-colors text-white">Lacak Berkas</a>
@@ -195,7 +195,7 @@
                     <h2 class="text-3xl font-extrabold text-navy mb-3 text-center">Cek Status Berkas</h2>
                     <p class="text-slate-500 font-medium text-center">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
                 </div>
-                
+
                 <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="md:col-span-3 relative">
                         <input type="text" id="searchInput" placeholder="Contoh: 98/2026" required
@@ -252,7 +252,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Stats Indicators -->
                 <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Berkas Selesai -->
@@ -265,7 +265,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </div>
                     </div>
-                    
+
                     <!-- Berkas Dalam Proses -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
@@ -276,7 +276,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                     </div>
-                    
+
                     <!-- Berkas Kendala -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
@@ -287,7 +287,7 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         </div>
                     </div>
-                    
+
                     <!-- Total Berkas -->
                     <div class="p-6 bg-navy rounded-3xl shadow-xl flex items-center justify-between text-white transition-all hover:scale-[1.02]">
                         <div>
@@ -329,28 +329,53 @@
 let currentIdx = 0;
 const totalSlides = 5;
 
-const sliderContainer = document.getElementById('mainSlider');
-let currentIdx = 0;
-const totalSlides = 5; 
-
 function nextSlide() {
     currentIdx++;
 
-    // Geser ke slide berikutnya
+    // Geser ke kiri dengan animasi mulus
+    
     sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
     sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
 
-    // Ketika sampai di slide 5 (Bayangan), langsung pindah ke slide 1
+    // Jika sampai di slide bayangan (slide terakhir)
+    // LOGIKA BARU: Jika slide 1 (index 0) atau slide bayangan (index 4)
+    if (currentIdx === 0 || currentIdx === 4) {
+        heroText.style.display = "block";
+        // Jika di slide bayangan, buat langsung muncul tanpa transisi lambat
+        if (currentIdx === 4) {
+            heroText.style.transition = "none"; 
+            heroText.style.opacity = "1";
+            heroText.style.transform = "translateY(0)";
+        } else {
+            // Untuk slide normal tetap pakai animasi halus
+            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            setTimeout(() => {
+                heroText.style.opacity = "1";
+                heroText.style.transform = "translateY(0)";
+            }, 50);
+        }
+    } else {
+        // Hilangkan teks saat di slide gambar saja (slide 2 & 3)
+        heroText.style.opacity = "0";
+        heroText.style.transform = "translateY(20px)";
+        setTimeout(() => { 
+            if(currentIdx !== 0 && currentIdx !== 4) heroText.style.display = "none"; 
+        }, 800);
+    }
+
+    // Reset posisi ke Slide 1 asli setelah animasi geser selesai
     if (currentIdx === totalSlides - 1) {
         setTimeout(() => {
-            sliderContainer.style.transition = "none"; // Matikan animasi
-            currentIdx = 0; // Reset index
-            sliderContainer.style.transform = `translateX(0%)`; // Kembali ke awal secara instan
-        }, 1200); // Harus pas dengan durasi transition (1.2s)
+            // Matikan transisi untuk "teleportasi" balik ke index 0 tanpa ketahuan
+            sliderContainer.style.transition = "none";
+            currentIdx = 0;
+            sliderContainer.style.transform = `translateX(0%)`;
+        }, 1200); // Harus sama dengan durasi transisi (1.2 detik)
+            // Kembalikan transition heroText ke normal setelah reset
+            heroText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+        }, 1200); 
     }
 }
-
-setInterval(nextSlide, 5000);
 
 // Jalankan otomatis setiap 5 detik
 setInterval(nextSlide, 5000);
@@ -370,7 +395,7 @@ setInterval(nextSlide, 5000);
             }
         });
 
-     
+
         let perfChart;
         function initChart(dataValues = [0,0,0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -409,7 +434,7 @@ setInterval(nextSlide, 5000);
                 const response = await fetch(API_STATS);
                 if (!response.ok) throw new Error("Gagal mengambil data");
                 const json = await response.json();
-                
+
                 // Mendapatkan baris pertama dari sheet statistikBerkasPengukuran
                 const stats = json.statistikBerkasPengukuran[0];
                 if (!stats) throw new Error("Data spreadsheet kosong");
@@ -425,12 +450,12 @@ setInterval(nextSlide, 5000);
                 animateValue("statProses",0,proses,1500);
                 animateValue("statKendala",0,kendala,1500);
                 animateValue("statTotal",0,total,1500);
-                
+
                 const middleStat = document.getElementById('statTotalMiddle');
                 if(middleStat) middleStat.innerText = total;
 
                 initChart([selesai,proses,kendala]);
-                
+
                 const lastUpdated = document.getElementById('lastUpdated');
                 if(lastUpdated) lastUpdated.innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
             } catch (err) {
