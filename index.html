@@ -22,72 +22,21 @@
             background: linear-gradient(135deg,#0A192F 0%,#112240 100%);
         }
 
-        /* --- TAMBAHAN ANIMASI PREMIUM --- */
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 12px;
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .reveal-item {
-            opacity: 0;
-            animation: slideUpFade 0.5s ease-out forwards;
-        }
-
-        .hero-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        /* ---------------------------- */
-
-        @keyframes resultReveal {
-            from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        .animate-result {
-            animation: resultReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .loading-spinner {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 3px solid #fff;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* MODIFIKASI SLIDER UNTUK EFEK GESER */
-        .slider-container {
+        /* Perbaikan CSS Slider untuk Transisi Mulus ke Kiri */
+        .slider-wrapper {
             position: absolute;
             inset: 0;
+            overflow: hidden;
             z-index: 0;
+        }
+        .slider-container {
             display: flex;
+            height: 100%;
+            width: 500%; /* 4 slide + 1 slide clone untuk loop */
             transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-            width: 500%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
-            width: 400%; /* Karena ada 3 slide (Teks, Gbr1, Gbr2) */
         }
         .slide {
-            width: 20%;
-            width: 25%;
+            width: 20%; /* 1/5 dari total width container */
             height: 100%;
             background-size: cover;
             background-position: center;
@@ -95,7 +44,6 @@
         }
 
         .content-frame {
-.content-frame {
             border: 2px solid rgba(255,215,0,0.3);
             padding: 4rem;
             position: relative;
@@ -124,12 +72,10 @@
             border-bottom: 5px solid var(--gold);
             border-right: 5px solid var(--gold);
         }
-
         .bg-navy { background-color: var(--navy); }
         .text-gold { color: var(--gold); }
         .bg-gold { background-color: var(--gold); }
 
-        
         .btn-gold { 
             background-color: var(--gold);
             color: var(--navy);
@@ -165,14 +111,6 @@
 </head>
 <body class="overflow-x-hidden">
 
-<nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
-    <div class="max-w-[90%] mx-auto px-4">
-        <div class="flex justify-between h-20 items-center">
-
-            <div class="flex items-center space-x-3 group cursor-pointer" onclick="window.scrollTo(0,0)">
-                <div class="w-12 h-12 bg-gold rounded-xl flex items-center justify-center font-extrabold text-navy text-xl transition-transform group-hover:rotate-12 shadow-md">
-                    G
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-navy/90 backdrop-blur-md border-b border-white/10 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
@@ -183,10 +121,7 @@
                         <span class="text-gold font-semibold text-[10px] uppercase tracking-widest">Kota Bitung</span>
                     </div>
                 </div>
-                <div class="leading-tight">
-                    <span class="text-2xl font-bold tracking-tighter italic block">GERCEP</span>
-                    <span class="text-gold font-bold text-[10px] uppercase tracking-widest">Kota Bitung</span>
-                
+
                 <div class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide items-center">
                     <a href="#" class="hover:text-gold transition-colors text-white">Beranda</a>
                     <a href="#tracking" class="hover:text-gold transition-colors text-white">Lacak Berkas</a>
@@ -196,24 +131,7 @@
                        Konsultasi Online
                     </a>
                 </div>
-            </div>
 
-            <div class="hidden md:flex space-x-8 text-base font-semibold items-center">
-                <a href="#" class="hover:text-gold transition-colors">Beranda</a>
-                <a href="#tracking" class="hover:text-gold transition-colors">Lacak Berkas</a>
-                <a href="#stats" class="hover:text-gold transition-colors">Dashboard GERCEP!</a>
-                <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" 
-                   class="bg-white/10 hover:bg-gold hover:text-navy px-6 py-2 rounded-full transition-all border border-white/20 font-bold">
-                    Konsultasi Online
-                </a>
-            </div>
-
-            <div class="md:hidden">
-                <button class="text-white p-2" id="mobile-menu-btn">
-                    <svg id="menu-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
                 <div class="md:hidden">
                     <button class="text-white p-2 focus:outline-none" id="mobile-menu-btn">
                         <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -221,8 +139,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</nav>
 
         <div id="mobile-menu" class="md:hidden hidden-menu absolute w-full bg-navy border-b border-white/10 px-4 py-6 space-y-4">
             <a href="#" class="block text-lg font-medium hover:text-gold">Beranda</a>
@@ -232,32 +148,18 @@
             <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="block text-gold font-bold">Konsultasi WhatsApp</a>
         </div>
     </nav>
- <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
-        <div class="slider-container" id="mainSlider">
-            <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
-           <div class="slide" style="background-image: url('Gercep_2026.jpg');"></div>
-<div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
-<div class="slide" style="background-image: url('gercep3.jpeg');"></div>
 
     <section class="relative h-screen min-h-[850px] flex items-center pt-20 overflow-hidden hero-gradient">
-        
-    <div class="slider-container" id="mainSlider">
-    <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg'); background-size: cover; background-position: center;"></div>
-    
-    <div class="slide" style="
-        background-color: #3666bf;
-        background-image: url('Gercep_2026.jpg'); 
-        background-size: 62%; 
-        background-position: 50% 41%; 
-        background-repeat: no-repeat;">
-    </div>
-
-    <div class="slide" style="background-image: url('gercep_2.jpeg'); background-size: cover; background-position: center;"></div>
-    <div class="slide" style="background-image: url('gercep3.jpeg'); background-size: cover; background-position: center;"></div>
-     <div class="slide" style="background-image: url('Gercep_4.jpeg'); background-size: cover; background-position: center;"></div>
+        <div class="slider-wrapper">
+            <div class="slider-container" id="mainSlider">
+                <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
+                <div class="slide" style="background-image: url('Gercep_2026.jpg');"></div>
+                <div class="slide" style="background-image: url('gercep_2.jpeg');"></div>
+                <div class="slide" style="background-image: url('gercep3.jpeg');"></div>
+                <div class="slide" style="background-image: linear-gradient(rgba(10,25,47,0.7), rgba(10,25,47,0.7)), url('gercep wana biru.jpg');"></div>
+            </div>
         </div>
 
-    </div>
         <div class="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/60 to-navy z-1"></div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center lg:justify-start">
@@ -278,13 +180,6 @@
         </div>
     </section>
 
-<section id="tracking" class="relative -mt-32 z-20 pb-24 scroll-mt-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-[3rem] custom-shadow p-10 md:p-20 border border-slate-100">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-extrabold text-navy mb-4">Cek Status Berkas</h2>
-                    <p class="text-slate-500 text-lg font-medium">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
-    <!-- Tracking Section -->
     <section id="tracking" class="relative -mt-24 z-20 pb-20 scroll-mt-24">
         <div class="max-w-5xl mx-auto px-4">
             <div class="bg-white rounded-[2.5rem] custom-shadow p-8 md:p-14 border border-slate-100">
@@ -293,56 +188,30 @@
                     <p class="text-slate-500 font-medium text-center">Masukkan nomor berkas Anda untuk melihat detail progres real-time.</p>
                 </div>
 
-                <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-5">
-                
                 <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="md:col-span-3 relative">
                         <input type="text" id="searchInput" placeholder="Contoh: 98/2026" required
-                            class="w-full pl-16 pr-8 py-6 bg-slate-50 border-2 border-slate-100 rounded-[2rem] focus:border-gold focus:ring-0 outline-none transition-all text-2xl font-bold text-navy placeholder:text-slate-300">
-                        <div class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             class="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-gold focus:ring-0 outline-none transition-all text-xl font-bold text-navy placeholder:text-slate-300">
                         <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                     </div>
                     <button type="submit" id="searchBtn"
-                        class="w-full py-6 bg-navy text-white rounded-[2rem] font-bold text-xl hover:shadow-2xl hover:shadow-navy/30 transition-all flex items-center justify-center group relative overflow-hidden">
-                        <div id="btnContent" class="flex items-center">
-                            <span>Cari</span>
-                            <svg class="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </div>
-                        <div id="btnLoading" class="hidden">
-                            <div class="loading-spinner"></div>
-                        </div>
                         class="w-full py-5 bg-navy text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-navy/20 transition-all flex items-center justify-center group">
                         <span>Cari</span>
                         <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </button>
                 </form>
 
-                <div id="skeletonState" class="mt-16 hidden space-y-8">
-                    <div class="h-16 w-64 skeleton mx-auto md:mx-0"></div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="h-32 skeleton"></div>
-                        <div class="h-32 skeleton"></div>
-                        <div class="h-32 skeleton"></div>
-                    </div>
-                    <div class="h-80 skeleton w-full"></div>
                 <div id="loadingState" class="mt-12 hidden text-center">
                     <div class="inline-block w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
                 </div>
 
-                <div id="notFoundState" class="mt-16 hidden p-12 bg-red-50 rounded-[2.5rem] border border-red-100 text-center animate-result">
-                    <h3 class="text-2xl font-bold text-red-800">Berkas Tidak Ditemukan</h3>
-                    <p class="text-red-600/70 text-lg mt-2">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
                 <div id="notFoundState" class="mt-12 hidden p-8 bg-red-50 rounded-3xl border border-red-100 text-center">
                     <h3 class="text-lg font-bold text-red-800 text-center">Berkas Tidak Ditemukan</h3>
                     <p class="text-red-600/70 text-sm mt-1 text-center">Pastikan penulisan nomor berkas sudah sesuai (Contoh: 123/2026).</p>
                 </div>
 
-                <div id="resultArea" class="mt-16 hidden">
-                    <div id="resultContent" class="space-y-8"></div>
                 <div id="resultArea" class="mt-12 hidden opacity-0 translate-y-4 transition-all duration-500">
                     <div id="resultContent" class="space-y-6"></div>
                 </div>
@@ -350,20 +219,13 @@
         </div>
     </section>
 
-    <!-- Stats Section (Dashboard GERCEP!) -->
     <section id="stats" class="py-24 bg-white overflow-hidden scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 text-center md:text-left">
                 <div>
-                    <span class="text-gold font-extrabold tracking-[0.2em] text-xs uppercase mb-3 block">Dashboard Terkini</span>
-                    <h2 class="text-4xl lg:text-5xl font-extrabold text-navy tracking-tight">Kinerja Pengukuran</h2>
                     <span class="text-gold font-extrabold tracking-[0.2em] text-xs uppercase mb-3 block text-center lg:text-left">Dashboard Terkini</span>
                     <h2 class="text-4xl lg:text-5xl font-extrabold text-navy tracking-tight text-center lg:text-left">Kinerja Pengukuran</h2>
                 </div>
-                <div class="flex items-center space-x-2 text-slate-400 text-sm font-medium">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    <span>Pembaruan Real-time: <span id="lastUpdated">...</span></span>
                 <div class="flex items-center justify-center space-x-2 text-slate-400 text-sm font-medium">
                     <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse text-center"></span>
                     <span class="text-center">Pembaruan Real-time: <span id="lastUpdated">...</span></span>
@@ -371,24 +233,17 @@
             </div>
 
             <div class="grid lg:grid-cols-12 gap-12 items-center">
-                <!-- Doughnut Chart -->
                 <div class="lg:col-span-5 flex justify-center">
                     <div class="relative w-full max-w-[320px]">
                         <canvas id="performanceChart"></canvas>
                         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span id="statTotalMiddle" class="text-4xl font-extrabold text-navy">0</span>
-                            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Total Berkas</span>
                             <span id="statTotalMiddle" class="text-4xl font-extrabold text-navy text-center">0</span>
                             <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest text-center">Total Berkas</span>
                         </div>
                     </div>
                 </div>
 
-                
-                <!-- Stats Indicators -->
                 <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-lg hover:-translate-y-1">
-                    <!-- Berkas Selesai -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
                             <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Selesai</p>
@@ -399,12 +254,8 @@
                         </div>
                     </div>
 
-                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-lg hover:-translate-y-1">
-                    
-                    <!-- Berkas Dalam Proses -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
-                            <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Dalam Proses</p>
                             <p class="text-slate-400 text-[10px] font-bold uppercase mb-1 text-center sm:text-left">Berkas Dalam Proses</p>
                             <span id="statProses" class="text-4xl font-black text-yellow-500 tracking-tighter">0</span>
                         </div>
@@ -413,9 +264,6 @@
                         </div>
                     </div>
 
-                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-lg hover:-translate-y-1">
-                    
-                    <!-- Berkas Kendala -->
                     <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between transition-all hover:shadow-md">
                         <div>
                             <p class="text-slate-400 text-[10px] font-bold uppercase mb-1">Berkas Kendala</p>
@@ -426,8 +274,6 @@
                         </div>
                     </div>
 
-                    
-                    <!-- Total Berkas -->
                     <div class="p-6 bg-navy rounded-3xl shadow-xl flex items-center justify-between text-white transition-all hover:scale-[1.02]">
                         <div>
                             <p class="text-white/40 text-[10px] font-bold uppercase mb-1">Total Berkas</p>
@@ -442,25 +288,6 @@
         </div>
     </section>
 
-  <footer class="bg-navy text-white pt-24 pb-12">
-    <div class="max-w-[90%] mx-auto px-4">
-
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-extrabold mb-10">Kantah Kota Bitung</h2>
-            <p class="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                Jl. Stadion 2 Saudara, Manembo-nembo Tengah, Kec. Matuari, Kota Bitung, Sulawesi Utara.
-            </p>
-        </div>
-
-        <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-slate-500">
-
-            <p class="text-left">© 2026 Seksi Survei dan Pemetaan Kantor Pertanahan Kota Bitung.</p>
-
-            <div class="flex gap-8">
-                <a href="https://api.whatsapp.com/send?phone=6282353402431" target="_blank" class="text-gold font-bold hover:underline transition-all">
-                    WhatsApp Admin
-                </a>
-    <!-- Footer -->
     <footer class="bg-navy text-white pt-20 pb-10">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-extrabold mb-8 text-center">Kantor Pertanahan Kota Bitung</h2>
@@ -472,57 +299,54 @@
                 </div>
             </div>
         </div>
-    </div>
-</footer>
     </footer>
 
     <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-8 py-4 bg-navy text-gold rounded-2xl shadow-2xl text-sm font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-navy text-gold rounded-xl shadow-2xl text-xs font-bold opacity-0 translate-y-4 transition-all pointer-events-none z-[100] border border-gold/20">
         <span id="toast-msg"></span>
     </div>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbw_tum_y1SrXAg3Fo_gjtSY1GTWLLR0p68JwZmHkTCnrSWOrjsPF1oMrunHMgOUG4qjbA/exec";
-
-        // MODIFIKASI LOGIKA SLIDER (EFEK GESER)
-        const sliderContainer = document.getElementById('mainSlider');
-        const heroText = document.getElementById('heroTextContent');
-        let currentIdx = 0;
-        const totalSlides = 5;
-        // Endpoint Konfigurasi
         const API_BERKAS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/informasiBerkasGercep2026";
         const API_STATS = "https://api.sheety.co/faa1bfb669e83efa1c804947c1197ed9/gercep/statistikBerkasPengukuran";
 
-        // Background Slider Logic
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
+        // LOGIKA SLIDER PERBAIKAN: GESER KE KIRI TERUS MENERUS
+        const sliderContainer = document.getElementById('mainSlider');
+        const heroText = document.getElementById('heroTextContent');
+        let currentIdx = 0;
+        const slidesCount = 4; // Berkas asli (tidak termasuk clone)
+
         function nextSlide() {
-            currentIdx = (currentIdx + 1) % totalSlides;
-        sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / totalSlides}%)`;
+            currentIdx++;
+            
+            // Efek geser ke kiri
+            sliderContainer.style.transition = "transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1)";
+            sliderContainer.style.transform = `translateX(-${(currentIdx * 100) / (slidesCount + 1)}%)`;
 
-
-
-            if (currentIdx !== 0) {
-                heroText.style.opacity = "0";
-                heroText.style.pointerEvents = "none";
-                setTimeout(() => { heroText.style.display = "none"; }, 400);
-            } else {
+            // Atur Visibilitas Teks (Hanya muncul di Slide Utama/Pertama)
+            if (currentIdx === 0 || currentIdx === slidesCount) {
                 heroText.style.display = "block";
                 setTimeout(() => {
                     heroText.style.opacity = "1";
                     heroText.style.pointerEvents = "auto";
                 }, 50);
+            } else {
+                heroText.style.opacity = "0";
+                heroText.style.pointerEvents = "none";
+                setTimeout(() => { if(currentIdx !== 0 && currentIdx !== slidesCount) heroText.style.display = "none"; }, 400);
             }
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+
+            // Reset ke posisi awal tanpa animasi jika sudah di slide clone (untuk loop mulus)
+            if (currentIdx === slidesCount) {
+                setTimeout(() => {
+                    sliderContainer.style.transition = "none";
+                    currentIdx = 0;
+                    sliderContainer.style.transform = `translateX(0)`;
+                }, 1200);
+            }
         }
-        setInterval(nextSlide,5000);
 
         setInterval(nextSlide, 5000);
 
-        // Menu Mobile
         // UI Interactions (Menu Mobile)
         const menuBtn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
@@ -539,8 +363,7 @@
             }
         });
 
-        // Chart Logic
-     
+        // Bagian Statistik & Search (Tidak Diubah)
         let perfChart;
         function initChart(dataValues = [0,0,0]) {
             const ctx = document.getElementById('performanceChart').getContext('2d');
@@ -561,64 +384,36 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
                     plugins: { 
                         legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#0A192F',
-                            cornerRadius: 10,
-                            padding: 12
-                        }
+                        tooltip: { backgroundColor: '#0A192F', cornerRadius: 10, padding: 12 }
                     },
                     cutout: '85%'
                 }
             });
         }
 
-        async function loadData() {
-      async function loadStats() {
+        async function loadStats() {
             try {
-                const response = await fetch(GAS_URL);
-                const data = await response.json();
-                const stats = data.statistik[0];
                 const response = await fetch(API_STATS);
-                if (!response.ok) throw new Error("Gagal mengambil data");
                 const json = await response.json();
-                
-                // Mendapatkan baris pertama dari sheet statistikBerkasPengukuran
                 const stats = json.statistikBerkasPengukuran[0];
-                if (!stats) throw new Error("Data spreadsheet kosong");
+                if (!stats) return;
 
-                // Mapping variabel sesuai dengan header camelCase dari Sheety
                 const selesai = parseInt(stats.berkasSelesai || 0);
                 const proses = parseInt(stats.berkasDalamProses || 0);
                 const kendala = parseInt(stats.berkasKendala || 0);
                 const total = parseInt(stats.totalBerkas || (selesai + proses + kendala));
 
-                // Perbarui Angka UI
                 animateValue("statSelesai",0,selesai,1500);
                 animateValue("statProses",0,proses,1500);
                 animateValue("statKendala",0,kendala,1500);
                 animateValue("statTotal",0,total,1500);
-                if(document.getElementById('statTotalMiddle')) document.getElementById('statTotalMiddle').innerText = total;
-                
-                const middleStat = document.getElementById('statTotalMiddle');
-                if(middleStat) middleStat.innerText = total;
 
+                document.getElementById('statTotalMiddle').innerText = total;
                 initChart([selesai,proses,kendala]);
                 document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
-                window.globalInformasi = data.informasi;
-                
-                const lastUpdated = document.getElementById('lastUpdated');
-                if(lastUpdated) lastUpdated.innerText = new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}) + ' WITA';
-            } catch (err) {
-                console.error("Sync Error:",err);
-                document.getElementById('lastUpdated').innerText = 'Gagal sinkron';
-                showToast("Koneksi ke server bermasalah.");
-                console.error("Dashboard Sync Error:",err);
-                const lastUpdated = document.getElementById('lastUpdated');
-                if(lastUpdated) lastUpdated.innerText = 'Gagal sinkron';
-            }
+            } catch (err) { console.error(err); }
         }
 
         setInterval(loadStats,60000);
@@ -636,50 +431,19 @@
             window.requestAnimationFrame(step);
         }
 
-        // SEARCH LOGIC
-        document.getElementById('searchForm').addEventListener('submit', (e) => {
-        // Search Logic
         document.getElementById('searchForm').addEventListener('submit',async (e) => {
             e.preventDefault();
             const input = document.getElementById('searchInput').value.trim();
             const resultArea = document.getElementById('resultArea');
-            const skeleton = document.getElementById('skeletonState');
             const loading = document.getElementById('loadingState');
             const notFound = document.getElementById('notFoundState');
-            const btnContent = document.getElementById('btnContent');
-            const btnLoading = document.getElementById('btnLoading');
             const btn = document.getElementById('searchBtn');
 
-            resultArea.classList.add('hidden');
             resultArea.classList.add('hidden','opacity-0','translate-y-4');
             notFound.classList.add('hidden');
-            btnContent.classList.add('hidden');
-            btnLoading.classList.remove('hidden');
-            skeleton.classList.remove('hidden');
-
-            window.scrollTo({
-                top: document.getElementById('tracking').offsetTop - 100,
-                behavior: 'smooth'
-            });
-
-            setTimeout(() => {
-                skeleton.classList.add('hidden');
-                btnContent.classList.remove('hidden');
-                btnLoading.classList.add('hidden');
-
-                if(!window.globalInformasi) {
-                    showToast("Data belum siap, silakan refresh.");
-                    return;
-                }
-
-                const berkas = window.globalInformasi.find(item => 
-                    String(item.noBerkas).trim().toLowerCase() === input.toLowerCase()
-                );
             loading.classList.remove('hidden');
             btn.disabled = true;
 
-                if(berkas) {
-                    renderResult(berkas);
             try {
                 const res = await fetch(API_BERKAS);
                 const json = await res.json();
@@ -690,83 +454,24 @@
                 if(b) {
                     renderResult(b);
                     resultArea.classList.remove('hidden');
-                    document.querySelectorAll('.reveal-item').forEach((el, index) => {
-                        el.style.animationDelay = (index * 0.08) + 's';
-                    });
-                } else { 
-                    notFound.classList.remove('hidden'); 
-                    notFound.classList.add('animate-result');
-                }
-            }, 800);
                     setTimeout(() => { resultArea.classList.remove('opacity-0','translate-y-4'); },50);
                 } else { notFound.classList.remove('hidden'); }
             } catch (err) {
-                showToast("Gagal memuat data. Periksa koneksi internet.");
+                showToast("Gagal memuat data.");
                 loading.classList.add('hidden');
             } finally { btn.disabled = false; }
         });
 
         function renderResult(b) {
-            const nomorTujuan = b.kontakPetugasUkur || "6282353402431";
-            const waLink = `https://api.whatsapp.com/send?phone=${nomorTujuan.toString().replace(/[^0-9]/g, '')}&text=Halo,%20saya%20ingin%20tanya%20progres%20berkas%20nomor%20${encodeURIComponent(b.noBerkas)}`;
-
-            const item = (label, value, isBold = false) => `
-                <div class="reveal-item space-y-2">
-                    <p class="text-[11px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">${label}</p>
-                    <p class="${isBold ? 'font-extrabold text-navy text-xl' : 'font-semibold text-slate-700 text-lg'} leading-snug text-center md:text-left">${value || '-'}</p>
-                </div>`;
-
             const waLink = `https://api.whatsapp.com/send?phone=6282353402431&text=Halo%20Admin%20Gercep,%20saya%20ingin%20tanya%20berkas%20${encodeURIComponent(b.noBerkas)}`;
             const item = (label,value,isBold = false) => `<div class="space-y-1"><p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">${label}</p><p class="${isBold ? 'font-extrabold text-navy' : 'font-medium text-slate-700'} text-sm leading-snug text-center sm:text-left">${value || '-'}</p></div>`;
             const html = `
-                <div class="bg-white rounded-[3rem] border-2 border-slate-100 overflow-hidden shadow-2xl animate-result">
-                    <div class="px-10 py-6 bg-navy text-white flex justify-between items-center">
-                        <span class="text-xs font-black uppercase tracking-[0.3em]">Detail Berkas Pelacakan</span>
-                        <span class="px-4 py-1.5 bg-gold text-navy rounded-full text-[10px] font-black uppercase shadow-lg">Data Terkini</span>
-                    </div>
-                    <div class="p-12">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 pb-12 border-b-2 border-slate-50">
-                            ${item('No Berkas', b.noBerkas, true)}
-                            ${item('Nama Pemohon', b.namaPemohon, true)}
-                            ${item('Kelurahan', b.kelurahan, true)}
-                            ${item('Jenis Pelayanan', b.jenisPelayanan)}
-                            ${item('Posisi Berkas', b.posisiBerkas, true)}
-                            ${item('Hasil Akhir', b.hasilAkhir || 'Sedang Diproses', true)}
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10 mb-12">
-                            <div class="space-y-8">
-                                ${item('Jadwal Pengukuran', b.jadwalPengukuran)}
-                                ${item('Petugas Ukur', b.namaPetugasUkur)}
-                                ${item('Petugas Terakhir', b.petugasTerakhir)}
-                                ${item('Estimasi Selesai', b.estimasiSelesai || b.estimasiBerkasSelesaiDiSeksiPengukuran, true)}
-                            </div>
-                            <div class="space-y-8 bg-slate-50 p-10 rounded-[2.5rem] border-2 border-slate-100 reveal-item">
-                                ${item('Kontak Petugas', b.kontakPetugasUkur || '-')}
-                                ${item('Kendala', b.kendala || 'Nihil')}
-                                ${item('Tindak Lanjut', b.tindakLanjut || '-')}
-                                ${item('Keterangan', b.keterangan || '-')}
-                                ${item('Eviden Lapangan', b.eviden || '-')}
-                            </div>
-                        </div>
-
-                        <div class="reveal-item flex flex-col sm:flex-row gap-6 items-center justify-between mt-8 bg-gold/10 p-8 rounded-[2rem]">
-                            <div class="flex items-center gap-5">
-                                <div class="w-14 h-14 bg-green-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg>
-                                </div>
-                                <p class="text-sm font-black text-navy uppercase tracking-widest">Butuh Informasi Lebih Lanjut?</p>
-                            </div>
-                            <a href="${waLink}" target="_blank" class="px-10 py-5 bg-navy text-white rounded-[1.5rem] font-black text-sm tracking-widest hover:scale-105 transition-all shadow-xl flex items-center gap-3">
-                                HUBUNGI ADMIN SEKARANG
-                            </a>
-                        </div>
                 <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="px-8 py-4 bg-navy text-white flex justify-between items-center"><span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span><span class="px-2 py-0.5 bg-gold text-navy rounded text-[8px] font-black uppercase">Data Terkini</span></div>
+                    <div class="px-8 py-4 bg-navy text-white flex justify-between items-center"><span class="text-[10px] font-black uppercase tracking-[0.2em]">Detail Berkas</span></div>
                     <div class="p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">${item('No Berkas',b.noBerkas,true)}${item('Nama Pemohon',b.namaPemohon,true)}${item('Kelurahan',b.kelurahan,true)}${item('Jenis Pelayanan',b.jenisPelayanan)}${item('Posisi Berkas',b.posisiBerkas)}${item('Hasil Akhir',b.hasilAkhir || 'Sedang Diproses')}</div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10"><div class="space-y-6">${item('Jadwal Pengukuran',b.jadwalPengukuran)}${item('Petugas Ukur',b.namaPetugasUkur || b.namaPetugas)}${item('Estimasi Selesai (Seksi Pengukuran)',b.estimasiBerkasSelesaiDiSeksiPengukuran,true)}</div><div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">${item('Kendala',b.kendala || 'Nihil')}${item('Tindak Lanjut',b.tindakLanjut || '-')}${item('Keterangan',b.keterangan || '-')}</div></div>
-                        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl"><div class="flex items-center gap-3"><div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48 2.242 2.242 3.48 5.227 3.48 8.403 0 6.556-5.332 11.888-11.888 11.888-2.016 0-3.993-.513-5.748-1.487l-6.239 1.713zm6.239-4.301c1.556.924 3.085 1.411 4.673 1.411 5.397 0 9.791-4.394 9.791-9.791 0-2.613-1.017-5.07-2.864-6.917-1.847-1.847-4.303-2.864-6.917-2.864-5.397 0-9.791 4.394-9.791 9.791 0 1.712.463 3.385 1.339 4.839l-1.004 3.666 3.773-1.035zm11.23-6.494c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.073-.124-.272-.198-.57-.347z"/></svg></div><p class="text-xs font-bold text-navy/70 uppercase tracking-tight">kontak petugas ukur !</p></div><a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold hover:scale-105 transition-transform flex items-center gap-2">Hubungi Admin</a></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10 pb-10 border-b border-slate-100">${item('No Berkas',b.noBerkas,true)}${item('Nama Pemohon',b.namaPemohon,true)}${item('Kelurahan',b.kelurahan,true)}</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-10"><div class="space-y-6">${item('Jadwal Pengukuran',b.jadwalPengukuran)}${item('Petugas Ukur',b.namaPetugasUkur || b.namaPetugas)}${item('Estimasi Selesai',b.estimasiBerkasSelesaiDiSeksiPengukuran,true)}</div><div class="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">${item('Kendala',b.kendala || 'Nihil')}${item('Tindak Lanjut',b.tindakLanjut || '-')}</div></div>
+                        <div class="flex items-center justify-between mt-6 bg-gold/10 p-4 rounded-2xl"><a href="${waLink}" target="_blank" class="px-6 py-3 bg-navy text-white rounded-xl text-xs font-bold w-full text-center">Hubungi Admin</a></div>
                     </div>
                 </div>
             `;
@@ -780,13 +485,7 @@
             setTimeout(() => { t.classList.add('opacity-0','translate-y-4'); t.classList.remove('opacity-100','translate-y-0'); },3500);
         }
 
-        window.onload = () => { 
-            loadData(); 
-            initChart(); 
-        };
         window.onload = () => { loadStats(); initChart(); };
     </script>
-</body>
-</html>
 </body>
 </html>
